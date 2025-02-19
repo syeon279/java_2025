@@ -13,18 +13,25 @@ public class OperatorEx002 {
 		System.out.print("Q2. a 또는 A인가? > "); 
 		char ch = scanner.next().charAt(0);
 		System.out.println((ch == 'a') || (ch=='A'));
-		//q1-3 char형 변수 ch1가 숫자('0'~'9')일때   true인 조건식    
-		System.out.print("Q3. 0-9까지의 숫자인가? > "); 
-		String ch1 = scanner.next();
-		char ch2 = ch1.charAt(0);
-		char ch3 = ch1.charAt(1);
-//		System.out.println(((int)ch2 >= 0 || (int)ch2<=9) && (int)ch3<=0 && (int)ch3 != null); // 두번째 숫자가 없으면 오류남
+		//q1-3 char형 변수 ch1가 숫자('0'~'9')일때   true인 조건식  
+		
+		
+//		System.out.print("Q3. 0-9까지의 숫자인가? > "); 
+//		String ch1 = scanner.next();  // 문자열  abcd의 주솟값.
+//		char ch2 = ch1.charAt(0);
+//		char ch3 = ch1.charAt(1); //두번째 열을 선언했기 때문에 없으면 오류.
+		//System.out.println(((int)ch2 >= 0 || (int)ch2<=9) && (int)ch3<=0 && (int)ch3 != null); // 두번째 숫자가 없으면 오류남
+		
+		
+		System.out.println('0'  + "\t" + (int)'0');
+		
 		
 		System.out.print("Q3-1. 0-9까지의 숫자인가? > "); 
 		String ch11 = scanner.next(); //48~57
 		char ch22 = ch11.charAt(0);
 		System.out.println((ch22 >='0') && (ch22 <='9'));
-//		System.out.println((int)ch22 >= 48 && (int)ch22 <= 57);
+		System.out.println((int)ch22 >= 48 && (int)ch22 <= 57);
+		
 		//q1-4 char형 변수 ch2가 영문자(대문자 또는 소문자) 일 때 true인 조건식 
 //		System.out.println((int)'A');
 //		System.out.println((int)'a');
