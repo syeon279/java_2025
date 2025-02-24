@@ -1,6 +1,7 @@
 #### 6. 2025-02-24
 1. while, dowhile
 2. Bank-miniproject Upgrade -> 잔액이 마이너스 되지 않도록 하기, 중복코드 줄이기
+3. Array
 
 ---
 #### 5. 2025-02-21
