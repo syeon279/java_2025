@@ -1,8 +1,8 @@
-package com.conpany.java005_ex;
+package com.company.java005_ex;
 
 import java.util.Scanner;
 
-public class BankMiniproject {
+public class BankMiniproject_1 {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in); 
@@ -32,7 +32,7 @@ public class BankMiniproject {
 					System.out.println("잔액 입력 >"); acnt += scanner.nextInt(); 
 					break; // E case1
 				case 2 :
-					System.out.println("조회기능입니다.");
+					//System.out.println("조회기능입니다.");
 					System.out.print("ID > "); String tempId = scanner.next();
 					System.out.print("Password > "); String tempPw = scanner.next();
 					if ( id.equals(tempId) && pw.equals(tempPw)) {
@@ -44,7 +44,7 @@ public class BankMiniproject {
 					}
 					break; // E case2
 				case 3 :
-					System.out.println("입금기능입니다.");
+					//System.out.println("입금기능입니다.");
 					System.out.print("ID > "); tempId = scanner.next();
 					System.out.print("Password > "); tempPw = scanner.next();
 					if ( id.equals(tempId) && pw.equals(tempPw)) {
@@ -56,7 +56,7 @@ public class BankMiniproject {
 					}
 					break; // E case3
 				case 4 :
-					System.out.println("출금기능입니다.");
+					//System.out.println("출금기능입니다.");
 					System.out.print("ID > "); tempId = scanner.next();
 					System.out.print("Password > "); tempPw = scanner.next();
 					if ( id.equals(tempId) && pw.equals(tempPw)) {
@@ -68,7 +68,7 @@ public class BankMiniproject {
 					}
 					break; // E case4
 				case 5 :
-					System.out.println("삭제기능입니다.");
+					//System.out.println("삭제기능입니다.");
 					System.out.print("ID > "); tempId = scanner.next();
 					System.out.print("Password > "); tempPw = scanner.next();
 					if ( id.equals(tempId) && pw.equals(tempPw)) {
@@ -87,4 +87,10 @@ public class BankMiniproject {
 		
 }// 
 
+// 1. 케이스 234 일 때 
+//System.out.print("ID > "); tempId = scanner.next();
+//System.out.print("Password > "); tempPw = scanner.next();
+//if ( id.equals(tempId) && pw.equals(tempPw)) {
+// 줄이기
+// 2.  마이너스 통장 안되게 
 

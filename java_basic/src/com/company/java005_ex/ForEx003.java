@@ -1,4 +1,4 @@
-package com.conpany.java005_ex;
+package com.company.java005_ex;
 
 public class ForEx003 {
 
