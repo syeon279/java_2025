@@ -22,7 +22,18 @@
     <button class="btn btn-warning my-3" onclick="alert('윤소현')">TWO</button>
     <button class="btn btn-info my-3" onclick="alert(1);alert(2);alert(3)">THREE</button>
   </div>
+  <!-- BASIC -->
+   <div class="container card my-5">
+    <h3 class="card-header">EX</h3>
+    <div class="alert alert-danger">
+      Two 버튼을 클릭하면 본인이름 알림창 띄우기
+    </div>
+    <button class="btn btn-warning my-3" id="a">단</button>
+    <button class="btn btn-warning my-3" onclick="alert('Sally');alert('Alpha')">animal</button>
   <script>
+    //               이벤트 대상.이벤트 = 이벤트 핸들러(처리)
+    document.getElementById("a").onclick = function(){ alert("Hi"); };
   </script>
+  </div>
 </body>
 </html>
