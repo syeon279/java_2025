@@ -30,9 +30,23 @@
     </div>
     <button class="btn btn-warning my-3" id="a">단</button>
     <button class="btn btn-warning my-3" onclick="alert('Sally');alert('Alpha')">animal</button>
+    <button class="btn btn-warning my-3" id="b">단2</button>
+    <button class="btn btn-warning my-3 c">단3</button>
   <script>
     //               이벤트 대상.이벤트 = 이벤트 핸들러(처리)
-    document.getElementById("a").onclick = function(){ alert("Hi"); };
+    document.getElementById("a").onclick = function(){ 
+      alert("Hi"); 
+    };
+    // #b는 css 표현법, id가 b인것을 찾아라
+    document.querySelector("#b").onclick = function(){
+      document.querySelector("#b").style.background = "black";
+      document.querySelector("#b").style.color = "white";
+      alert("멍멍");
+    }
+    document.querySelector(".c").onclick = function(){
+      document.querySelector(".c").style.background = "red";
+      document.querySelector(".c").style.color = "white";
+    }
   </script>
   </div>
 </body>
