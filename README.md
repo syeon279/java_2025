@@ -1,3 +1,9 @@
+#### 16. 2025-03-11
+1. Map
+2. Lambda
+3. Bank Project
+
+---
 #### 15.2025-03-10
 1. Collection Framework
 2. List
