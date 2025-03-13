@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>html tag</title>
+  <!-- Latest compiled and minified CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style></style>
+</head>
+<body>
+    <!-- 1. 마크업
+         2. 브라우저 띄우기 - 페이지소스보기
+         3. https://validator.w3.org/ - 3번째 탭 -->
+     <div class="container card my-5">
+        <h3 class="card-header">EX001. EVENT + CSS </h3>
+        <pre class="alert alert-warning my-3">
+          1. getElementById 이용하여 ex1 선택
+          2. ex1버튼클릭시 알림창 띄우기
+        </pre>
+        <input type="button"  value="ex1"  id="ex1"  title="연습문제1"   class="btn btn-danger"/>
+        <!-- ex1  -->	
+
+        <pre class="alert alert-warning my-3">
+          1. getElementById 이용하여 ex2 선택
+          2. ex2버튼클릭시 ex2의 글자사이즈를 25px로 배경색상을 blue로 변경
+        </pre>
+        <input type="button"  value="ex2"  id="ex2"  title="연습문제2"   class="btn btn-danger"/>
+        <!-- ex2  -->	
+    
+
+        <pre class="alert alert-warning my-3">
+          1. getElementById 이용하여 ex3 선택
+          2. ex3버튼클릭시 ex3의 자간을 5px로  배경색상을 검정색으로 변경
+        </pre>
+        <input type="button"  value="ex3"  id="ex3"  title="연습문제3"   class="btn btn-danger"/>
+        <!-- ex3  -->	
+
+        <pre class="alert alert-warning my-3">
+          1. getElementById 이용하여 ex4 선택
+          2. ex4버튼클릭시 ex4의  글자에 밑줄가게, 기울이기, 굵게
+        </pre>
+        <input type="button"  value="ex4"  id="ex4"  title="연습문제4"   class="btn btn-danger"/>
+        <!-- ex4  -->	
+
+        <pre class="alert alert-warning my-3">
+          1. getElementById 이용하여 ex5 선택
+          2. ex5버튼클릭시 ex5의  배경색 black, 글자색 white, 글자사이즈 25px
+        </pre>
+        <input type="button"  value="ex5"  id="ex5"  title="연습문제5"   class="btn btn-danger"/>
+        <!-- ex5  -->	
+     </div>
+     <script>
+      document.getElementById("ex1").onclick = function(){
+        alert("하이");
+      }
+      document.getElementById("ex2").onmouseenter = function(){
+        document.getElementById("ex2").style.fontSize = "25px";
+        document.getElementById("ex2").style.backgroundColor="blue";
+
+      }
+
+      document.getElementById("ex3").onmouseleave = function(){
+       document.getElementById("ex3").style.backgroundColor="black";
+       document.getElementById("ex3").style.letterSpacing="5px";
+      }
+      document.getElementById("ex4").onclick = function(){
+       document.getElementById("ex4").style.textDecoration="underline";
+       document.getElementById("ex4").style.fontStyle="italic";
+       document.getElementById("ex4").style.fontWeight="bold";
+      }
+      document.getElementById("ex5").onclick = function(){
+       document.getElementById("ex5").style.backgroundColor="black";
+       document.getElementById("ex5").style.color="white";
+       document.getElementById("ex5").style.fontSize="25px";
+      }
+
+     </script>
+
+</body>
+</html>
