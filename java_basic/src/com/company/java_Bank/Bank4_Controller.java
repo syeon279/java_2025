@@ -2,12 +2,16 @@ package com.company.java_Bank;
 
 import java.util.Scanner;
 
+import com.company.java_Bank.Bank;
+import com.company.java_Bank.Bank4_Controller;
+
 class Bank{
 	private String id;
 	private String pass;
 	private double balance;
 	static String Company = "(주)회사";
 	int find=-1;
+	String result = " ";
 	
 	public String getId() { return id; } public void setId(String id) { this.id = id; }
 	public String getPass() { return pass; } public void setPass(String pass) { this.pass = pass; }
@@ -27,15 +31,16 @@ class Bank{
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("ID : "); String tempId = scanner.next();
 		System.out.println("Password : "); String tempPass = scanner.next();
-		//널이 아니고 
 		
 		for(int i=0; i<users.length; i++) {
-			if((users[i]!=null) && (users[i].getId().equals(tempId) && users[i].getPass().equals(tempId))) {
-				i = find;
+			if((users[i]!=null) && (users[i].getId().contentEquals(tempId) && users[i].getPass().contentEquals(tempPass))) {
+				find = i;
+				result = "사용자 정보가 확인되었습니다.";
 			} else {
-				System.out.println("계좌 정보가 존재하지 않습니다.");
+				result = "계좌 정보가 존재하지 않습니다.";
 			}
 		}
+		System.out.println(result);
 	}
 } // E class
 
@@ -43,32 +48,31 @@ interface Bank4_Controller {
 	void exec(Bank[] users);
 }
 
-class UserCheck extends Bank implements Bank4_Controller {
-	@Override
-	public void exec(Bank[] users) {
-	}
-	
-}
-
 class Input extends Bank implements Bank4_Controller { 
 	@Override
 	public void exec(Bank[] users) {
-			Scanner scanner = new Scanner(System.in);
-			Bank user = new Bank();
-			System.out.print("ID 입력: "); 
-			//		String tempId = scanner.next();
-			user.setId(scanner.next());
-			System.out.print("비밀번호 입력: ");
-			//        String temPass = scanner.next();
-			user.setPass(scanner.next());
-			System.out.print("잔액 입력: "); 
-			int tempBalance = scanner.nextInt();
-			if(tempBalance<0) {
-				System.out.println("유효하지 않은 금액입니다."); 
-			} else {
-				user.setBalance(tempBalance); 
+		for(int i=0; i<users.length;i++) {
+			if(users[i]==null) {
+				Scanner scanner = new Scanner(System.in);
+				Bank user = new Bank();
+				System.out.print("ID 입력: "); 
+				//		String tempId = scanner.next();
+				user.setId(scanner.next());
+				System.out.print("비밀번호 입력: ");
+				//        String temPass = scanner.next();
+				user.setPass(scanner.next());
+				System.out.print("잔액 입력: "); 
+				int tempBalance = scanner.nextInt();
+				if(tempBalance<0) {
+					result = "유효하지 않은 금액입니다."; 
+				} else {
+					user.setBalance(tempBalance); 
+					result = "사용자 정보가 저장되었습니다.";
+					break;
+				}
 			}
-			
+		}// E for
+		System.out.println(result);
 	}
 	
 } // E class
@@ -84,7 +88,6 @@ class Show extends Bank implements Bank4_Controller {
 			System.out.println("잔액: " + users[find].getBalance()); 
 		}
 	}
-	
 	
 }// E class
 
@@ -119,9 +122,7 @@ class Withdraw extends Bank implements Bank4_Controller {
 				System.out.println("잔액: " + users[find].getBalance() ); 
 			}
 		}
-		
 	}
-	
 }// E class
 
 class Delete extends Bank implements Bank4_Controller {
