@@ -1,3 +1,16 @@
+#### 20. 2025-03-27
+1. mysql DDL
+2. mysql DML
+3. jsp 
+
+---
+#### 19. 2025-03-14
+1. Thread
+2. Network
+3. Server&Client
+4. Mysql Setting
+
+---
 #### 18. 2025-03-13
 1. Java I/O
 2. Network
@@ -106,5 +119,3 @@
 1. welcome!
 2. git (로컬 저장소 - 원격 저장소)
 3. java(설치, eclips )
-   
----
