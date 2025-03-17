@@ -1,3 +1,9 @@
+#### 20. 2025-03-27
+1. mysql DDL
+2. mysql DML
+3. jsp 
+
+---
 #### 19. 2025-03-14
 1. Thread
 2. Network
