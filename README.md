@@ -2,14 +2,21 @@
 📅 2025.02.03 ~ 2025.08.12  
 📝 Study Record 
 
+### 🎯  JSP
+#### 📆 03.18.
+1. FORM
+2. DB 연동
+
+
 ### 🎯  MYSQL
+#### 📆 03.18.
+1. CRUD (INSERT, UPDATE, DELETE)
 #### 📆 03.17.
 1. mysql DDL
 2. mysql DML
-3. jsp 
+
 
 ### 🎯 JAVA
-
 #### 📆 03.14.
 1. Thread
 2. Network
