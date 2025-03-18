@@ -1,9 +1,15 @@
 ##  🖥 AI 활용 풀스택 부트캠프(자바, 파이썬, 플러터) 
-📅 2025.02.03 ~ 2025.08.12  
-📝 Study Record 
+📅  2025.02.03 ~ 2025.08.12  
+📝  Study Record 
+
+<br>
+
+---
+
+<br>
 
 ### 🎯  JSP
-#### 📆 03.18.
+##### 📆 03.18.
 <table>
   <tr>
     <th rowspan="3">FORM</th>
@@ -32,10 +38,12 @@
 </table>
 
 
+---
+
 ### 🎯  MYSQL
-#### 📆 03.18.
+##### 📆 03.18.
 - CRUD (INSERT, UPDATE, DELETE)
-#### 📆 03.17.
+##### 📆 03.17.
 - mysql DDL
 - mysql DML
 
