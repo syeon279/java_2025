@@ -23,7 +23,7 @@
 </table>
 <table>
    <tr>
-      <th>DB 연동</th>
+      <th rowspan="3">DB 연동</th>
    </tr>
    <tr>
       <td>드라이버 로드</td>
