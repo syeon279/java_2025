@@ -7,6 +7,20 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.19.
+<table> 
+  <tr>
+    <th> MVC 모델 </th>
+    <td>아키텍쳐 패턴(Model-View-Controller)</td>
+    <td> 서로 영향없이 쉽게 고칠 수 있음 </td>
+  </tr>
+  <tr>
+    <th> MVC1</th>
+    <td> controller의 역할을 JSP가 담당 </td>
+    <td></td>
+  </tr>
+</table>
+
 ##### 📆 03.18.
 <table>
   <tr>
@@ -39,6 +53,12 @@
 ---
 
 ### 🎯  MYSQL
+##### 📆 03.19.
+- select
+   > 전체 데이터 ``` select * from (table)``` <br>
+   > 부분 검색 ``` select (필드명) from (table)```  <br>
+   > 중복 제거 ``` select distinct (필드명) from (table)```  <br>
+   > where 조건 ``` = != <> between or in is null is not null like ```
 ##### 📆 03.18.
 - CRUD (INSERT, UPDATE, DELETE)
 ##### 📆 03.17.
