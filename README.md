@@ -53,14 +53,37 @@
 ---
 
 ### 🎯  MYSQL
+##### 📆 03.20.
+- select : order by + limit
+ ```
+ select	  필드 1, 필드 2 
+ from  	  테이블명
+ where	  조건식
+ order by  기준필드 [asc(1,2,3 오름차순) | desc(3,2,1 내림차순)]
+ limit 	  몇개 
+```
+- select : 집계 함수   &emsp;&emsp;&emsp;     🚨 순서 기억하기
+```
+select	  필드 1, 필드 2 
+from  	  테이블명
+where	  조건식
+group by  그룹핑 
+having	  조건식 
+order by  기준필드 [asc(1,2,3 오름차순) | desc(3,2,1 내림차순)]
+limit 	  몇개 
+    
+avg(컬럼명) 평균, max 최대값, min 최소값, sum 합계, count 갯수 
+```
 ##### 📆 03.19.
 - select
-   > 전체 데이터 ``` select * from (table)``` <br>
-   > 부분 검색 ``` select (필드명) from (table)```  <br>
-   > 중복 제거 ``` select distinct (필드명) from (table)```  <br>
-   > where 조건 ``` = != <> between or in is null is not null like ```
+   > 전체 데이터&emsp;``` select * from (table)``` <br>
+   > 부분 검색  &emsp;``` select (필드명) from (table)```  <br>
+   > 중복 제거  &emsp;``` select distinct (필드명) from (table)```  <br>
+   > where 조건&emsp;``` = != <> between or in is null is not null like ```
+   
 ##### 📆 03.18.
 - CRUD (INSERT, UPDATE, DELETE)
+  
 ##### 📆 03.17.
 - mysql DDL
 - mysql DML
