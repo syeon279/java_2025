@@ -7,6 +7,25 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.20.
+🚩 우유 주문표 만들기
+  <br> 😀 alert 창에 주문번호 띄우기 
+  ```
+    pstmt = conn.prepareStatement("select * from milk_order order by ono desc;");
+			rset = pstmt.executeQuery();
+			while(rset.next()){ 
+			int no = rset.getInt("ono");
+		 	out.println(" <script> alert('주문성공! 주문번호는 " + no + " 입니다.'); location.href='milk.jsp'; </script>");
+			}
+```
+  😀 DB 연동
+```
+rset = pstmt.executeQuery(sql);  //select 구문에서만 사용
+```
+```
+int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 수 
+```
+
 ##### 📆 03.19.
 <table> 
   <tr>
