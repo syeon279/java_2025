@@ -7,6 +7,39 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.20.
+🚩 우유 주문표 만들기
+  <br> 😀 alert 창에 주문번호 띄우기 
+  ```
+    pstmt = conn.prepareStatement("select * from milk_order order by ono desc;");
+			rset = pstmt.executeQuery();
+			while(rset.next()){ 
+			int no = rset.getInt("ono");
+		 	out.println(" <script> alert('주문성공! 주문번호는 " + no + " 입니다.'); location.href='milk.jsp'; </script>");
+			}
+```
+  😀 DB 연동
+```
+rset = pstmt.executeQuery(sql);  //select 구문에서만 사용
+```
+```
+int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 수 
+```
+
+##### 📆 03.19.
+<table> 
+  <tr>
+    <th> MVC 모델 </th>
+    <td>아키텍쳐 패턴(Model-View-Controller)</td>
+    <td> 서로 영향없이 쉽게 고칠 수 있음 </td>
+  </tr>
+  <tr>
+    <th> MVC1</th>
+    <td> controller의 역할을 JSP가 담당 </td>
+    <td></td>
+  </tr>
+</table>
+
 ##### 📆 03.18.
 <table>
   <tr>
@@ -39,8 +72,37 @@
 ---
 
 ### 🎯  MYSQL
+##### 📆 03.20.
+- select : order by + limit
+ ```
+ select	  필드 1, 필드 2 
+ from  	  테이블명
+ where	  조건식
+ order by  기준필드 [asc(1,2,3 오름차순) | desc(3,2,1 내림차순)]
+ limit 	  몇개 
+```
+- select : 집계 함수   &emsp;&emsp;&emsp;     🚨 순서 기억하기
+```
+select	  필드 1, 필드 2 
+from  	  테이블명
+where	  조건식
+group by  그룹핑 
+having	  조건식 
+order by  기준필드 [asc(1,2,3 오름차순) | desc(3,2,1 내림차순)]
+limit 	  몇개 
+    
+avg(컬럼명) 평균, max 최대값, min 최소값, sum 합계, count 갯수 
+```
+##### 📆 03.19.
+- select
+   > 전체 데이터&emsp;``` select * from (table)``` <br>
+   > 부분 검색  &emsp;``` select (필드명) from (table)```  <br>
+   > 중복 제거  &emsp;``` select distinct (필드명) from (table)```  <br>
+   > where 조건&emsp;``` = != <> between or in is null is not null like ```
+   
 ##### 📆 03.18.
 - CRUD (INSERT, UPDATE, DELETE)
+  
 ##### 📆 03.17.
 - mysql DDL
 - mysql DML
