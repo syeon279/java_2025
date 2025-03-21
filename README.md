@@ -72,6 +72,14 @@ int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 �
 ---
 
 ### 🎯  MYSQL
+##### 📆 03.21.
+🚩 select : Number, String, Date, if/case <br>
+🚨   null 사용
+```
+select sns, if( sns='n', 1, null) `SNS 수신 거부 수 `
+from if_userinfo;
+```
+
 ##### 📆 03.20.
 - select : order by + limit
  ```
