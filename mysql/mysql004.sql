@@ -248,3 +248,20 @@ delete from milk_order;
 select * from milk_order;
 select ono, oname, count(onum),odate from milk_order group by oname order by odate desc;
 select * from milk_order order by ono desc;
+
+use mbasic;
+desc emp;
+select deptno, job, avg(sal) 
+from emp 
+where sal<=3000 
+group by deptno, job
+having avg(sal)>=2000 
+order by deptno asc;
+
+select deptno, job, count(*) `사원 수`, max(sal) `최고 급여`, sum(sal) `급여 합` , avg(sal) `평균 급여` 
+from emp 
+group by deptno, job 
+order by deptno asc;
+
+select @@sql_mode;
+ -- set SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'

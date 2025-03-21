@@ -37,7 +37,7 @@
 			rset = pstmt.executeQuery(); // select 표
 			while(rset.next()){ // 줄
 			int no = rset.getInt("ono");
-		 	out.println(" <script> alert('주문성공! 주문번호는 " + no + " 입니다.'); location.href='milk.jsp'; </script>");
+		 	out.println(" <script> alert('주문성공! 주문번호는 " + no + "번 입니다.'); location.href='milk.jsp'; </script>");
 			}
 		} else {
 			out.println("<script>alert('관리자에게 문의바랍니다.'); location.href='milk.jsp'; </script>");

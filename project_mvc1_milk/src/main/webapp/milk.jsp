@@ -97,7 +97,7 @@
 				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mbasic", "root", "1234");
 				
 				// sql 처리 
-				pstmt = conn.prepareStatement("select * from milk_order order by ono desc;");
+				pstmt = conn.prepareStatement("select * from milk_order order by ono desc limit 1;");
 				rset = pstmt.executeQuery(); // select 표
 				while(rset.next()){ // 줄
 				int no = rset.getInt("ono");
@@ -145,7 +145,7 @@
 		    </div>
 		    <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
 		      <div class="card-body" style="background-color:rgb(255, 232, 182);" >
-		        <form action="milk_insert.jsp" method="post">
+		        <form action="milk_insert_re.jsp" method="post" onsubmit="return milkOrder()">
 				  <div class="mb-3 mt-3">
 				    <label for="name" class="form-label">우유: </label>
 				    <input type="text" class="form-control" id="name" placeholder="주문하실 우유를 적어주세요" name="name">
@@ -154,8 +154,22 @@
 				    <label for="num" class="form-label">수량: </label>
 				    <input type="number" class="form-control" id="num" placeholder="수량을 적어주세요" name="num" min=0>
 				  </div>
-				  <button type="submit" class="btn btn-success">주문하기</button>
+				  <button type="submit" class="btn btn-success" >주문하기</button>
 				</form>
+		  <script>
+		  	function milkOrder(){
+		  		alter('주문을 확인해주세요.');
+		  		let name = document.getElementById("name");
+		  		let num = document.getElementById("num");
+		  		if(name.value==""){
+		  			alter('주문을 확인해주세요.'); name.focus(); return false;
+		  		}
+		  		
+		  		if(num.value==""){
+		  			alter('주문을 확인해주세요.'); num.focus(); return false;
+		  		}
+		  	}
+		  </script>
 		      </div> <!-- card-body -->
 		    </div>
 		  </div>
@@ -169,7 +183,7 @@
 		    </div>
 		    <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
 		      <div class="card-body" style="background-color:rgb(255, 232, 182);" >
-				<form action="milk_update.jsp" method="post">
+				<form action="milk_update.jsp" method="post" onsubmit="return milkUpdate()"  >
 					<div class="mb-3 mt-3">
 				    	<label for="no_update" class="form-label">주문 번호: </label>
 				    	<input type="number" class="form-control" id="no_update" placeholder="주문 번호를 적어주세요" name="no_update" min=1>
@@ -184,6 +198,23 @@
 				  </div>
 				  <button type="submit" class="btn btn-success">수정하기</button>
 				</form>
+		  <script>
+		  function milkUpdate(){
+			let no = document.getElementById("no_update");
+	  		let name = document.getElementById("name_update");
+	  		let num = document.getElementById("num_update");
+	  		if(no.value == ""){
+	  			alter('주문을 확인해주세요.'); no.focus(); return false;
+	  		}
+	  		if(name.value == ""){
+	  			alter('주문을 확인해주세요.'); name.focus(); return false;
+	  		}
+	  		
+	  		if(num.value == ""){
+	  			alter('주문을 확인해주세요.'); num.focus(); return false;
+	  		}
+		  }
+		  </script>
 		      </div>
 		  </div>
 		<!-- 주문 삭제 -->
@@ -196,13 +227,21 @@
 		    </div>
 		    <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
 		      <div class="card-body" style="background-color:rgb(255, 232, 182);">
-		        <form action="milk_delete.jsp" method="post">
+		        <form action="milk_delete.jsp" method="post" onsubmit="return milkDelete()" >
 		        	<div class="mb-3 mt-3">
 				    	<label for="no_delete" class="form-label">주문 번호: </label>
 				    	<input type="number" class="form-control" id="no_delete" placeholder="취소하실 주문 번호를 적어주세요" name="no_delete">
 				  	</div>
-				  <button type="submit" class="btn btn-success">주문 취소하기</button>
+				  <button type="submit" class="btn btn-success" >주문 취소하기</button>
 				</form>
+				<script>
+			  	function milkDelete(){
+			  		let no = document.getElementById("no_delete");
+			  		if(no.value==""){
+			  			alter('번호를 확인해주세요.'); no.focus(); return false;
+			  		}
+			  	}
+				</script>
 		      </div>
 		    </div>
 		  </div>

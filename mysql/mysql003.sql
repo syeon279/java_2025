@@ -179,3 +179,6 @@ select * from milk_repeat;
 select * from milk;
 
 select * from userinfo;
+
+use mbasic;
+select * from select_userinfo;

@@ -25,13 +25,13 @@
 		// rset = pstmt.executeQuery(sql); select 구문에서만 사용
 		
 		// 6. 결과값 받아서 처리 
-		int result = pstmt.executeUpdate();  //sql- insert, update or delete 실행줄수 
+		String result =  "관리자에게 문의바랍니다." ; //sql- insert, update or delete 실행줄수 
 		
-		if(result>0){
-		 	out.println("<script>alert('주문 취소 성공!'); location.href='milk.jsp'; </script>");
-		} else {
-			out.println("<script>alert('관리자에게 문의바랍니다.'); location.href='milk.jsp'; </script>");
-		}
+		if(pstmt.executeUpdate()>0){
+			result= "주문 취소 성공!";
+		} 
+		out.println("<script>alert('"+result+"'); location.href='milk.jsp'; </script>");
+		
 	} catch (Exception e) {
 		e.printStackTrace();
 		
