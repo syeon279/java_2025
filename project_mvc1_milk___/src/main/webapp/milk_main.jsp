@@ -1,18 +1,18 @@
-<%@page import="java.sql.*"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang = "ko">
 <head>
 <meta charset="UTF-8">
 <title>MIlK</title>
-</head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 <body>
 	<div class="mt-3">
 	  <div class="mt-4 p-5 " style = "background-color:#41644A; color:#F1F0E9">
-	    <h1 style="font-weight:2em;">Project MILK</h1> 
+	    <h1 style="font-weight:bolder;">Project MILK</h1> 
 	    <p style = "font-style:italic">welcome!</p> 
 	    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus, minus!</p>
 	  </div>
@@ -226,7 +226,7 @@
 	     	<form action = "milk_delete_.jsp" method = "post" onsubmit = "return milkDelete()">
 		     <div class="mb-3">
 			  <label for="no_delete" class="form-label">주문 번호: </label>
-			  <input type="number" class="form-control" id="num_delete" placeholder="취소하실 주문 번호를 입력해주세요" name="no_delete" min=0>
+			  <input type="number" class="form-control" id="no_delete" placeholder="취소하실 주문 번호를 입력해주세요" name="no_delete" min=0>
 			  </div>
 			<button type="submit" class="btn" style = "background-color:#E9762B; color:#F1F0E9;">주문 취소하기</button>
 	     	</form>
