@@ -34,6 +34,23 @@ location.href='jsp016_child.jsp'
 response.sendRedirect("jsp016_child.jsp?userage=" + userage); //querystring
 ```
 
+```
+request.getRequestDispatcher("jsp016_adult.jsp").forward(request, response);
+```
+
+
+🤔 서블릿(Servlet) <br/>
+- java를 사용하여 웹에서 동적으로 요청을 처리하는 서버 측 프로그램
+- 클라이언트에서 보낸 요청을 받아서 처리한 후, 결과를 응답으로 보내주는 자바 프로그램
+
+<br/>
+
+🤔   forward() <br/>
+- 현재 JSP 또는 서블릿에서 다른 JSP/서블릿으로 요청(Request)와 응답(Response)을 유지한 채 이동하는 방식
+- 사용자가 보낸 요청을 유지한 채 서버 내부에서 페이지를 바꿔서 보여줌
+-  ! 브라우저의 URL이 바뀌지 않음
+-  ! request와 response 객체 유지 → 기존 요청 정보를 전달할 수 있음
+-  ex) 로그인 처리 등
 
 ##### 📆 03.20.
 🚩 우유 주문표 만들기
