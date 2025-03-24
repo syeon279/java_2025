@@ -72,6 +72,27 @@ int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 �
 ---
 
 ### 🎯  MYSQL
+#####  📆 03.22.
+🚩 join 
+```
+-- 1. join
+select a.no, a.name, a.age, b.ban
+from join_userinfo `a`, join_userban `b`
+where a.no = b.no;
+
+-- 2. join on 
+select  a.no, a.name, a.age, b.ban
+from join_userinfo `a` join join_userban `b` on ( a.no = b.no );
+
+-- 3. join using
+select  a.no, a.name, a.age, b.ban
+from join_userinfo `a` join join_userban `b` using(no);
+
+-- 4. natural join 
+select no, name, age, ban
+from join_userinfo natural join join_userban;
+
+```
 ##### 📆 03.21.
 🚩 select : Number, String, Date, if/case <br>
 🚨   null 사용
