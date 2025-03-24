@@ -7,6 +7,34 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.21.
+🚩   내장객체
+<table>
+   <tr>
+	   <th>내장 객체 </th>
+	   <td>jsp 페이지가 웹컨테이너에 의해 서블릿으로 변환될 때 고정된 이름의 객체 컨테이너에 의해 자동으로 구현</td>
+   </tr>
+   <tr>
+	   <th>요청과 응답</th>
+	   <td>요청: 요청을 입력받는 페이지 <br/> 폼태그, 검색폼, 로그인 등 </td>
+	   <td>응답: 요청을 처리한 후 요청 페이지로 응답을 보냄</td>
+   </tr>
+   <tr>
+	   <th>Request</th>
+	   <td>웹 브라우저에서 JSP 페이지로 전달되는 요청정보의 모임</td>
+   </tr>
+</table>
+😀 페이지 이동하기 <br/>
+
+```
+location.href='jsp016_child.jsp'
+```
+
+```
+response.sendRedirect("jsp016_child.jsp?userage=" + userage); //querystring
+```
+
+
 ##### 📆 03.20.
 🚩 우유 주문표 만들기
   <br> 😀 alert 창에 주문번호 띄우기 
@@ -72,6 +100,27 @@ int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 �
 ---
 
 ### 🎯  MYSQL
+#####  📆 03.22.
+🚩 join 
+```
+-- 1. join
+select a.no, a.name, a.age, b.ban
+from join_userinfo `a`, join_userban `b`
+where a.no = b.no;
+
+-- 2. join on 
+select  a.no, a.name, a.age, b.ban
+from join_userinfo `a` join join_userban `b` on ( a.no = b.no );
+
+-- 3. join using
+select  a.no, a.name, a.age, b.ban
+from join_userinfo `a` join join_userban `b` using(no);
+
+-- 4. natural join 
+select no, name, age, ban
+from join_userinfo natural join join_userban;
+
+```
 ##### 📆 03.21.
 🚩 select : Number, String, Date, if/case <br>
 🚨   null 사용
