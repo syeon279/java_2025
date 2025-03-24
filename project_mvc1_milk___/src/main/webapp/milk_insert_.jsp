@@ -1,5 +1,5 @@
-<%@page import="java.net.InetAddress"%>
-<%@page import="java.sql.*"%>
+<%@ page import="java.net.InetAddress"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
@@ -29,7 +29,7 @@
 			
 		// 5. sql 처리
 		String sql_first = "select max(ono) `max` from milk_order_; ";
-		String sql = "insert into milk_order_ (ono, oname, onum, oip) values (?, ?, ?, ?); ";
+		String sql = "insert into milk_order (ono, oname, onum, oip) values (?, ?, ?, ?); ";
 		
 		int max = 0;
 		pstmt = conn.prepareStatement(sql_first);

@@ -1,48 +1,58 @@
-<%@page import="java.net.InetAddress"%>
-<%@page import="java.sql.*"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%
 	// 1. utf-8 설정
 	request.setCharacterEncoding("UTF-8");
-
+	
 	// 2. 데이터 받기
-	int no_delete = Integer.parseInt(request.getParameter("no_delete"));
+	int no = Integer.parseInt(request.getParameter("no_delete"));
 	
 	Connection conn = null; PreparedStatement pstmt = null; ResultSet rset = null;
 	String url = "jdbc:mysql://localhost:3306/mbasic";
-	String sql = "delete from milk_order where ono=? ; ";
-	
-	try{
-	// 3. Driver 연동
+	String id = "root", pass = "1234";	
+	try {
+		// 3. 드라이버 로딩
 		Class.forName("com.mysql.cj.jdbc.Driver");
-	// 4. DB 연동
-		conn = DriverManager.getConnection(url,"root","1234");
-		//out.println("성공" + conn);
-	// 5. sql 처리
+		// 4. DB 연동
+		conn = DriverManager.getConnection(url, id, pass);
+	} catch (Exception e){
+		e.printStackTrace();
+	}
+	
+	try {
+		
+		boolean again = true;
+		while(again){
+			
+		// 5. sql 처리
+		String sql = "delete from milk_order where ono=?;";
+
 		pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, no_delete);
-		// rset = pstmt.executeQuery(sql); select 구문에서만 사용
+		pstmt.setInt(1, no);
 		
-		// 6. 결과값 받아서 처리 
-		String result =  "관리자에게 문의바랍니다." ; //sql- insert, update or delete 실행줄수 
+		// 6. 결과값 받아서 처리
+		int result = pstmt.executeUpdate();
+		if (result >0 ) {
+			again = false;
+			out.println("<script>alert('주문 취소 성공!'); location.href='milk.jsp'; </script>");
+		}  else {
+			out.println("<script>alert('관리자에게 문의바랍니다.'); location.href='milk.jsp'; </script>");
+		}
 		
-		if(pstmt.executeUpdate()>0){
-			result= "주문 취소 성공!";
-		} 
-		out.println("<script>alert('"+result+"'); location.href='milk.jsp'; </script>");
+		} // E while
 		
 	} catch (Exception e) {
 		e.printStackTrace();
-		
-	} finally{
-		if(rset!=null){
+	} finally {
+		if(rset != null) {
 			rset.close();
 		}
-		if(pstmt!=null){
+		if(pstmt != null) {
 			pstmt.close();
 		}
-		if(conn!=null){
+		if(conn != null) {
 			conn.close();
 		}
 	}

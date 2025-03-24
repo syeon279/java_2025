@@ -1,60 +1,75 @@
-<%@page import="java.net.InetAddress"%>
-<%@page import="java.sql.*"%>
+<%@ page import="java.net.InetAddress"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
+<% 
 	// 1. utf-8 설정
 	request.setCharacterEncoding("UTF-8");
 
 	// 2. 데이터 받기
-	String name = request.getParameter("name");
-	int num =  Integer.parseInt(request.getParameter("num"));
+	String name = request.getParameter("name_insert");
+	int num = Integer.parseInt(request.getParameter("num_insert"));
 	
-	out.println(name +"/"+ num);
 	Connection conn = null; PreparedStatement pstmt = null; ResultSet rset = null;
 	String url = "jdbc:mysql://localhost:3306/mbasic";
-	String sql = "insert into milk_order (oname, onum, oip) values (?, ?, ?); ";
-	
-	try{
-	// 3. Driver 연동
+	String id = "root", pass = "1234";	
+	try {
+		// 3. 드라이버 로딩
 		Class.forName("com.mysql.cj.jdbc.Driver");
-	// 4. DB 연동
-		conn = DriverManager.getConnection(url,"root","1234");
-		//out.println("성공" + conn);
-	// 5. sql 처리
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, name);
-		pstmt.setInt(2, num);
-		pstmt.setString(3, InetAddress.getLocalHost().getHostAddress() );
-		// rset = pstmt.executeQuery(sql); select 구문에서만 사용
+		// 4. DB 연동
+		conn = DriverManager.getConnection(url, id, pass);
+	} catch (Exception e){
+		e.printStackTrace();
+	}
+	
+	try {
 		
-		// 6. 결과값 받아서 처리 
-		int result = pstmt.executeUpdate();  //sql- insert, update or delete 실행줄수 
-		
-		if(result>0){
+		boolean again = true;
+		while(again){
 			
-			pstmt = conn.prepareStatement("select * from milk_order order by ono desc;");
-			rset = pstmt.executeQuery(); // select 표
-			while(rset.next()){ // 줄
-			int no = rset.getInt("ono");
-		 	out.println(" <script> alert('주문성공! 주문번호는 " + no + "번 입니다.'); location.href='milk.jsp'; </script>");
-			}
-		} else {
+		// 5. sql 처리
+		String sql_first = "select max(ono) `max` from milk_order; ";
+		String sql = "insert into milk_order (ono, oname, onum, oip) values (?, ?, ?, ?); ";
+		
+		int max = 0;
+		pstmt = conn.prepareStatement(sql_first);
+		rset = pstmt.executeQuery();
+		if(rset.next()){
+			max = rset.getInt("max") + 1;
+		}
+		
+		rset.close();
+		pstmt.close();
+		
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, max);
+		pstmt.setString(2, name);
+		pstmt.setInt(3, num);
+		pstmt.setString(4, InetAddress.getLocalHost().getHostAddress());
+		
+		// 6. 결과값 받아서 처리
+		int result = pstmt.executeUpdate();
+		if (result >0 ) {
+			again = false;
+			out.println("<script>alert('주문 성공! 주문 번호는 " + max +" 번 입니다.'); location.href='milk.jsp'; </script>");
+		}  else {
 			out.println("<script>alert('관리자에게 문의바랍니다.'); location.href='milk.jsp'; </script>");
 		}
+		
+		} // E while
+		
 	} catch (Exception e) {
 		e.printStackTrace();
-		
-	} finally{
-		if(rset!=null){
+	} finally {
+		if(rset != null) {
 			rset.close();
 		}
-		if(pstmt!=null){
+		if(pstmt != null) {
 			pstmt.close();
 		}
-		if(conn!=null){
+		if(conn != null) {
 			conn.close();
 		}
 	}
-
+	
 %>

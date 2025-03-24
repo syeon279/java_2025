@@ -1,4 +1,4 @@
-<%@page import="java.sql.*"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -11,7 +11,7 @@
 	int num = Integer.parseInt(request.getParameter("num_update"));
 	
 	Connection conn = null; PreparedStatement pstmt = null; ResultSet rset = null;
-	String url = "jdbc:mysql://localhost:3306/mybase";
+	String url = "jdbc:mysql://localhost:3306/mbasic";
 	String id = "root", pass = "1234";	
 	try {
 		// 3. 드라이버 로딩
@@ -28,7 +28,7 @@
 		while(again){
 			
 		// 5. sql 처리
-		String sql = "update milk_order_ set oname=?, onum=? where ono=?;";
+		String sql = "update milk_order set oname=?, onum=? where ono=?;";
 
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, name);
