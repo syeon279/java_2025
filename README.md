@@ -7,7 +7,25 @@
 <br>
 
 ### 🎯  JSP
-##### 📆 03.21.
+##### 📆 03.25.
+🚩 error, cookie, session  <br/>
+
+- application(웹 어플리케이션 실행되고 있는 동안) > session(브라우저 종료) >request(요청) > page(해당 페이지)
+- 객체.setAttribute("속성", "값") / 객체.getAttribute("속성")
+
+```
+application.setAttribute("name", " D.application - 웹 어플리케이션 실행 ");
+```
+```
+session.setAttribute("name", " C.session - 브라우저 종료/ 로그인 후 아이디 유지 ");
+```
+```
+request.setAttribute("name", " B.request - Ba.jsp -> b.jsp 요청할 때/ 현재 페이지에 요청 ");
+```
+```
+pageContext.setAttribute("name", " A.현재페이지에서만 유지 ");
+```
+##### 📆 03.24.
 🚩   내장객체
 <table>
    <tr>
