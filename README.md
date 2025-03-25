@@ -7,7 +7,25 @@
 <br>
 
 ### 🎯  JSP
-##### 📆 03.21.
+##### 📆 03.25.
+🚩 error, cookie, session  <br/>
+
+- application(웹 어플리케이션 실행되고 있는 동안) > session(브라우저 종료) >request(요청) > page(해당 페이지)
+- 객체.setAttribute("속성", "값") / 객체.getAttribute("속성")
+
+```
+application.setAttribute("name", " D.application - 웹 어플리케이션 실행 ");
+```
+```
+session.setAttribute("name", " C.session - 브라우저 종료/ 로그인 후 아이디 유지 ");
+```
+```
+request.setAttribute("name", " B.request - Ba.jsp -> b.jsp 요청할 때/ 현재 페이지에 요청 ");
+```
+```
+pageContext.setAttribute("name", " A.현재페이지에서만 유지 ");
+```
+##### 📆 03.24.
 🚩   내장객체
 <table>
    <tr>
@@ -52,6 +70,7 @@ request.getRequestDispatcher("jsp016_adult.jsp").forward(request, response);
 -  ! request와 response 객체 유지 → 기존 요청 정보를 전달할 수 있음
 -  ex) 로그인 처리 등
 
+
 ##### 📆 03.20.
 🚩 우유 주문표 만들기
   <br> 😀 alert 창에 주문번호 띄우기 
@@ -71,6 +90,7 @@ rset = pstmt.executeQuery(sql);  //select 구문에서만 사용
 int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 수 
 ```
 
+
 ##### 📆 03.19.
 <table> 
   <tr>
@@ -84,6 +104,7 @@ int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 �
     <td></td>
   </tr>
 </table>
+
 
 ##### 📆 03.18.
 <table>
@@ -117,6 +138,26 @@ int result = pstmt.executeUpdate();   //sql- insert, update, delete 실행 줄 �
 ---
 
 ### 🎯  MYSQL
+
+#####  📆 03.23.
+🚩 서브 쿼리
+- select 구문안에 select 구문
+- 서브쿼리 결과가 하나 이상이 반환시 in, any, all 사용
+
+😀 '=' 는 값이 하나일 때만 사용 
+
+```
+select * from emp
+where sal in ( select max(sal) from emp group by deptno );
+```
+
+```
+select * from emp
+group by deptno
+having sal = ( select max(sal) from emp group by deptno );
+```
+
+
 #####  📆 03.22.
 🚩 join 
 ```
@@ -138,6 +179,8 @@ select no, name, age, ban
 from join_userinfo natural join join_userban;
 
 ```
+
+
 ##### 📆 03.21.
 🚩 select : Number, String, Date, if/case <br>
 🚨   null 사용
@@ -145,6 +188,7 @@ from join_userinfo natural join join_userban;
 select sns, if( sns='n', 1, null) `SNS 수신 거부 수 `
 from if_userinfo;
 ```
+
 
 ##### 📆 03.20.
 - select : order by + limit
@@ -167,15 +211,19 @@ limit 	  몇개
     
 avg(컬럼명) 평균, max 최대값, min 최소값, sum 합계, count 갯수 
 ```
+
+
 ##### 📆 03.19.
 - select
    > 전체 데이터&emsp;``` select * from (table)``` <br>
    > 부분 검색  &emsp;``` select (필드명) from (table)```  <br>
    > 중복 제거  &emsp;``` select distinct (필드명) from (table)```  <br>
    > where 조건&emsp;``` = != <> between or in is null is not null like ```
+
    
 ##### 📆 03.18.
 - CRUD (INSERT, UPDATE, DELETE)
+
   
 ##### 📆 03.17.
 - mysql DDL
