@@ -7,6 +7,57 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.26.
+🚩 HTML 파일 분리하기(header, footer)
+```
+<%@ include file="jsp_header.jsp" %>
+```
+
+🚩 MVC2 
+<table> 
+  <tr>
+    <th> MVC 모델 </th>
+    <td>아키텍쳐 패턴(Model-View-Controller)</td>
+    <td> 서로 영향없이 쉽게 고칠 수 있음 </td>
+  </tr>
+  <tr>
+    <th> MVC2</th>
+    <td> controller의 역할을 Servlet이 담당 </td>
+    <td> View 와 Controller를 분리 </td>
+  </tr>
+  <tr>
+    <th> 서블릿 맵핑 </th>
+    <td> 경로를 맵핑하는 것 </td>
+    <td></td>
+  </tr>
+</table>
+🚨   session 
+
+```
+HttpSession session = request.getSession();
+session.setAttribute("userid", id );
+```
+
+😀 오류 난 이유 == 객체 사용 잘못함 <br/>
+
+```
+request.setAttribute("userid", id);
+```
+
+🚩 DBCP <br/>
+<table> 
+  <tr>
+    <th rowspan="3"> DBCP </th>
+    <td>Database Connection Pool</td>
+  </tr>
+  <tr>
+    <td>커넥션을 미리 생성함 </td>
+  </tr>
+  <tr>
+    <td> 데이터 베이스 과부화를 줄임 </td>
+  </tr>
+</table>
+
 ##### 📆 03.25.
 🚩 error, cookie, session  <br/>
 
