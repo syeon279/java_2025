@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- jsp022_my.jsp -->
-<!-- jsp022_my.jsp -->
+<!-- jsp025_my.jsp -->
+<!-- jsp025_my.jsp -->
 <%@ include file="jsp022_header.jsp" %>
 <!--  nav -->
 <!--  nav -->
@@ -12,7 +12,7 @@
 			<table class = "table table-hover">
 				<tr>
 					<th>NAME</th>
-					<td><%= session.getAttribute("username") %></td>
+					<td><%= session.getAttribute("userid") %></td>
 				</tr>
 				<tr>
 					<th>PASS</th>

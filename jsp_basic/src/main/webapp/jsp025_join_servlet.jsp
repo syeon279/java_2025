@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- jsp022.jsp -->
-<!-- jsp022.jsp -->
+<!-- jsp025.jsp -->
+<!-- jsp025.jsp -->
 <%@ include file="jsp022_header.jsp" %>
 <!--  nav -->
 <!--  nav -->
@@ -10,9 +10,9 @@
 			<p style="text-align:center"><img src="images/login.png" alt = "login"></p>
 		</div>
 		
-		<form action="jsp022_login_action.jsp" method="post" onsubmit="return form()">
+		<form action="<%=request.getContextPath()%>/user_join" method="post" onsubmit="return form()">
 		  <div class="my-3">
-		    <label for="id" class="form-label">Email: </label>
+		    <label for="id" class="form-label">Id: </label>
 		    <input type="text" class="form-control" id="id" name="id">
 		  </div>
 		   <div class="my-3">

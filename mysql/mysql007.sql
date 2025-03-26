@@ -166,3 +166,4 @@ insert into member values (3, 'third', '33');
 insert into member values (4, 'fourth', '44'); 
 
 select * from member;
+select name, pass from member where name='first' and pass='11';

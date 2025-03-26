@@ -24,15 +24,19 @@
 		pstmt.setString(1, id);
 		pstmt.setString(2, pass);
 		rset = pstmt.executeQuery();
-		//int result = pstmt.executeUpdate();
+		// int result = pstmt.executeUpdate(); /// insert update delete 에서 사용
 		if(rset.next()){
 			result = rset.getInt("cnt");
 		}
 		
 		// 4. 찾았으면 [경로안바뀌게] , 보이는 화면은 jsp022_login_my.jsp 페이지로 넘어가기 
 		if(result > 0){
-			request.getRequestDispatcher("jsp022_my.jsp").forward(request, response);
-			session.setAttribute("username", id); // 세션정보 유지하기
+			//request.getRequestDispatcher("jsp022_my.jsp").forward(request, response);
+			out.println("<script> location.href='jsp022_my.jsp'; </script>");
+			session.setAttribute("username", id); 
+			session.setAttribute("userpass", pass); 
+			
+			// 세션정보 유지하기
 		} else {
 			out.println("<script> alert('정보를 확인해 주세요'); location.href='jsp022.jsp'; </script>");
 		}
