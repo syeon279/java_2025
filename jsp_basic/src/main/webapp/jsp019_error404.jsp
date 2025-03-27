@@ -22,7 +22,7 @@
 					}, 3000 )
 				
 			}
-		</script>
+	</script>
 </head>
 <body>
 	<div class = "contanier card m-5 p-5 bg-danger text-center text-white ">

@@ -24,7 +24,7 @@
 		  <label for="remember" class="form-label"></label>
 		  </div>
 		  <div class="my-3">
-		  <button type="submit" title ="로그인 하러가기" class="btn btn-danger">로그인</button>
+		   <button type="submit" title ="로그인 하러가기" class="btn btn-danger">로그인</button>
 		  </div>
 		</form>
 		<script>
