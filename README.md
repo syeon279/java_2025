@@ -7,6 +7,73 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.27.
+🚩 Front Controller 패턴 아키텍쳐
+<table> 
+  <tr>
+    <th  rowspan="3" > Front Controller </th>
+    <td> 클라이언트가 보낸 요청을 받아서 공통작업(인증, 권한)을 먼저 수행 </td>
+  </tr>
+  <tr>
+	<td> 적절한 세부 Controller에게 작업을 위임 </td>
+  </tr>
+  <tr>
+	<td> 각각의 Controller는 요청작업 처리 + 뷰 선택 → 최종결과를 생성 </td>
+  </tr>
+</table>
+
+💫  Step 1.
+
+```
+@WebServlet("*.do")   // 확장자가 '.do'면 Controller가 처리
+```
+
+💫 Step 2.
+
+```
+String path = request.getServletPath();   // 어떤 경로로 들어왔는지 확인
+```
+
+💫  Step 3.
+
+```
+switch(path) {
+		case "/list.do" :
+			System.out.println("list.do : C: 전체리스트 BList / V:list.jsp");
+			break;
+		case "/write_view.do": 
+			System.out.println("write_view.do : 글쓰기 폼");
+			break;
+   			.
+      			.
+	 		.
+    			.
+   	}
+```
+
+🚨 Error
+
+```
+<form action="#" method = "get" onsubmit = "return form()">
+	<div class="mb-3 mt-3">
+	   <label for="name" class="form-label">이름: </label>
+	   <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요." name="name">
+	</div>
+	<a href="" class="btn btn-outline-success m-1"> 올리기 </a>
+```
+
+😀 오류 난 이유 == "submit" 
+
+```
+<form action="#" method = "get" onsubmit = "return form()">
+	<div class="mb-3 mt-3">
+	   <label for="name" class="form-label">이름: </label>
+	   <input type="text" class="form-control" id="name" placeholder="이름을 입력하세요." name="name">
+	</div>
+	<button type="submit" title ="작성하기" class="btn btn-success m-1"> 올리기 </button>
+```
+
+
 ##### 📆 03.26.
 🚩 HTML 파일 분리하기(header, footer)
 ```
