@@ -77,7 +77,7 @@ public class FrontController extends HttpServlet {
 				
 			} else if(path.equals("/update.do")) {
 				service = new BUpdate(); service.exec(request, response);
-				String result = (String)request.getAttribute("result"); // 이미 스트링이 아닌가?
+				String result = (String)request.getAttribute("result"); 
 		 		String msg = "관리자에게 문의하세요.";
 		 		if(result.equals("1")) {
 		 			msg = "글 수정 완료";
@@ -86,7 +86,7 @@ public class FrontController extends HttpServlet {
 				
 			} else if(path.equals("/delete.do")) {
 				service = new BDelete(); service.exec(request, response);
-				String result = (String)request.getAttribute("result"); // 이미 스트링이 아닌가?
+				String result = (String)request.getAttribute("result"); 
 		 		String msg = "관리자에게 문의하세요.";
 		 		if(result.equals("1")) {
 		 			msg = "글 삭제 완료";
