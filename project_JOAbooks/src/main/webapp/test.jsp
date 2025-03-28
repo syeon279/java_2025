@@ -39,17 +39,17 @@
 			<li> Test </li>
 		</ol>
 		<%
-			/*
+			
 			BoardDao dao = new BoardDao();
 			BoardVo vo = new BoardVo();
 			
 			
-			/*
-			vo.setBtitle("HI");
+			
+			/* vo.setBtitle("HI");
 			vo.setBcontent("hello world");
 			vo.setBname("소현");
-			System.out.println( dao.insert(vo));
-			*/
+			System.out.println( dao.insert(vo)); */
+		
 			
 			//System.out.println(dao.delete(5));
 			

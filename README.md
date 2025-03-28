@@ -7,6 +7,66 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.28.
+🚨 Error
+
+```
+switch(path) {
+		case "/list.do" :
+			System.out.println("list.do : C: 전체리스트 BList / V:list.jsp");
+			break;
+		case "/write_view.do": 
+			System.out.println("write_view.do : 글쓰기 폼");
+			break;
+   			.
+      			
+   	}
+```
+
+😀 오류 == 문자열을 heap에 보관되기 때문에 주소값이 달라질 수 있음
+
+```
+ if(path.equals("/list.do")) {  //?
+			 	service = new BList(); service.exec(request, response);
+				request.getRequestDispatcher("board/list.jsp").forward(request, response);
+		 	} else if(path.equals("/write_view.do")) { 
+		 		request.getRequestDispatcher("board/write.jsp").forward(request, response);
+		 	}
+			.
+			.
+```
+
+
+🚩 el: Expression Language (표현식)
+
+```
+<% 
+Servlet001 s = new Servlet001 (1,2);
+pageContext.setAttribute("s",s);
+request.setAttribute("ss",s);
+%>
+
+<p> 객체.변수명 ${ s.a } </p>
+
+```
+
+🚩 jstl: JavaServer pasge Standard Tag Library
+
+- 자바 코드 대신 태그로 웹페이지 작성
+
+```
+<c:if  test=></c;if>
+<c:forEach items="" var=""></c:forEach>
+```
+
+🚩 list 최신글 번호 정렬하기
+
+```
+${ list.size() - status.index }
+```
+
+
+
 ##### 📆 03.27.
 🚩 Front Controller 패턴 아키텍쳐
 <table> 
@@ -45,9 +105,7 @@ switch(path) {
 			System.out.println("write_view.do : 글쓰기 폼");
 			break;
    			.
-      			.
-	 		.
-    			.
+      			
    	}
 ```
 

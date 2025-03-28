@@ -11,7 +11,8 @@ public class BoardDao {
 
 	public int insert ( BoardVo vo ) {
 		// 글 작성
-		String sql = "insert into board (bname, btitle, bcontent, bip) values ( ?, ?, ?, ?)";
+		String sql = "select max(bno) `max` from board";
+		sql = "insert into board (bname, btitle, bcontent, bip) values ( ?, ?, ?, ?)";
 		int result = -1;
 		//////////
 		DBManager db = new DBManager();
@@ -25,6 +26,7 @@ public class BoardDao {
 			pstmt.setString(2, vo.getBtitle());
 			pstmt.setString(3, vo.getBcontent());
 			pstmt.setString(4, InetAddress.getLocalHost().getHostAddress());
+			//pstmt.setString(5, max);
 			result = pstmt.executeUpdate();
 			
 		

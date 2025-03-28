@@ -14,7 +14,6 @@ public class DBManager {
 	}
 	
 	public Connection getConnection() {
-		
 		try {
 			Context initContext = new InitialContext(); // Context 찾겠다 Resource
 			Context envContext  = (Context)initContext.lookup("java:/comp/env"); // 환경 Context
