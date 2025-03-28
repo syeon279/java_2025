@@ -8,6 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.company.service.BDelete;
+import com.company.service.BDetail;
+import com.company.service.BList;
+import com.company.service.BUpdate;
+import com.company.service.BUpdate_view;
+import com.company.service.BWrite;
+import com.company.service.BoardService;
+import com.company.util.NaverBook;
+
 /**
  * Servlet implementation class FrontController
  */
@@ -34,50 +43,57 @@ public class FrontController extends HttpServlet {
 		String path = request.getServletPath(); // 어떤 경로로 들어왔는지 확인
 		System.out.println("........................." + path);
 		
-		/*
-		 * if(path.equals("/list.do")) { // 전체리스트 list.jsp로 이동 } else
-		 * if(path.equals("/write_view.do")) { // write.jsp로 이동 } else
-		 * if(path.equals("/detail.do")) { //detail.jsp로 이동 } else
-		 * if(path.equals("/update.do")) { //update.jsp로 이동 } else
-		 * if(path.equals("/delete.do")) { // delete.jsp로 이동 }
-		 */
-		switch(path) {
-		case "/list.do" :
-			System.out.println("list.do : C: 전체리스트 BList / V:list.jsp");
-			//http://localhost:8080/project_JOAbooks/list.do 
-			//ok
-			break;
-		case "/write_view.do": 
-			System.out.println("write_view.do : 글쓰기 폼");
-			//http://localhost:8080/project_JOAbooks/write_view.do 
-			//ok
-			break;
-		case "/write.do": 
-			System.out.println("write.do : 글쓰기 기능");
-			//http://localhost:8080/project_JOAbooks/write.do 
-			//ok
-			break;
-		case "/detail.do" :
-			System.out.println("detail.do : 상세보기");
-			//http://localhost:8080/project_JOAbooks/detail.do 
-			//ok
-			break;
-		case "/update_view.do": 
-			System.out.println("update_view.do : 글수정 폼");
-			//http://localhost:8080/project_JOAbooks/update_view.do
-			//ok
-			break;
-		case "/update.do": 
-			System.out.println("update.do : 글 수정 기능");
-			//http://localhost:8080/project_JOAbooks/update.do
-			//ok
-			break;
-		case "/delete.do": 
-			System.out.println("delete.do : 글 삭제");
-			//http://localhost:8080/project_JOAbooks/delete.do
-			//ok
-			break;
-		}
+		BoardService service = null;
+		
+		
+		 NaverBook book = new NaverBook(); 
+		 book.getBooks();
+		 
+		
+		 if(path.equals("/list.do")) {  //?
+			 	service = new BList(); service.exec(request, response);
+				request.getRequestDispatcher("board/list.jsp").forward(request, response);
+				
+		 	} else if(path.equals("/write_view.do")) { 
+		 		request.getRequestDispatcher("board/write.jsp").forward(request, response);
+		 		
+		 	} else if(path.equals("/write.do")) { 
+		 		service = new BWrite(); service.exec(request, response);
+		 		//System.out.println("1: " + request.getAttribute("result"));
+		 		String result = (String)request.getAttribute("result"); // 이미 스트링이 아닌가?
+		 		String msg = "관리자에게 문의하세요.";
+		 		if(result.equals("1")) {
+		 			msg = "글 작성 완료";
+		 		} 
+		 		out.println("<script>alert('"+msg+"'); location.href='list.do'</script>");
+				
+			} else if(path.equals("/detail.do")) {
+				service = new BDetail(); service.exec(request, response);
+				request.getRequestDispatcher("board/detail.jsp").forward(request, response);
+				
+			} else if(path.equals("/update_view.do")) {
+				service = new BUpdate_view(); service.exec(request, response);
+				request.getRequestDispatcher("board/update.jsp").forward(request, response);
+				
+			} else if(path.equals("/update.do")) {
+				service = new BUpdate(); service.exec(request, response);
+				String result = (String)request.getAttribute("result"); // 이미 스트링이 아닌가?
+		 		String msg = "관리자에게 문의하세요.";
+		 		if(result.equals("1")) {
+		 			msg = "글 수정 완료";
+		 		} 
+		 		out.println("<script>alert('"+msg+"'); location.href='detail.do?bno="+request.getParameter("bno")+"'; </script>");
+				
+			} else if(path.equals("/delete.do")) {
+				service = new BDelete(); service.exec(request, response);
+				String result = (String)request.getAttribute("result"); // 이미 스트링이 아닌가?
+		 		String msg = "관리자에게 문의하세요.";
+		 		if(result.equals("1")) {
+		 			msg = "글 삭제 완료";
+		 		} 
+		 		out.println("<script>alert('"+msg+"'); location.href='list.do';</script>");
+			}
+		 
 		
 	}
 
