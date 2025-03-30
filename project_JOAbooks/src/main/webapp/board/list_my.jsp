@@ -14,7 +14,7 @@
 	/* 
 	window.onload = fuction(){}; // 브라우저가 로딩되면 동작 
 	el $() jquery 
- 	*//* 
+ 	*/
  		$(function () {
 			// jQuery야 동작해줘
 			alert('test');
@@ -42,33 +42,7 @@
 					$(".result").html(textStatus + "(HTTP-"+xhr.status +"/"+errorThrown);
 				}
 			});
-		}) */
-		$(function () {
-			// jQuery야 동작해줘 
-			$.ajax({
-				url: "${pageContext.request.contextPath}/book", 
-				dataType:"json",
-				type: "GET",
-				success:function(json){
-					console.log(json.text);
-					//보여줄 화면에 끼워넣기 
-				}, error:function(xhr, textStatus, errorThrown){
-					$(".result").html(textStatus + "(HTTP-"+xhr.status +"/"+errorThrown);
-				}
-			});
-		});
-	/*
-	$(".result") = document.querySelector(".result");
-	     $.ajax({
-         url:"${pageContext.request.contextPath}/books",
-         dataType:"json", 
-         type:"GET",
-         success:function(json){ console.log(json); },
-         error:function(xhr, textStatus, errorThrown){
-            $(".result").html(textStatus + "(HTTP-" + xhr.status + "/" + errorThrown);
-         } // $(".result")  document.querySelector(".result")
-      });
-	*/
+		}) 
 	</script>	
 </div>
 	<div class = "contanier card m-5 p-3">

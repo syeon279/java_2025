@@ -21,6 +21,7 @@ public class BWrite implements BoardService {
 		String bname = request.getParameter("name");
 		String btitle = request.getParameter("title");
 		String bcontent = request.getParameter("content");
+		String bpass =  request.getParameter("pass");
 	      
 	    // 3. dao insert 처리
 		BoardDao dao = new BoardDao();
@@ -28,6 +29,7 @@ public class BWrite implements BoardService {
 		vo.setBname(bname);
 		vo.setBtitle(btitle);
 		vo.setBcontent(bcontent);
+		vo.setBpass(bpass);
 	      
 	    // 4. 결과물 처리
 		request.setAttribute("result", String.valueOf(dao.insert(vo))); // 값만 나와서 객체로 만든것.

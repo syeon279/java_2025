@@ -7,10 +7,14 @@
 
 	<div class = "contanier card m-5 p-3">
 		<h3 class="card-header"> 수정하기 </h3>
-		<form action="update.do?bno=${dto.bno}" method = "post" onsubmit="return form2()">
+		<form action="update.do?bno=${dto.bno}" method = "post" onsubmit="return form()">
 			  <div class="mb-3">
-			    <label for="bname" class="form-label">NAME :</label>
+			    <label for="bname" class="form-label">이름: </label>
 			    <input type="text" class="form-control" id="bname" value="${dto.bname}" readonly name="bname">
+			  </div>
+			  <div class="mb-3">
+			    <label for="bpass" class="form-label">비밀번호: </label>
+			    <input type="text" class="form-control" id="bpass"  name="bpass">
 			  </div>
 			  <div class="mb-3">
 			    <label for="btitle" class="form-label">제목 :</label>
@@ -29,15 +33,19 @@
 		</form>
 	</div>
 	<script>
-		function form2(){
-			let title = document.querySelector("#title");
-			let content = document.querySelector("#content");
+		function form(){
+			let title = document.querySelector("#btitle");
+			let content = document.querySelector("#bcontent");
+			let pass = document.querySelector("#bpass")
 			
 			if(title.value == "") {
 				alert('제목을 작성해주세요.'); title.focus(); return false;
 			}
 			if(content.value == "") {
 				alert('내용을 작성해주세요.'); content.focus(); return false;
+			}
+			if(pass.value == "") {
+				alert('비밀번호를 입력해주세요.'); pass.focus(); return false;
 			}
 		}
 		
