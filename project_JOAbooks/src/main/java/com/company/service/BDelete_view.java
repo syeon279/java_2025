@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.company.dao.BoardDao;
 import com.company.domain.BoardVo;
 
-public class BUpdate implements BoardService {
+public class BDelete_view implements BoardService {
 
 	@Override
 	public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -17,23 +17,12 @@ public class BUpdate implements BoardService {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		// 2. 값 가져오기
 		int bno = Integer.parseInt(request.getParameter("bno"));
-		String btitle = request.getParameter("btitle");
-		String bcontent = request.getParameter("bcontent");
-		String bpass = request.getParameter("bpass");
-		
-		// 3. dao update 처리
 		BoardDao dao = new BoardDao();
-		BoardVo vo = new BoardVo();
-		vo.setBtitle(btitle);
-		vo.setBcontent(bcontent);
-		vo.setBno(bno);
-		vo.setBpass(bpass);
-
 		
 		// 4. 결과값 처리
-		request.setAttribute("result", String.valueOf(dao.update(vo)));
+		request.setAttribute("dto", dao.select(bno));
+		
 		
 	}
 

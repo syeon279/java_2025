@@ -12,7 +12,7 @@ public class BoardDao {
 	public int insert ( BoardVo vo ) {
 		// 글 작성
 		String sql = "select max(bno) `max` from board";
-		sql = "insert into board (bname, btitle, bcontent, bip) values ( ?, ?, ?, ?)";
+		sql = "insert into board (bname, btitle, bcontent, bip, bpass) values ( ?, ?, ?, ?, ? )";
 		int result = -1;
 		//////////
 		DBManager db = new DBManager();
@@ -26,7 +26,7 @@ public class BoardDao {
 			pstmt.setString(2, vo.getBtitle());
 			pstmt.setString(3, vo.getBcontent());
 			pstmt.setString(4, InetAddress.getLocalHost().getHostAddress());
-			//pstmt.setString(5, max);
+			pstmt.setString(5, vo.getBpass());
 			result = pstmt.executeUpdate();
 			
 		
@@ -69,7 +69,8 @@ public class BoardDao {
 						rset.getString("btitle"),
 						rset.getString("bcontent"),
 						rset.getString("bdate"),
-						rset.getString("bip")
+						rset.getString("bip"),
+						rset.getString("bpass")
 					));
 			}
 		} catch (SQLException e) {
@@ -113,7 +114,9 @@ public class BoardDao {
 						rset.getString("btitle"),
 						rset.getString("bcontent"),
 						rset.getString("bdate"),
-						rset.getString("bip"));
+						rset.getString("bip"),
+						rset.getString("bpass"));
+						
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -166,7 +169,7 @@ public class BoardDao {
 
 	public int update( BoardVo vo ) {
 		// 해당 글 수정하기
-		String sql = "update board set btitle=? , bcontent=? where bno=?";
+		String sql = "update board set btitle=? , bcontent=? where bno=? and bpass=?";
 		int result = -1;
 		//////////
 		DBManager db = new DBManager();
@@ -179,7 +182,7 @@ public class BoardDao {
 			pstmt.setString(1, vo.getBtitle());
 			pstmt.setString(2, vo.getBcontent());
 			pstmt.setInt(3, vo.getBno());
-			
+			pstmt.setString(4, vo.getBpass());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -198,9 +201,9 @@ public class BoardDao {
 		return result;
 	} // E update
 
-	public int delete(int bno) {
+	public int delete(int bno, String bpass) {
 		// 해당글 삭제하기 
-		String sql = "delete from board where bno=?";
+		String sql = "delete from board where bno=? and bpass=?";
 		int result = -1;
 		//////////
 		DBManager db = new DBManager();
@@ -211,6 +214,7 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bno);
+			pstmt.setString(2, bpass);
 			result =pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

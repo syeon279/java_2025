@@ -7,6 +7,39 @@
 <br>
 
 ### 🎯  JSP
+##### 📆 03.30.
+🚨 pass가 맞지 않아도 글 삭제가 완료됨
+
+```
+<input type="hidden" name="bpass" value="${dto.bpass}" readonly >
+
+<div>
+	<label for="temppass" class="form-label">삭제하시려면 비밀번호를 입력해주세요. </label>
+	<input type="text" class="form-control" id="temppass" placeholder="비밀번호를 입력하세요." name="temppass">
+</div>
+
+public class BDelete implements BoardService {
+	String bpass = request.getParameter("bpass");
+}
+```
+
+😀 오류 난 이유 == jsp의 파라미터를 가져와 늘 올바른 pass를 spl에 넘겨주게 됨
+
+```
+<input type="hidden" name="bpass" value="${dto.bpass}" readonly >
+
+<div>
+	<label for="temppass" class="form-label">삭제하시려면 비밀번호를 입력해주세요. </label>
+	<input type="text" class="form-control" id="temppass" placeholder="비밀번호를 입력하세요." name="temppass">
+</div>
+
+public class BDelete implements BoardService {
+	String bpass = request.getParameter("temppass");
+}
+
+```
+
+
 ##### 📆 03.28.
 🚨 Error
 

@@ -22,7 +22,7 @@
 		</div>
 		<div class = "d-flex justify-content-end m-3">
 			<a href = "update_view.do?bno=${dto.bno}" class = "btn btn-success m-1">수정</a>
-			<a href = "delete.do?bno=${dto.bno}" class = "btn btn-success m-1">삭제</a>
+			<a href = "delete_view.do?bno=${dto.bno}" class = "btn btn-success m-1">삭제</a>
 			<a href = "list.do" class = "btn btn-outline-success m-1">목록보기</a>
 		</div>
 	</div>

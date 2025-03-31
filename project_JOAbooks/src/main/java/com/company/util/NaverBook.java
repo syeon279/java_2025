@@ -31,7 +31,6 @@ public class NaverBook {
 					sb.append(line+"\n");
 				}
 				
-				System.out.println(sb.toString());
 				br.close(); conn.disconnect();
 				
 		} catch (Exception e) {

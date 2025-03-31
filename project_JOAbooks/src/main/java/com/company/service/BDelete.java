@@ -1,6 +1,7 @@
 package com.company.service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +19,12 @@ public class BDelete implements BoardService {
 		
 		// 2. 값 가져오기
 		int bno = Integer.parseInt(request.getParameter("bno"));
+		String bpass = request.getParameter("temppass");
+		System.out.println("삭제 요청 - bno: " + bno + ", bpass: " + bpass);
 		
 		BoardDao dao = new BoardDao();
 		
-		request.setAttribute("result", String.valueOf(dao.delete(bno)));
+		request.setAttribute("result", String.valueOf(dao.delete(bno, bpass)));
 	}
 
 }

@@ -5,59 +5,7 @@
 <%@ include file="../inc/JOAbooks_header.jsp" %>
 <!-- header -->
 <!-- header -->
-<div class = "contanier card m-5 p-3">
-	<h3>NAVER BOOK</h3>	
-	<div class = "result">
 
-	</div>	
-	<script>
-	/* 
-	window.onload = fuction(){}; // 브라우저가 로딩되면 동작 
-	el $() jquery 
- 	*/ 
- 		$(function () {
-			// jQuery야 동작해줘
-			alert('test');
-			
-			$.ajax({
-				url: "${pageContext.request.contextPath}/books", 
-				dataType:"json",
-				type: "GET",
-				success:function(json){
-					console.log(json);
-					let items = json.items;
-					console.log(items[0]) // 객체 1개, items[0] = {title:"", image: "",,,,}/
-					
-					for(let i=0; i<items.length; i++){
-							let div = $('<div class="card m-3 row">'); // div 태그 만들기/
-							let p1 = $('<div class ="card-body p-3">').html('<img src="'+ items[i].image +'" />');
-							let p2 = $('<div class="card-body">').html(items[i].title);
-							div.append(p1).append(p2);
-							// div 태그 안에 p1 안에 추가하고 p2추가 
-							// html reset해서 넣기  
-							$(".result").append(div);
-					}
-					//보여줄 화면에 끼워넣기 
-				}, error:function(xhr, textStatus, errorThrown){
-					$(".result").html(textStatus + "(HTTP-"+xhr.status +"/"+errorThrown);
-				}
-			});
-		});
-
-	/*
-	$(".result") = document.querySelector(".result");
-	     $.ajax({
-         url:"${pageContext.request.contextPath}/books",
-         dataType:"json", 
-         type:"GET",
-         success:function(json){ console.log(json); },
-         error:function(xhr, textStatus, errorThrown){
-            $(".result").html(textStatus + "(HTTP-" + xhr.status + "/" + errorThrown);
-         } // $(".result")  document.querySelector(".result")
-      });
-	*/
-	</script>	
-</div>
 	<div class = "contanier card m-5 p-3">
 		<h3 class="card-header">게시판</h3>
 		<table class = "table table-header text-center">
@@ -87,6 +35,49 @@
 		<div class = "d-flex justify-content-end m-3">
 			<a href = "write_view.do" class = "btn btn-success">글쓰기</a>
 		</div>
+	</div>
+	<div class = "contanier card m-5 p-3">
+	<h3>NAVER BOOK</h3>	
+	<div class = "result">
+
+	</div>	
+	<script>
+	/* 
+	window.onload = fuction(){}; // 브라우저가 로딩되면 동작 
+	el $() jquery 
+ 	*/ 
+ 	$(function () {
+		// jQuery야 동작해줘
+		alert('test');
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/books", 
+			dataType:"json",
+			type: "GET",
+			success:function(json){
+				let items = json.items;
+				
+				for(let i=0; i<items.length; i++){
+					let row = $('<div class="row m-2">');
+					let col= $('<div class = "col">')
+					let div = $('<div class="p-3 border" style="width:250px; height:400px" >'); // div 태그 만들기/
+					let p1 = $('<div class ="p-3" >').html('<img src="'+ items[i].image +'" class="img-fluid" />');
+					let p2 = $('<div>').html(items[i].title);
+					div.append(p1).append(p2);
+					col.append(div);
+					
+					$(".row").append(col);
+					// div 태그 안에 p1 안에 추가하고 p2추가 
+					// html reset해서 넣기  
+					$(".result").append(row);
+				}
+				//보여줄 화면에 끼워넣기 
+			}, error:function(xhr, textStatus, errorThrown){
+				$(".result").html(textStatus + "(HTTP-"+xhr.status +"/"+errorThrown +")");
+			}
+		});
+	});
+	</script>	
 	</div>
 <!--  footer -->
 <!--  footer -->

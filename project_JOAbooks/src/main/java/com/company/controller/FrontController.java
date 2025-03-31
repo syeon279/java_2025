@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.company.service.BDelete;
+import com.company.service.BDelete_view;
 import com.company.service.BDetail;
 import com.company.service.BList;
 import com.company.service.BUpdate;
@@ -83,7 +84,11 @@ public class FrontController extends HttpServlet {
 		 			msg = "글 수정 완료";
 		 		} 
 		 		out.println("<script>alert('"+msg+"'); location.href='detail.do?bno="+request.getParameter("bno")+"'; </script>");
-				
+			
+			} else if(path.equals("/delete_view.do")) {
+				service = new BDelete_view(); service.exec(request, response);
+				request.getRequestDispatcher("board/delete.jsp").forward(request, response);
+			
 			} else if(path.equals("/delete.do")) {
 				service = new BDelete(); service.exec(request, response);
 				String result = (String)request.getAttribute("result"); 
