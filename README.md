@@ -3,9 +3,88 @@
 📝  Study Record 
 
 ---
-
 <br>
 
+
+### 🎯  SPRING
+##### 📆 03.31.
+🚩 Spring?
+<table>
+	<tr>
+		<th rowspan="2" >Spring Framework</th>
+		<td>[ 디자인 패턴 + 라이브러리 = 프레임워크]</td>
+	</tr>
+ 	<tr>
+		<td>소프트 웨어 개발의 뼈대</td>
+	</tr>
+ 	<tr>
+		<th rowspan="3" >Ioc</th>
+		<td>Inversion of Control :제어의 역전</td>
+	</tr>
+ 	<tr>
+		<td>인스턴스의 생성~소멸까지 생명주기를 개발자가 아니라 컨테이너(스프링)가 하는 것</td>
+	</tr>
+	<tr>
+		<td>POJO: Plain Old Java Object</td>
+	</tr>
+ 	<tr>
+		<th rowspan="3" >di</th>
+		<td>Dependency Injection : 의존성 주입</td>
+	</tr>
+	<tr>
+		<td> 각 클래스 간의 의존관계를 [설정파일]을 통해 [컨테이너]가 자동으로 연결 </td>
+	</tr>
+	<tr>
+		<td> 장점: 코드 단순화, 결합도 제거 </td>
+	</tr>
+</table>
+
+🚩 Setting
+- dynamic web project
+- configure - [Convert Maven Project]
+- spring - add Spring project Nature
+- java se-11 / project facts, build path
+- build path - add Libraries - JUnit 4
+
+🚩 Bean
+-  Spring이 관리하는 객체
+<table>
+ 	<tr>
+		<th rowspan="6" >XML vs Annotation</th>
+		<th rowspan="3"> XML [운영]</th>
+	</tr>
+ 	<tr>
+		<td>모든 bean을 명시적으로 xml에 등록</td>
+	</tr>
+	<tr>
+		<td>여러 개발자가 같은 설정 파일을 고유해서 개발하면 수정시 충돌이 일어날 경우가 많음 </td>
+	</tr>
+ 	<tr>
+		<th rowspan="3" >Annotation <br/> (Bean Scanning)</th>
+		<td>Bean @을 붙여서 자동인식</td>
+	</tr>
+	<tr>
+		<td>개발속도 향상</td>
+	</tr>
+	<tr>
+		<td> bean 간의 의존 관계를 파악하기 힘듦</td>
+	</tr>
+</table>
+🚩 @Componnent 
+
+```
+@Componnent // 일반적인 컴포넌트
+```
+
+```
+@Componnent //구체화된 형식
+	@Controller(웹 요청을 받아서 응답)
+	@Service(비즈니스 로직)
+	@Repository(DB연동)
+```
+
+
+---
 ### 🎯  JSP
 ##### 📆 03.30.
 🚨 pass가 맞지 않아도 글 삭제가 완료됨
