@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- CalcRectangle rect = new CalcRectangle -->
+	<bean id="rect" class ="com.company.ioctest.CalcRectangle" />
+	
+	<!-- CalcTriangle tri = new CalcTriangle -->
+	<bean id="tri" class="com.company.ioctest.CalcTriangle" />
+	
+	<!-- 
+		MyArea myArea = new MyArea();
+		 myArea.setName("Dan");
+		 myArea.setCalc(rect);
+	-->
+	<bean id="myArea" class ="com.company.ioctest.MyArea">
+		<property name ="name" value = "Dan"></property>
+		<property name ="calc" ref = "rect"></property>
+	</bean>
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Q1. -->
+	<bean id="rect" class="com.company.ioctest.CalcRectangle"/>
+	<!-- Q2. -->
+	<bean id="tri" class ="com.company.ioctest.CalcTriangle"/>
+	<!-- Q3. -->
+	<bean id="myArea" class ="com.company.ioctest.MyArea">
+		<constructor-arg index = "0" value="Dan" />
+		<constructor-arg index = "1" ref ="rect" />
+	</bean>
+
+</beans>
