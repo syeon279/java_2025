@@ -7,12 +7,75 @@
 
 
 ### 🎯  SPRING
+##### 📆 04.01
+🚩 MyBatis
+- SQL 매핑 기능을 지원하는 프레임워크
+<table>
+	<tr>
+		<th rowspan="7" > Mybatis 구현 순서</th>
+		<td> 1. DB 테이블 생성 및 설정 </td>
+	</tr>
+ 	<tr>
+		<td> 2. DTO 설계 및 클래스 작성 </td>
+	</tr>
+ 	<tr>
+		<td> 3. DAO 인터페이스 / 실행 가능 인터페이스 정의 </td>
+	</tr>
+ 	<tr>
+		<td> 4. XML Mapper 생성 및 SQL문 작성 </td>
+	</tr>
+	<tr>
+		<td> 5. MyBatis에 작성한 XML Mapper 인식 설정 =Spring과 연동 </td>
+	</tr>
+ 	<tr>
+		<td> 6. DAO 인터페이스 구현한 클래스 작성 </td>
+	</tr>
+	<tr>
+		<td> 7. 스프링에 DAO 등록 </td>
+	</tr>
+</table>
+
+- SqlSessionFactoryBean  (sqlSession 생성 및 관리)
+  	- private DataSource dataSource;      DB연동참고
+	- private Resource configLocation;    dto등 설정파일
+	- private Resource[] mapperLocations; mapper(sql)설정
+- SqlSession( insert, update, delete)
+
+🤔 DTO VS DAO
+<table>
+	<tr>
+		<th rowspan="3" > DTO </th>
+		<td> Dat Trasfor Object </td>
+	</tr>
+ 	<tr>
+		<td> Database에서 데이터를 얻어 Service나 Controller 등으로 보낼 때 사용하는 객체 </td>
+	</tr>
+ 	<tr>
+		<td> getters/setters 사용 </td>
+	</tr>
+ 	<tr>
+		<th rowspan="4" > DAO </th>
+		<td> Data Access Object</td>
+	</tr>
+	<tr>
+		<td> Database의 데이터에 접근하기 위한 객체 </td>
+	</tr>
+ 	<tr>
+		<td> Database에서 데이터를 가져오거나 저장하는 등의 작업을 수행하는 객체 </td>
+	</tr>
+	<tr>
+		<td> <code>public interface UserDao {</code> <br/> <code>   public int insert(UserDto dto);</code> <br/> <code>   public UserDto selectOne(int no); </code> <br/> <code>}</code> </td>
+	</tr>
+</table>
+
+
+
 ##### 📆 03.31.
 🚩 Spring?
 <table>
 	<tr>
 		<th rowspan="2" >Spring Framework</th>
-		<td>[ 디자인 패턴 + 라이브러리 = 프레임워크]</td>
+		<td>[ 디자인 패턴 + 라이브러리 = 프레임워크 ]</td>
 	</tr>
  	<tr>
 		<td>소프트 웨어 개발의 뼈대</td>
