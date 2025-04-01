@@ -57,7 +57,7 @@
 		<td>모든 bean을 명시적으로 xml에 등록</td>
 	</tr>
 	<tr>
-		<td>여러 개발자가 같은 설정 파일을 고유해서 개발하면 수정시 충돌이 일어날 경우가 많음 </td>
+		<td>여러 개발자가 같은 설정 파일을 공유해서 개발하면 수정시 충돌이 일어날 경우가 많음 </td>
 	</tr>
  	<tr>
 		<th rowspan="3" >Annotation <br/> (Bean Scanning)</th>
