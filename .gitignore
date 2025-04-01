@@ -2278,3 +2278,5 @@ apache-tomcat-9.0.102/wtpwebapps/project_mvc1_milk/META-INF/MANIFEST.MF
 apache-tomcat-9.0.102/wtpwebapps/project_mvc1_milk/WEB-INF/web.xml
 apache-tomcat-9.0.102/wtpwebapps/project_mvc1_milk/WEB-INF/lib/mysql-connector-j-8.0.33.jar
 apache-tomcat-9.0.102/wtpwebapps/ROOT/WEB-INF/web.xml
+Servers/
+*.class

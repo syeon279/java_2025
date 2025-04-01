@@ -167,3 +167,40 @@ insert into member values (4, 'fourth', '44');
 
 select * from member;
 select name, pass from member where name='first' and pass='11';
+
+use mbasic;
+
+create table sboard(
+bno int not null auto_increment primary key,
+bname varchar(100) not null,
+btitle varchar(1000) not null,
+bcontent text not null,
+bdate timestamp not null default now(),
+bhit int not null default 0,
+bip varchar(50) not null 
+);
+
+desc board;
+select * from board;
+
+select * from board;
+
+alter table board add bpass varchar(50) not null;
+
+use mbasic;
+show tables;
+
+desc userinfo;
+
+select * from userinfo;
+
+desc board;
+
+select * from board;
+
+create table sboard select * from board;
+
+desc sboard;
+select * from sboard;
+drop table sboard;
+alter table sboard add bpass varchar(50) not null;
