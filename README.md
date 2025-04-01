@@ -506,7 +506,7 @@ avg(컬럼명) 평균, max 최대값, min 최소값, sum 합계, count 갯수
    > 전체 데이터&emsp;``` select * from (table)``` <br>
    > 부분 검색  &emsp;``` select (필드명) from (table)```  <br>
    > 중복 제거  &emsp;``` select distinct (필드명) from (table)```  <br>
-   > where 조건&emsp;``` = != <> between or in is null is not null like ```
+   > where 조건&emsp;``` =, !=, <>, between, or, in, is null, is not null, like ```
 
    
 ##### 📆 03.18.
