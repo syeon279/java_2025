@@ -7,6 +7,130 @@
 
 
 ### 🎯  SPRING
+##### 📆 04.02
+
+🚨  No qualifying bean of type 'com.company.dao.TestDao' available: expected at least 1 bean which qualifies as autowire candidate. 
+
+```
+@Repository
+public interface TestDao {
+	public String now();
+}
+```
+
+```
+public class TestDaoImpl implements TestDao {
+	@Autowired private SqlSession sqlSession; // sql 실행
+	private static final String namespace="com.company.dao.TestDao";
+	
+	
+	@Override
+	public String now() {
+		return sqlSession.selectOne(namespace+".now");
+		
+	}
+
+}
+```
+
+😀 오류 난 이유 == Interface에 @Repasitory 사용
+
+```
+public interface TestDao {
+	public String now();
+}
+
+```
+
+```
+@Repository
+public class TestDaoImpl implements TestDao {
+	@Autowired private SqlSession sqlSession; // sql 실행
+	private static final String namespace="com.company.dao.TestDao";
+	
+	
+	@Override
+	public String now() {
+		return sqlSession.selectOne(namespace+".now");
+		
+	}
+
+}
+```
+
+🚩 MyBatis <br/>
+
+ 💫 **Step1** 
+
+```
+TestDao <<interface>>
+    ↑   
+TestDaoImpl <<class>>
+====================
+   @Repository
+   public class TestDaoImpl implements TestDao{
+      @Autowired  private SqlSession sqlSession;  //sql 실행
+      ivate static final String namespace="com.company.dao.TestDao";   ... 코드생략
+   }
+====================
+test-mapper.xml
+```
+
+ 💫 **Step2** 
+ - root-context.xml 설정파일
+ 
+```
+	<!--  Step3 mapperFactoryBean -->
+	<bean id="testDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+		<property name="mapperInterface" value="com.company.dao.TestDao" />
+	</bean>
+
+```
+
+ 💫 **Step3** 
+- MapperScannerConfigurer
+
+1. myDao
+```
+     public @interface MyDao{}
+```
+
+2. mapper로 만들어주는 interface들에
+   
+```
+ @MyDao public interface TestDao{}
+ @MyDao public interface UserDao{}
+ @MyDao public interface BoardDao{}
+```
+
+3. MyDao   root-context.zml 등록
+```
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<property name="basePackage" value="com.company.dao"></property>
+	<property name="annotationClass" value="com.company.dao.MyDao"></property>
+</bean>
+ ```
+
+🚩 Spring MVC 
+<br/>
+
+[ 클라이언트 ] <br/>
+ ↓ 1️⃣ list.do  <br/>
+　[ FrontController ] <br/>
+```<<DispatcherServlet>>```  → 2️⃣ HandlerMapping - @Controller <br/>
+　　　　　　　　　　　　　　　　　　　 ↓ <br/>
+　　　　　　　　　　　3️⃣ 세부 Controller - db가 db처리  <br/>
+　　　↓↑ <br/>
+　 4️⃣  View <br/>
+
+
+1️⃣ 클라이언트 ( 코요테 - web.xml - root-context.xml / servlet-context.xml )  <br/>
+2️⃣ DispatcherServlet - HandlerMapping - @Controller / 처리할 Controller 확인  <br/>
+3️⃣ 세부 Controller 클라이언트 요청처리 (service - 비지니스로직)  <br/>
+4️⃣ 요청결과와 View정보를 DispatcherServlet 줌 / View를 객체를 생성해서 응답  <br/>
+
+
 ##### 📆 04.01
 🚩 MyBatis
 - SQL 매핑 기능을 지원하는 프레임워크
