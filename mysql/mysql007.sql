@@ -201,6 +201,8 @@ select * from board;
 create table sboard select * from board;
 
 desc sboard;
-select * from sboard;
+select * from sboard order by bno desc;
 drop table sboard;
 alter table sboard add bpass varchar(50) not null;
+
+select * from member;

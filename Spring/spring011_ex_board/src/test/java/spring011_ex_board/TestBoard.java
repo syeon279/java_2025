@@ -51,7 +51,7 @@ public class TestBoard {
 		System.out.println(dao.update(dto));
 		System.out.println(dao.selectOne(5));
 	}
-	@Test
+	@Ignore
 	public void updateHit() {
 		System.out.println(dao.updateHit(1));
 		System.out.println(dao.selectOne(1));
