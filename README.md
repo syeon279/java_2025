@@ -7,10 +7,130 @@
 
 
 ### 🎯  SPRING
-##### 📆 04.03
+##### 📆 04.04.
+🚨 Board Delete - 알림창 띄우기
+
+```
+out.println("<script>alert('비밀번호를 확인해주세요.');</script>");
+```
+
+😀 오류 해결 == RedirectAttributes 
+
+```
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String delete_post(BoardDto dto, RedirectAttributes rttr ) {
+		String result = "fail";
+		if(dto != null  && service.delete(dto)>0 ) { 
+			service.delete(dto);
+			result = "성공";
+		}
+		rttr.addFlashAttribute("result", result );
+		return "redirect:/board/list";
+	}
+```
+
+```
+<!-- list.jsp -->
+<script>
+	$(function() {
+		let result = '${result}'; console.log(result);
+		if(result == 'fail'){
+			alert('비밀번호를 확인해주세요.'); history.go(-1);
+		} else if(result == '성공'){
+			alert( result );
+		}
+	});
+</script>
+
+```
 
 
-##### 📆 04.02
+🚩 Lombok
+- 어노테이션 기반으로 코드를 자동완성 해주는 라이브러리
+
+```
+@Data // Getter/Setter/ToString.. 
+```
+
+🚩 Aop
+<table>
+	<tr>
+		<th rowspan="2"> Aspect Oriented Programming </th>
+		<td> Aspect : 관점, 어떤 행동, 시작, 완료, 반복,,, 나타내는 형태 </td>
+	</tr>
+	<tr>
+		<td> Advice(부가기능 정의) + PointCut(적용부위) =  Aspect </td>
+	</tr>
+ 	<tr>
+		<th rowspan="4"> 용어 </th>
+		<td> Target = 대상 </td>
+	</tr>
+ 	<tr>
+		<td> Advice =  부가기능 </td>
+	</tr>
+ 	<tr>
+		<td> PointCut = 적용 타겟에 메서드로 대상을 선별하는 정규식 </td>
+	</tr>
+ 	<tr>
+		<td> Weaving =  Target(대상) 에 Advice(부가기능)를 처리(삽입)하는 과정  </td>
+	</tr>
+ 	<tr>
+		<th rowspan="2"> 특징 </th>
+		<td> 프록시 기반의 Aop </td>
+	</tr>
+ 	<tr>
+		<td> 프록시 : Target(대상) 에 Advice(부가기능)를 처리(삽입)하는 과정에서 생성되는 객체  </td>
+	</tr>
+</table>
+
+
+🚩 HikariCp
+- sql 과정이 보임!
+  
+```
+1) pom.xml 플러그인 추가 
+2) db.properties  수정 / root-context.xml 
+3) hikari properties 설정 
+```
+
+🚩 Tx
+<table>
+	<tr>
+		<th rowspan="2"> 트랜잭션 </th>
+		<td> 여러단계의 처리를 하나의 처리처럼 다루는 기능 </td>
+	</tr>
+ 	<tr>
+	 	<td> 반영(commit) / 되돌리기 (rollback) </td>
+	</tr>
+</table>
+
+1. pom.xml
+
+```
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-tx</artifactId>
+         <version>${org.springframework-version}</version>
+      </dependency>
+```
+2. root-context.xml
+
+```
+	<tx:annotation-driven/>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="datasource"></property>
+	</bean>
+```
+
+🤔 ${pageContext.request.contextPath}/board/delete?bno=${param.bno} <br/>
+- pageContext는 상대경로(= 내 현재 위치의 문서를 기준으로 경로를 인식하는 방법)
+
+
+##### 📆 04.03.
+🚩 Jstl
+
+
+##### 📆 04.02.
 
 🚨  No qualifying bean of type 'com.company.dao.TestDao' available: expected at least 1 bean which qualifies as autowire candidate. 
 
@@ -134,7 +254,7 @@ test-mapper.xml
 4️⃣ 요청결과와 View정보를 DispatcherServlet 줌 / View를 객체를 생성해서 응답  <br/>
 
 
-##### 📆 04.01
+##### 📆 04.01.
 🚩 MyBatis
 - SQL 매핑 기능을 지원하는 프레임워크
 <table>
