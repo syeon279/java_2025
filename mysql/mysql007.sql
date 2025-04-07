@@ -206,3 +206,21 @@ drop table sboard;
 alter table sboard add bpass varchar(50) not null;
 
 select * from member;
+
+show databases;
+create database myboot;
+
+use myboot;
+show tables;
+
+select * from team;
+desc team;
+
+desc member;
+
+select * from member;
+desc team_member;
+
+delete from member where id=1;
+
+select * from team;
