@@ -1,5 +1,4 @@
-/.metadata/
-<<<<<<< HEAD
+.metadata/
 Servers/
 *.class
-apache-tomcat-9.0.102/
+apache-tomcat-9.0.102/wtpwebapps/ROOT/WEB-INF/web.xml

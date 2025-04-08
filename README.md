@@ -6,6 +6,30 @@
 <br>
 
 ### 🎯  SPRING BOOT
+##### 📆 04.08.
+🚨 DB에 없는 데이터 오류
+😀 NULL 값인 데이터를 삭제
+
+🤔 @Coumn(nullable = false) 오류 
+
+```
+@Entity @Getter @Setter @ToString( exclude = "member")
+public class Board {
+	@ManyToOne	@JoinColumn(name="MEMBER_ID") //@Column(nullable = false)
+	private Member member;
+}
+```
+
+```
+@Column(s) not allowed on a @ManyToOne property: com.ysh.boot003.board.Board.member
+```
+
+🤔 @RequestParam
+
+- Http 요청 파라미터를 @RequestParam으로 받을 수 있음.
+- 파라미터 이름으로 바인딩하는 방법
+
+
 ##### 📆 04.07.
 🚩 Spring Boot 
 <table>
