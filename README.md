@@ -5,8 +5,22 @@
 ---
 <br>
 
+### 🎯  SPRING BOOT
+##### 📆 04.07.
+🚩 Spring Boot 
+<table>
+	<tr>
+		<th><code>@Entity</code></th>
+		<td>테이블을 자동으로 생성</td>
+	</tr>
+</table>
 
-### 🎯  SPRING
+🚨 Git 잔디 심기 & 소스트리 전역 사용자  <br/>
+[내 PC] - [AppData] - [Local] - [Atlassian] - [SourceTree.exe(설치한 버전)] <br/> - user.config - <setting> DefaultName, Email git계정으로 변경
+
+
+---
+### 🎯  SPRING 
 ##### 📆 04.04.
 🚨 Board Delete - 알림창 띄우기
 
