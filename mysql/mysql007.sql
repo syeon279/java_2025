@@ -224,3 +224,26 @@ desc team_member;
 delete from member where id=1;
 
 select * from team;
+
+
+drop database myboot;
+
+create database myboot;
+
+use myboot;
+show tables;
+
+desc team;
+desc member;
+
+
+use myboot;
+show tables;
+desc board;
+
+
+
+
+
+
+
