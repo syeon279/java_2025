@@ -8,7 +8,6 @@
 <title>TheBooks</title>
 </head>
 <body>
-	<!-- 	<th:block layout:fragment="content" /> -->
 	<div layout:fragment="content" class="m-5">
 		<div class="contanier p-5"
 			style="margin-left: 100px; margin-right: 100px;">
@@ -16,9 +15,9 @@
 			<form th:action="@{/board/insert}" method="post"
 				onsubmit="return form()">
 				<div class="mb-3 mt-3">
-					<label for="member_id" class="form-label">이름: </label> <input
+					<label for="member" class="form-label">이름: </label> <input
 						type="text" class="form-control" id="member_id"
-						placeholder="이름을 입력하세요." name="member_id" value="2L" >
+						placeholder="이름을 입력하세요." name="member_id" value="2" ><!-- dto에 없는 값 -->
 				</div>
 				<div class="mb-3 mt-3">
 					<label for="bpass" class="form-label">비밀번호: </label> <input

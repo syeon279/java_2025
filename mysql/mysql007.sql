@@ -241,6 +241,10 @@ use myboot;
 show tables;
 desc board;
 
+select * from member;
+select * from board;
+
+delete from board where id=5;
 
 
 
