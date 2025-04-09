@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,43 +48,50 @@ public class BoardController {
 	public String insert_Post( Board board, @RequestParam Long member_id  ) {
 		System.out.println("...."+board);
 		System.out.println("...."+ member_id);
-		service.insert(board, member_id);// 글쓰기 기능
+		service.insert(board, member_id);// 글쓰기 기능  
 		return "redirect:/board/list"; // 갱신된 리스트  
 	}
+	////////////////////////////////////////////////
+	// @RequestParam - form, query string, 데이터 헤더로부터 데이터 추출
+	// @ PathVariable - url 경로의 변수를 추출할 때 사용
 	// http://localhost:8080/board/insert
 	// form 테스트
 	
-	@GetMapping("/board/update/{id}")
+	@RequestMapping(value="/board/update/{id}", method =RequestMethod.GET)
 	public String update_Get( @PathVariable Long id, Model model ){
 		model.addAttribute("dto", service.find(id));// 수정할 글 가져오기
 		return "board/update"; 
 	}
 	// http://localhost:8080/board/update/3
 	
-	@PostMapping("/board/update")
-	public String update_Post(Board board) {
-		service.update(board);// 글 수정기능
-		return "redirect:/board/list";  
+	@RequestMapping(value = "/board/update", method = RequestMethod.POST)
+	public String update_Post(Board board, RedirectAttributes rttr) {
+		String msg ="fail";
+		if( service.update(board) >0 ) {
+			msg="성공";
+		}
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:/board/detail/"+board.getId();  
 	}
 	// http://localhost:8080/board/update
 	
-	@GetMapping("/board/delete")
-	public String delete_Get(){
-		// 삭제할 글 가져오기
+	@GetMapping("/board/delete/{id}")
+	public String delete_Get(@PathVariable Long id, Model model){
+		model.addAttribute("id", id);// 삭제할 글 가져오기
 		return "board/delete"; 
-		
 	}
 	// http://localhost:8080/board/delete
 	
 	@PostMapping("/board/delete")
-	public String delete_Post(Board board) {
-		service.delete(board);
+	public String delete_Post(Board board, RedirectAttributes rttr) {
+		String msg ="fail";
+		if( service.delete(board) >0 ) {
+			msg="성공";
+		}
+		rttr.addFlashAttribute("msg", msg);
 		return "redirect:/board/list"; // 갱신된 리스트  
 	}
 	// http://localhost:8080/board/delete
-	
-	
-	
 	
 	
 	
@@ -94,8 +104,6 @@ Restful Api : localhost:8080/board/detail/bno/10 쿼리스트링 사용
 	2) api 
 	3) method ( GET: 검색 / POST: 생성 / PATCH(부분 업데이트) PUT:(전체 업데이트) / DELETE: 삭제)
 	4) DATA - json,xml 
-	
-	
 **/
 
 

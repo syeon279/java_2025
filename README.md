@@ -6,6 +6,16 @@
 <br>
 
 ### 🎯  SPRING BOOT
+##### 📆 04.09.
+🚨 page error
+
+```
+<div layout:fragment="content">
+	<div layout:fragment="content">
+```
+😀 content 중복
+
+
 ##### 📆 04.08.
 🚨 DB에 없는 데이터 오류
 😀 NULL 값인 데이터를 삭제

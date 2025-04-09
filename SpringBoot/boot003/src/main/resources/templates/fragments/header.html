@@ -13,13 +13,17 @@
 		<nav
 			class="navbar navbar-expand-sm bg-success-subtle text-success-emphasis p-3">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="javascript:void(0)">TheBoos</a>
+				<a class="navbar-brand" href="javascript:void(0)">TheBooks</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#mynavbar">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div id="mynavbar">
-					<ul class="navbar-nav d-flex justify-content-end">
+				<div id="mynavbar d-flex justify-content-end">
+					<form class="d-flex">
+						<input class="form-control me-2" type="text" placeholder="Search">
+						<button class="btn btn-success" type="button">Search</button>
+					</form>
+					<ul class="navbar-nav d-flex">
 						<li class="nav-item"><a class="nav-link"
 							href="javascript:void(0)">Log in</a></li>
 						<li class="nav-item"><a class="nav-link"
@@ -28,6 +32,16 @@
 				</div>
 			</div>
 		</nav>
+		<script>
+			let msg = "[[${msg}]]";
+			console.log(msg);
+			if (msg == 'fail') {
+				history.go(-1);
+				alert('정보를 확인해주세요.');
+			} else if (msg.length != 0) {
+				alert(msg);
+			}
+		</script>
 	</th:block>
 </body>
 </html>
