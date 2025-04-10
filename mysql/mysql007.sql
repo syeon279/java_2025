@@ -244,9 +244,9 @@ desc board;
 select * from member;
 select * from board;
 
-delete from board where id=5;
+delete from board where id=1;
 
-
+insert into board (id, bcontent, bhit, bip, bname, bpass, btitle, member_id ) values (1, "hi", 0, "227.277", "first", "1234", "hi", 1);
 
 
 

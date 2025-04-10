@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Books</title>
+</head>
+<body>
+	<!-- layout.html
+	<th:block th:replace="fragments/header::header" />
+ -->
+	<th:block th:fragment="header">
+		<nav
+			class="navbar navbar-expand-sm bg-success-subtle text-success-emphasis p-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="javascript:void(0)">TheBooks</a>
+			<div id="mynavbar d-flex justify-content-center">
+					<ul class="navbar-nav d-flex ">
+						<li class="nav-item"><a class="nav-link" th:href="@{/board/list}" 
+						sec:authorize="isAuthenticated()">Board</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/board/list}" 
+						sec:authorize="isAuthenticated()">Item</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/board/list}" 
+						sec:authorize="isAuthenticated()">Item</a></li>
+					</ul>
+				</div>
+				<!--  권한
+					sec:authorize="isAuthenticated()" 로그인해야지 사용가능
+					sec:authorize="isAnonymous()"		권한없어도 사용가능
+				-->
+				<div id="mynavbar d-flex justify-content-end">
+					<ul class="navbar-nav d-flex ">
+						<li class="nav-item"><a class="nav-link" th:href="@{/member/login}" 
+						sec:authorize="isAnonymous()">Log In</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/member/join}" 
+						sec:authorize="isAnonymous()">Join</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/member/mypage}" 
+						sec:authorize="isAuthenticated()">MyPage</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/member/logout}" 
+						sec:authorize="isAuthenticated()">Log Out</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<script>
+			let msg = "[[${msg}]]";
+			console.log(msg);
+			if (msg == 'fail') {
+				history.go(-1);
+				alert('정보를 확인해주세요.');
+			} else if (msg.length != 0) {
+				alert(msg);
+			}
+		</script>
+	</th:block>
+</body>
+</html>
