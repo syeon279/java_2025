@@ -1,43 +1,67 @@
 package com.ysh.boot001.myjpa;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity @Data
+@Entity
+@Getter
+@Setter
 public class Member {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id// 기본값
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // auto_increment
 	private Long id;
 	
-	@Column(name="USERNAME", nullable=false)	//@Transiend
+	// name="USERNAME"  필드명 수정, NOT NULL 설정
+	//	@Column(name="USERNAME" , nullable=false)   //@Transiend  컬럼인식못하게
+	//	private String name;
+	
+	@Column(nullable=false)   //@Transiend  컬럼인식못하게
 	private String name;
+	 
+	private int    age;
 	
-	
-	@Column(nullable=true)	//@Transiend
-	private int age;
-	
-	private LocalDateTime createDate = LocalDateTime.now();
+	@Column( updatable = false )  // 수정못하게
+	private LocalDateTime  createDate = LocalDateTime.now();
 	
 	@ManyToOne
-	private Team team; 
-	// 멤버(iron, hulk, captin, blackwidow, thor, spiderman )는 하나의 팀을 가진다. 
-	//team_id 컬럼 자동으로 생김
+	private Team team;  
+	// 멤버(iron, hulk,thor,,,,,)는 하나의 팀을 가진다.
+	// team_id  컬럼 자동으로 생김
+	
+	@ManyToMany(mappedBy="members") 
+	private Set<ChatRoom>  chatRooms = new HashSet<>();
+	
 }
 /*
- * 관계 1
- * 팀(avengers)은 많은 멤버(iron, hulk, captin, blackwidow, thor, spiderman )를 가진다.
- * 멤버는 하나의 팀을 가진다. 
- * 
- * 
- * team-|--------∈ member
- * 
- * 
- * 
- */
+관계1
+ 팀(avengers)은 많은 멤버(iron, hulk,thor,,,,,)를 가진다.  
+ 멤버는 하나의 팀을 가진다.
+ 
+ team -|---------∈ member
+ 
+ 
+mysql> desc member;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id              | bigint       | NO   | PRI | NULL    | auto_increment |
+| create_date | datetime(6)  | YES  |     | NULL    |                |
+| name        | varchar(255) | YES  |     | NULL    |                |
+| age          | int  | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+*/

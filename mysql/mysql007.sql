@@ -248,6 +248,10 @@ delete from board where id=1;
 
 insert into board (id, bcontent, bhit, bip, bname, bpass, btitle, member_id ) values (1, "hi", 0, "227.277", "first", "1234", "hi", 1);
 
+create database myboot1;
+use myboot1;
+show tables;
 
+desc member_chat_room;
 
 
