@@ -57,7 +57,8 @@ desc yl3group;
 desc goal;
 desc goal_status;
 desc open_scope;
-
+desc diary;
+desc group_diary;
 
 ### 각 테이블 확인
 select * from user;
@@ -69,6 +70,7 @@ select * from group_achiv;
 select * from open_scope;
 select * from goal;
 select * from goal_status;
+select * from group_diary;
 
-
-
+SELECT DAY(LAST_DAY('2025-04-01')) AS LastDay;
+SELECT DAY(LAST_DAY(CURDATE())) `LastDay`;
