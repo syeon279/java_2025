@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>CoolsSMS</title>
+<!-- CKEditor 로드 -->
+<script src="//cdn.ckeditor.com/4.25.1/standard/ckeditor.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="container    my-5" id="contents">
+		<h3 class="panel-heading">CoolsSMS</h3>
+		<label for="to">받는사람 :</label> <input type="text" id="to" name="to" />
+		<!-- 인증번호 받을사람 휴대폰 번호 -->
+		<input type="button" id="send" value="전송" title="인증문자전송">
+		<!-- 문자보내는 전송버튼 -->
+
+		<hr />
+		<hr />
+
+		<label for="userNum">인증번호 :</label> <input type="text" id="userNum"
+			name="userNum">
+		<!-- 인증번호 입력창 -->
+		<input type="button" id="enterBtn" value="확인" title="인증">
+		<!-- 인증번호와 내가 입력창에 입력한 인증번호 비교하는 창 -->
+	</div>
+	<script>
+		$(function(){
+			$("#send").on("click", function(){
+				$.ajax({
+					url:"/coolsmsapi",
+					type:"get",
+					data:{"to" : $("#to").val()},
+					success:function(data){
+						alert("인증번호 : " + data);
+						$("#enterBtn").click(function(){
+							const userNum = $("#userNum").val();
+							if( data == userNum ){
+								alert("success!");
+							} else{
+								alert("false...");
+							}
+						});
+					},
+					error:function( zhr, textstatus, errorThrown ){ 
+						console.log(zhr+"/"+errorThrown);
+						}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
