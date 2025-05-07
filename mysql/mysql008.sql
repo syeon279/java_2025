@@ -42,6 +42,7 @@ desc yl3group;
 
 select * from yl3group;
 
+## 데이터베이스 
 drop database yoonlee3;
 create database yoonlee3;
 use yoonlee3;
@@ -49,7 +50,6 @@ show tables;
 
 ### 테이블 구조 확인
 desc badge;
-desc group_achiv;
 desc group_badge_history;
 desc group_has_user;
 desc user;
@@ -59,6 +59,8 @@ desc goal_status;
 desc open_scope;
 desc diary;
 desc group_diary;
+desc likes;
+desc user_achiv;
 
 ### 각 테이블 확인
 select * from user;
@@ -66,11 +68,10 @@ select * from yl3group;
 select * from group_has_user;
 select * from badge;
 select * from group_badge_history;
-select * from group_achiv;
 select * from open_scope;
 select * from goal;
 select * from goal_status;
 select * from group_diary;
+select * from diary;
+select * from user_achiv;
 
-SELECT DAY(LAST_DAY('2025-04-01')) AS LastDay;
-SELECT DAY(LAST_DAY(CURDATE())) `LastDay`;

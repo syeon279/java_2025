@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+<!-- layout:decorate="~{fragments/layout}" fragments폴더 안에 있는 layout렌더링 -->
+<head>
+<meta charset="UTF-8">
+<title>TheBooks</title>
+</head>
+<body>
+	<div layout:fragment="content" class="m-5">
+		<div class="container my-3">
+			<h3>MEMBER_JOIN</h3>
+			<form method="post" th:action="@{/member/join}"
+				th:object="${memberForm}">
+
+				<div class="my-3  alert  alert-danger" role="alert"
+					th:if="${#fields.hasAnyErrors()}">
+					<div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
+				</div>
+
+				<!-- end div -->
+				<div class="my-3">
+					<label for="username" th:text="사용자ID"></label> 
+					<input type="text" name="username" id="username" class="form-control"
+						th:field="*{username}">
+					<button type="button" class="btn btn-success m-2" id="checkUsername">중복 검사</button>
+					<span id="checkResult"></span>
+				</div>
+				<div class="my-3">
+					<label for="password" th:text="비밀번호"></label> 
+					<input type="text" name="password" id="password" class="form-control"
+						th:field="*{password}">
+					<!-- *{password} 모델객체를 참조 -->
+				</div>
+				<div class="my-3">
+					<label for="password2" th:text="비밀번호확인"></label> 
+					<input type="text" name="password2" id="password2" class="form-control"
+						th:field="*{password2}">
+				</div>
+				<div class="my-3">
+					<label for="email" th:text="email"></label> 
+					<input type="text" name="email" id="email" class="form-control" th:field="*{email}">
+				</div>
+				<div class="my-3">
+					<button type="submit" class="btn btn-success" value="회원가입">회원가입</button>
+					<button type="reset" class="btn btn-outline-wsuccess" value="취소">취소</button>
+				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}" />
+			</form>
+			
+			<script>
+				$('#checkUsername').click(function(){
+					let username = $('#username').val();
+					$.ajax({
+						url:'/checkUsername',
+						type:'GET',
+						data: {username: username},
+						success: function(count){
+							if(count>0){
+								$('#checkResult').text('이미 사용중인 아이디입니다.');
+							} else {
+								$('#checkResult').text('사용가능한 아이디입니다.');
+							}
+						},
+						error: function(){
+							$('#checkResult').text('관리자에게 문의해주세요.');
+					}
+						
+					});
+				});
+			</script>
+		</div>
+	</div>
+</body>
+</html>

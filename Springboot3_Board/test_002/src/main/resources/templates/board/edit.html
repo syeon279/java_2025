@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+<!-- layout:decorate="~{fragments/layout}" fragments폴더 안에 있는 layout렌더링 -->
+<head>
+<meta charset="UTF-8">
+<title>TheBooks</title>
+</head>
+<body>
+	<!-- 	<th:block layout:fragment="content" /> -->
+	<div layout:fragment="content" class="m-5">
+		<div class="contanier p-5"
+			style="margin-left: 100px; margin-right: 100px;">
+			<h3 class="card-header">수정하기</h3>
+			<form th:action="@{/board/update}" method="post"
+				encType="multipart/form-data" onsubmit="return form()">
+				<div class="mb-3 mt-3">
+					<label for="bpass" class="form-label">비밀번호: </label> <input
+						type="text" class="form-control" id="bpass"
+						placeholder="비밀번호를 입력하세요." name="bpass"> <input
+						type="hidden" name="id" id="id" class="form-control"
+						th:value="${board.id}">
+
+				</div>
+				<div class="mb-3">
+					<label for="btitle" class="form-label">제목 :</label> <input
+						type="text" class="form-control" id="btitle"
+						placeholder="제목을 입력하세요." name="btitle" th:value="${board.btitle}">
+				</div>
+				<div>
+					<label for="bcontent">내용 :</label> <input class="form-control"
+						rows="5" id="bcontent" name="bcontent" th:value="${board.bcontent}">
+				</div>
+				<div class="d-flex justify-content-end m-3">
+					<button type="submit" title="작성하기" class="btn btn-success m-1">
+						수정하기</button>
+					<a href="list" class="btn btn-outline-success m-1"> 취소 </a> <a
+						href="list" class="btn btn-outline-success m-1"> 목록보기 </a>
+				</div>
+			</form>
+			<script>
+				function form() {
+					let name = document.querySelector("#bname");
+					let title = document.querySelector("#btitle");
+					let content = document.querySelector("#bcontent");
+					let pass = document.querySelector("#bpass");
+					if (name.value == "") {
+						alert('이름을 작성해주세요.');
+						name.focus();
+						return false;
+					}
+					if (title.value == "") {
+						alert('제목을 작성해주세요.');
+						title.focus();
+						return false;
+					}
+					if (content.value == "") {
+						alert('내용을 작성해주세요.');
+						content.focus();
+						return false;
+					}
+					if (pass.value == "") {
+						alert('비밀번호를 입력해주세요.');
+						pass.focus();
+						return false;
+					}
+				}
+			</script>
+		</div>
+	</div>
+</body>
+</html>
