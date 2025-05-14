@@ -1,21 +1,25 @@
-{
+const dotenv = require('dotenv');
+dotenv.config();
+
+module.exports = {
   "development": {
     "username": "root",
-    "password": "1234",
+    "password": process.env.DB_PASSPORT,
     "database": "node_react",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone" : '+09:00'
   },
   "test": {
     "username": "root",
-    "password": "1234",
+    "password":  process.env.DB_PASSPORT,
     "database": "node_react",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "1234",
+    "password":  process.env.DB_PASSPORT,
     "database": "node_react",
     "host": "127.0.0.1",
     "dialect": "mysql"
