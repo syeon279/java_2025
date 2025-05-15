@@ -38,7 +38,7 @@ router.post('/', isNotLoggedin, async ( req, res, next )=> {
 
 
 // 2. 로그인 
-// localhost:3065/user/login
+// localhost:3065/users/login
 router.post('/login', isNotLoggedin, async (req, res, next) => {
   //res.send('......로그인');
   passport.authenticate('local', (err, user, info) => {
@@ -64,7 +64,7 @@ router.post('/login', isNotLoggedin, async (req, res, next) => {
           attributes: { exclude :['password'] }, // password 제외하고 조회
           include: [{ 
             model: Post, 
-            attributes : ['id'] 
+            attributes : ['id']    
           }, {
             model: User, as :'Followings', // 사용자가 팔로우한 id
             attributes : ['id'] 
@@ -78,5 +78,208 @@ router.post('/login', isNotLoggedin, async (req, res, next) => {
   })(req, res, next);     // passport.authenticate()의 반환값을 즉시실행
 });
 
+// 3. 로그인한 경우 사용자의 정보 가져오기
+// GET : localhost:3065/users
+// 설정 : Header Cookie: connect.sid=Cookie 값으로 설정된 값
+// 로그인 후에 cookie에 id값 남아있음
+/*
+3-1. router.get 이용해서 - 사용자 정보 페이지 출력
+3-2. 1) 로그인 사용자 확인, 로그인한 유저 정보 반환
+*/
+router.get('/', async ( req, res, next ) => {
+  //res.send('사용자 정보 조회');
+  try{
+    // 1) 로그인 사용자 확인
+    // 2) 로그인한 유저 정보반환
+    if(req.user){
+      const fullUser = await User.findOne({
+        // 조건 : id로 검색
+        where : {id: req.user.id},
+        attributes : {exclude : ['password']},
+        include : [
+          {
+            model: Post, 
+            attributes : ['id'],
+          }, {
+            model: User, as : 'Followings',
+            attributes : ['id'],
+          }, {
+            model: User, as : 'Followers',
+            attributes : ['id'],
+          }
+        ]
+        // 비밀번호 빼고 결과 가져오기
+        // Post, Followers, Followings 
+      });
+      res.status(200).json(fullUser);
+    } else {
+      res.status(200).json(null); // 로그인 안되면 null 반환
+    }
+  } catch(error){
+    console.error(error);
+    next(error);
+  }
+});
 
+// 4. 로그아웃
+// Post : localhost:3065/users/logout   로그아웃 기능입니다 출력
+router.post('/logout', isLoggedin,  (req, res, next)=>{  
+  //res.send('로그아웃 기능입니다.');
+  req.logout(function(err){
+    if(err){
+      return next(err);
+    }
+    res.redirect('/'); // 로그아웃 후 리다이렉션
+  });
+  req.session.destroy();  // 현재 세션 삭제
+  res.send(' 로그아웃 ok '); // 로그아웃이 되면 문자열 반환
+});
+
+// 5. 닉네임 변경
+// Post : localhost:3065/users/nickname
+// 1. 로그인
+// 2. Header 쿠키설정
+// 3. Body - [raw] - json { "nickname" : "4444"}
+router.post('/nickname', isLoggedin, async (req, res, next)=>{
+  //res.send('닉네임 변경');
+  try{
+    await User.update({
+      nickname : req.body.nickname,
+    }, {
+      where : {id : req.user.id},
+    });
+    //res.status(200).json({});
+    res.status(200).send('닉네임 변경 ok');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }  
+});
+
+/////////////////////////////
+// 6. 팔로우
+// PATCH : localhost:3065/users/:userId/follow
+//          localhost:3065/users/1/follow
+// 1. 위의 경로로 router 작성
+// 2. 넘겨받은 아이디로 유저인지 select 구문 확인 / User.findOne
+// 3. 유저에 추가 user.addFollowers
+// 4. 상ㅇ태 표시
+router.patch('/:userId/follow', isLoggedin, async (req, res, next) => {
+  try{
+    const user = await User.findOne({
+      where : {id:req.params.userId}
+    });
+    if(!user){
+      res.status(403).send('유저를 확인해주세요.');
+    } else {
+      await user.addFollowers(req.user.id);
+      res.status(200).json({
+        UserId:parseInt(req.params.userId, 10), // 10진수
+      });
+    }
+  } catch(err){
+    console.error(err);
+    next(err);
+  }
+});
+
+// 7. 팔로잉 찾기 (내가 찾아보는 친구들)
+// GET : localhost:3065/users/followings 
+// 1. 위의 경로로 router 작성
+// 2. 넘겨받은 아이디로 유저 찾기
+// 3. 해당 유저의 팔로잉 찾기 user.getFollowings()
+router.get('/followings', isLoggedin , async (req, res, next)=>{
+  try{
+    const user = await User.findOne({
+      where: {id : req.user.id}
+    });
+    if(!user){
+      res.status(403).send('유저를 확인해주세요.');  // 403 금지된. 없는 유저
+    } else {
+      const followings = await user.getFollowings();
+      res.status(200).json({
+        followings
+      });
+    }
+  } catch(err){
+    console.error(err);
+    next(err);
+  }
+});
+
+// 8. 팔로우 찾기
+// Post : localhost:3065/users/followers
+// 1. 위의 경로로 router 작성
+// 2. 넘겨받은 아이디로 유저 찾기
+// 3. 유저에 추가 user.addFollowers
+// 4. 해당 유저의 팔로잉 찾기 user.getFollowings()
+router.get('/followers', isLoggedin , async (req, res, next)=>{
+  try{
+    const user = await User.findOne({
+      where: {id : req.user.id}
+    });
+    if(!user){
+      res.status(403).send('유저를 확인해주세요.');
+    } else {
+      const followers = await user.getFollowers();
+      res.status(200).json({
+       followers
+      }); 
+    }
+  } catch(err){
+    console.error(err);
+    next(err);
+  }
+});
+
+// 9. 언팔로우 
+// DELETE : localhost:3065/users/:userId/follow
+// 1. 위의 경로로 router 작성
+// 2. 언팔로우할 친구 찾기
+// 3. 팔로우 삭제 removeFollowers
+// 4. 상태 표시
+router.delete('/:userId/follow', isLoggedin, async (req, res, next) => {
+  try{ 
+    const user = await User.findOne({
+      where : {id:req.params.userId}
+    });
+    if(!user){
+      res.status(403).send('유저를 확인해주세요.');
+    } else {
+      await user.removeFollowers(req.user.id);
+      res.status(200).json({
+        UserId:parseInt(req.params.userId, 10), // 
+      });
+    }
+  } catch(err){
+    console.error(err); 
+    next(err);
+  }
+});
+
+// 10. 나를 팔로워한 사람 차단
+// Post : localhost:3065/users/:userId/follow
+// 1. 위의 경로로 router 작성
+// 2. 차단할 친구 찾기
+// 3. 팔로우 삭제 - removeFollowers
+// 4. 상태 표시
+router.delete('/follow/:userId', isLoggedin, async (req, res, next) => {
+  try{ 
+    const user = await User.findOne({
+      where : {id:req.params.userId}
+    });
+    if(!user){
+      res.status(403).send('유저를 확인해주세요.');
+    } else { 
+      await user.removeFollowings(req.user.id);
+      res.status(200).json({
+        UserId:parseInt(req.params.userId, 10), // 
+      }); 
+    }
+  } catch(err){
+    console.error(err); 
+    next(err);
+  }
+});
+///////////////////////////////
 module.exports = router;

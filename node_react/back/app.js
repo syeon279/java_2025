@@ -52,7 +52,7 @@ app.use(passport.session()); // 사용자 인증상태를 세션에 저장
 app.get('/', (req, res) => { res.send('Hello express'); });
 app.use('/api'    , basicRouter);  //## 추가2
 app.use('/test', testRouter);
-app.use('/user', user);
-
+app.use('/users', user);   
+ 
 // 6. 서버 설정 및 실행
 app.listen(3065, () => { console.log('server....'); });
