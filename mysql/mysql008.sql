@@ -74,4 +74,56 @@ select * from goal_status;
 select * from group_diary;
 select * from diary;
 select * from user_achiv;
+select * from template;
 
+delete from diary where user_id=9;
+delete from group_diary where id=3;
+
+update yl3group set current_turn=1 where group_id=1;
+update template set template_title="theme" where template_id=1;
+
+SHOW VARIABLES LIKE 'character_set_%';
+SHOW VARIABLES LIKE 'collation%';
+
+update goal set start_date='2025-04-28' where goal_id=9;
+update yl3group set create_date='2025-03-01' where group_id=4;
+delete from user_achiv where goal_id=16;
+
+drop database myBoard2;
+create database myBoard2;
+use myBoard2;
+show tables;
+select * from member;
+select * from board;
+desc member;
+desc board;
+
+delete from board where id=1;
+
+update diary set create_date='2025-05-06' where diary_id=4;
+update yl3group set last_turn_date='2025-05-07' where group_id=3;
+update yl3group set current_turn=1 where group_id=3;
+
+show databases;
+create database node_react;
+
+show databases;
+use node_react;
+show tables;
+select * from users;
+select * from posts;
+select * from hashtags;
+desc images;
+select * from users;
+
+
+
+use yoonlee3;
+select * from user;
+
+show databases;
+use yoonlee3;
+show tables; 
+
+update users set email = 'third@gmail.com' where id=4;
+select * from users;

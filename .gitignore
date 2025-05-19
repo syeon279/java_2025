@@ -2,3 +2,10 @@
 Servers/
 *.class
 apache-tomcat-9.0.102/wtpwebapps/ROOT/WEB-INF/web.xml
+node_react/front/.next/static/
+node_react/front/node_modules/
+SpringBoot/boot010_aws/target/
+SpringBoot/boot010_aws/src/main/resources/static/
+SpringBoot/boot007_image/target/
+SpringBoot/boot006_board_page/target/
+node_react/front/.next/cache/
