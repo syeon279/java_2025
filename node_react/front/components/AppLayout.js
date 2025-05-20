@@ -29,24 +29,52 @@ const AppLayout = ({ children }) => {
 
     let [logo, setLogo] = useState('..YoonSohyeon..'); // 2번째 - 함수를 통해서 재렌더링
     const changeLogo = () => { console.log('.....Tada!'); setLogo('★ Welcome! ☆'); };
+    const logo1 = "My react";
+    const changeLogo1 = "★ Welcome! ☆";
 
     // 2. login 상태 
     const [isLogin, setIsLogin] = useState(false);
 
     /////////////////////////////////// view
     return (<div>
-        <Menu mode="horizontal" items={items} />
+        {/* <Menu mode="horizontal" items={items} /> */}
+        <Menu mode="horizontal">
+            <Menu.Item key="/">
+                <Link href="/">LOGO</Link>
+            </Menu.Item>
+            <Menu.Item key="/profile">
+                <Link href="/profile">프로필</Link>
+            </Menu.Item>
+            <Menu.Item key="/signup">
+                <Link href="/signup">회원 가입</Link>
+            </Menu.Item>
+            <Menu.Item key="/search" style={{ marginLeft: 'auto' }}>
+                <Input.Search
+                    placeholder="input search text"
+                    enterButton
+                    style={{ verticalAlign: 'middle', width: 200 }}
+                />
+            </Menu.Item>
+        </Menu>
         <Row gutter={8}>
             <Col xs={24} md={4}>
                 {/* <h3 onClick={() => { console.log('....'); }} >{logo}</h3> */}
-                <h3 onClick={changeLogo} style={{ padding: '15px', textAlign: 'center' }}>{logo}</h3>
-                {isLogin ? <UserProfile /> : <LoginForm />}
+                {/*<h3 onClick={changeLogo} style={{ padding: '15px', textAlign: 'center' }}>{logo}</h3>*/}
+                {isLogin ?
+                    <h3 style={{ padding: '3%', textAlign: 'center' }}>{changeLogo1}</h3>
+                    :
+                    <h3 style={{ padding: '3%', textAlign: 'center' }}>{logo1}</h3>
+                }
+                {isLogin ?
+                    <UserProfile setIsLogin={setIsLogin} /> :
+                    <LoginForm setIsLogin={setIsLogin} />
+                }
             </Col>
-            <Col xs={24} md={16} style={{ backgroundColor: '#efefef', padding: '15px' }}> {children} </Col>
-            <Col xs={24} md={4}> <div style={{ textAlign: 'center', padding: '10px' }}><a href="https://thejoa.com" target="_black" rel="noreferrer noopener"> TheJoa </a>
+            <Col xs={24} md={16} style={{ backgroundColor: '#efefef', padding: '3%' }}> {children} </Col>
+            <Col xs={24} md={4}> <div style={{ textAlign: 'center', padding: '5%' }}><a href="https://thejoa.com" target="_black" rel="noreferrer noopener"> TheJoa </a>
                 copyrights. all reserved. </div> </Col>
         </Row>
-    </div>);
+    </div >);
 };
 AppLayout.propTypes = {
     children: PropTypes.node.isRequired // 태그들 필수 검사
