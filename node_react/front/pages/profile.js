@@ -8,7 +8,6 @@ import FollowList from '../components/FollowList';
 const Profile = () => {
     ////////////////// code
     const data = [{ nickname: 'Title1' }, { nickname: 'Title2' }, { nickname: 'Title3' }, { nickname: 'Title4' }];
-    console.log(data);
 
     ////////////////// view
     return (

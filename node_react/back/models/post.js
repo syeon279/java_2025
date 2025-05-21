@@ -1,26 +1,26 @@
-module.exports = (sequelize , DataTypes) => { 
+module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define('Post', {  // mysql posts 테이블- 자동 s
     //id 기본설정
     content: {
-      type: DataTypes.TEXT, 
-      allowNull:false
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, {
-    charset: 'utf8mb4', 
+    charset: 'utf8mb4',
     collate: 'utf8mb4_general_ci'  // 이모티콘
   });
 
-  Post.associate = (db) => { 
-    db.Post.hasMany(db.Image);     // post.addImages, post.getImages , 
+  Post.associate = (db) => {
+    db.Post.hasMany(db.Images);     // post.addImages, post.getImages , 
     db.Post.hasMany(db.Comment);   // post.addComments, post.getComments
-    db.Post.belongsTo( db.User );  // post.addUsers, post.getUsers  , post.setUsers 
+    db.Post.belongsTo(db.User);  // post.addUsers, post.getUsers  , post.setUsers 
     db.Post.belongsTo(db.Post, { as: 'Retweet' });  //post.addRetweet   
     db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });  // post.addHashtags
-    db.Post.belongsToMany(db.User   , { through: 'Like' , as:'Likers'}) // post.addLikers ,post.removeLikers
+    db.Post.belongsToMany(db.User, { through: 'Like', as: 'Likers' }) // post.addLikers ,post.removeLikers
   };
-  
+
   return Post;
-  
+
 };
 
 /*

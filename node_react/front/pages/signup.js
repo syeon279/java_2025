@@ -6,7 +6,7 @@ import { Form, Button, Input, Checkbox } from 'antd';
 import userInput from '../hooks/userInput';
 import styled from 'styled-components';
 
-const ErrorMessage = styled.div`color:blue`;
+const ErrorMessage = styled.div`color:blue;`;
 
 const Signup = () => {
     ///////////////// code

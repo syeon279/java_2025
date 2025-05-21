@@ -1,16 +1,25 @@
 import React from 'react';
-import { Card, Avatar, Button, List, Comment, Popover } from 'antd';
+import { Card, Avatar, Button, List, Popover } from 'antd';
 import { EllipsisOutlined, HeartOutlined, MessageOutlined, RetweetOutlined } from '@ant-design/icons';
+import Comment from '../components/Comment';
+import PostImages from './PostImages';
 
-const PostCard = () => {
+const PostCard = ({ post }) => {
     return (
         <div style={{ margin: '3%' }}>
             <Card
-                cover={<img alt="expmple" src="https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp"></img>}
+                cover={
+                    post.Images && post.Images.length > 0 &&
+                    <PostImages images={post.Images} />
+                }
                 actions={[
                     <HeartOutlined />,
                     <RetweetOutlined />,
-                    <MessageOutlined />,
+                    <Popover content={(
+                        <Comment />
+                    )}>
+                        <MessageOutlined />
+                    </Popover>,
                     <Popover content={(
                         <Button.Group>
                             <Button>수정하기</Button>
@@ -18,11 +27,15 @@ const PostCard = () => {
                         </Button.Group>
                     )}  >
                         <EllipsisOutlined />
-                    </Popover>
+                    </Popover>,
                 ]}
             >
-
+                <Card.Meta avatar={<Avatar>{post.User.nickname[0]}</Avatar>} title={post.User.nickname} description={post.content} />
             </Card>
+            <Comment />
+            <div>
+                0 댓글
+            </div>
         </div>
     );
 };
