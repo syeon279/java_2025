@@ -4,7 +4,7 @@ import { Avatar, Card, Button } from 'antd';
 import styled from 'styled-components';
 
 import { logoutAction } from '../reducers/user'; //#1. redux
-import { useDispatch } from 'react-redux';  //#2. redux
+import { useDispatch, useSelector } from 'react-redux';  //#2. redux
 
 const ButtonWrapper = styled.div`
     margin-top:10%;
@@ -12,13 +12,16 @@ const ButtonWrapper = styled.div`
 
 //const UserProfile = ({ setIsLogin }) => {
 const UserProfile = () => {  //#3. redux
-    ///////////////////////////////////////////// code
+
+    const { logOutLoading, user } = useSelector((state) => state.user); // ##redux 2
+
+    //              code
     const dispatch = useDispatch();  //#4. redux
     // 로그아웃버튼을 누르면 로그아웃되게 만들기
     const onLogOut = useCallback(() => {
         dispatch(logoutAction);  //#5. redux
     }, []);
-    ///////////////////////////////////////////// view
+    //               view
     return (
         <Card
             actions={[
@@ -32,7 +35,7 @@ const UserProfile = () => {  //#3. redux
                 title="TheJoa"
             />
             <ButtonWrapper>
-                <Button onClick={onLogOut} >로그아웃</Button>
+                <Button onClick={onLogOut} loading={logOutLoading}>로그아웃</Button>
             </ButtonWrapper>
         </Card>
 

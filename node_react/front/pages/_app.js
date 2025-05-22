@@ -16,7 +16,7 @@ const TheJoa = ({ Component, ...rest }) => {
                 <meta charSet="utf-8"></meta>
                 <title>TheJoa</title>
             </Head>
-            <Component></Component>
+            <Component {...pageProps} />
         </Provider>);
 };
 TheJoa.propTypes = {

@@ -36,7 +36,7 @@ const AppLayout = ({ children }) => {
 
     // 2. login 상태 
     //const [isLogin, setIsLogin] = useState(false);
-    const { isLogin } = useSelector((state) => state.user); // ##redux 2
+    const { user } = useSelector((state) => state.user); // ##redux 2
 
     // Styled
     const stylebg = useMemo(() => ({ backgroundColor: '#F8FAFC', padding: '3%' }), []);
@@ -48,7 +48,7 @@ const AppLayout = ({ children }) => {
         <Row gutter={8}>
             <Col xs={24} md={4}>
                 <h3 onClick={changeLogo} style={{ padding: '15px', textAlign: 'center' }}>{logo}</h3>
-                {isLogin ?
+                {user ?
                     <UserProfile /> :
                     <LoginForm />
                 }

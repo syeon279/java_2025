@@ -49,7 +49,7 @@ const PostImages = ({ images }) => {
             <div>
                 <img role="presentation" src={images[0].src} alt={images[0].src} width="90%" onClick={onZoom} />
                 <div role="presentation"
-                    style={{ display: 'inline-block', width: '10%', textAlign: 'center', verticalAlign: 'middle' }} onClick={onZoom}>
+                    style={{ display: 'inline-block', width: '10%', textAlign: 'center', verticalAlign: 'middle' }}>
                     <PlusSquareFilled />
                     <br />
                     {images.length - 1}개의 사진 더보기
