@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';  //#2/ redux - useDispat
 //const LoginForm = ({ setIsLogin }) => {
 const LoginForm = () => { //#3. redux
     const { logInLoading } = useSelector((state) => state.user);
-    // const { logInLoading } = useSelector(state => state.user);
     console.log('...........logInLoading? : ' + logInLoading);
     const [id, onchageId] = userInput('');
     const [password, onChagePassword] = userInput('');

@@ -7,11 +7,11 @@ import PostForm from '../components/PostForm';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
-    const { isLogin } = useSelector(state => state.user);
+    const { user } = useSelector(state => state.user);
     const { mainPosts } = useSelector(state => state.post);
     return (
         <AppLayout>
-            {isLogin && <PostForm />}
+            {user && <PostForm />}
             {mainPosts.map((post) => {
                 return (
                     <PostCard post={post} key={post.id} />

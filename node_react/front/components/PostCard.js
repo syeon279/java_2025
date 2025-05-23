@@ -1,15 +1,27 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Card, Avatar, Button, List, Popover, Comment } from 'antd';
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons';
 import CommentForm from './CommentForm';
 import PostImages from './PostImages';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch, } from 'react-redux';
+
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 const PostCard = ({ post }) => {
-    ////////////////////////////////////// code
     const id = useSelector((state) => state.user.user?.id);
-    //console.log(id);
+    const { removePostLoading, removePostDone } = useSelector(state => state.post);
+    const dispatch = useDispatch();
 
+    const onRemoveClick = useCallback(() => {
+        dispatch({
+            type: REMOVE_POST_REQUEST,
+            data: {
+                postId: post.id
+            }
+        })
+    });
+
+    //               code
     // 1. 좋아요 - false
     const [like, setLike] = useState(false);
     const onClickLike = useCallback((e) => {
@@ -22,10 +34,16 @@ const PostCard = ({ post }) => {
         setCommentOpen((prev) => (!prev));
     })
 
+    useEffect(() => {
+        console.log('removePostDone : ' + removePostDone);
+        if (removePostDone) { console.log('게시글을 삭제했습니다.'); }
+    }, [removePostDone]);
     // styled
     const styleCommentFrom = useMemo(() => ({
         margin: '3%'
     }), []);
+
+
     ////////////////////////////////////// view
     return (
         <div style={styleCommentFrom}>
@@ -47,7 +65,7 @@ const PostCard = ({ post }) => {
                             {id && id === post.User.id ?
                                 (<>
                                     <Button>수정하기</Button>,
-                                    <Button type='primary'>삭제하기</Button>
+                                    <Button type='primary' loading={removePostLoading} onClick={onRemoveClick}>삭제하기</Button>
                                 </>)
                                 :
                                 <Button type='danger'>신고</Button>
@@ -69,7 +87,7 @@ const PostCard = ({ post }) => {
                         <CommentForm post={post} />
                         {/* 댓글 리스트 */}
                         <List
-                            header={`댓글`}
+                            header={`${post.Comments.length} 댓글`}
                             itemLayout='horizontal'
                             dataSource={post.Comments}
                             renderItem={

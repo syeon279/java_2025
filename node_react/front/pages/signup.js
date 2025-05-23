@@ -8,8 +8,21 @@ import styled from 'styled-components';
 
 const ErrorMessage = styled.div`color:blue;`;
 
+// 1. SIGN_UP_REQUEST
+import { signupAction } from '../reducers/user';
+import { SIGN_UP_REQUEST } from '../reducers/user';
+// 2. dispatch, useSelctor
+import { useDispatch, useSelector } from 'react-redux';
+
+
 const Signup = () => {
-    ///////////////// code
+    // 3. useSelector 이용해서 - signUpLoading 가져오기
+    const { signUpLoading } = useSelector((state) => state.user);
+
+    // 4. dispatch 선언
+    const dispatch = useDispatch();
+
+    //          code
     const [id, onChangeId] = userInput('');
     const [nickname, onChangeNickname] = userInput('');
     const [password, onChangePass] = userInput('');
@@ -35,8 +48,17 @@ const Signup = () => {
         if (!check) {
             setCheckError(true);
         }
+
+        // 6. dispatch
+        return dispatch({
+            type: SIGN_UP_REQUEST,
+            data: { id, password, nickname },
+        });
+        //dispatch(signupAction({ id, password }))
     }, [id, password, password_re, check]);
-    ///////////////// view
+    console.log('........SIGN_UP_REQUEST : ' + SIGN_UP_REQUEST);
+
+    //          view
     return (
         <>
             <Head>
@@ -72,13 +94,15 @@ const Signup = () => {
                         {checkError && <ErrorMessage>약관에 동의해주세요.</ErrorMessage>}
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary"
+                            htmlType="submit"
+                            loading={signUpLoading}
+                        >
                             회원가입
                         </Button>
                     </Form.Item>
 
                 </Form>
-
             </AppLayout >
         </>
     );
