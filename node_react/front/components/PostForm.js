@@ -27,11 +27,11 @@ const PostForm = () => {
 
     // 4. dispatch - submit 했을 때 addPosts (글)
     const dispatch = useDispatch();
-    const onFormSubmit = useCallback((text) => {
-        console.log(text);
+    const onFormSubmit = useCallback((values) => {
+        console.log(values);
         return dispatch({
             type: ADD_POST_REQUEST,
-            data: { text }
+            data: values
         });
     }, [text]);
 
@@ -52,7 +52,6 @@ const PostForm = () => {
         >
             <Form.Item label='' name='text'>
                 <Input.TextArea placeholder='게시하실 글을 입력하세요.'
-                    name='text'
                     value={text}
                     onChange={onChangText}
                 />

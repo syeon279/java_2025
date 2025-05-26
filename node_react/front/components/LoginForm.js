@@ -1,25 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import Link from 'next/Link';
 import userInput from '../hooks/userInput';
 
-import { loginAction } from '../reducers/user';  //#1. redux
+import { LOG_IN_REQUEST } from '../reducers/user';  //#1. redux
 import { useDispatch, useSelector } from 'react-redux';  //#2/ redux - useDispatch 
 
 
 //const LoginForm = ({ setIsLogin }) => {
 const LoginForm = () => { //#3. redux
-    const { logInLoading } = useSelector((state) => state.user);
-    console.log('...........logInLoading? : ' + logInLoading);
-    const [id, onchageId] = userInput('');
+    const { logInLoading, logInError } = useSelector((state) => state.user);
+    console.log('...........LoginForm/logInLoading? : ' + logInLoading);
+    const [email, onchageEmail] = userInput('');
     const [password, onChagePassword] = userInput('');
 
     const dispatch = useDispatch();  //#4. redux 
 
-    const onSubmitForm = useCallback(() => { // 컴포넌트가 처음 렌더링될 때 한번만 생성
-        dispatch(loginAction({ id, password }));  //#5. redux
-    }, [id, password]); // is, pass값이 변경 될 때 = 의존성 배열
+    useEffect((logInError) => {
+        if (logInError) {
+            alert(logInError);
+        }
+    }, [logInError]);
+
+    const onSubmitForm = useCallback(() => {
+        dispatch({
+            type: LOG_IN_REQUEST,
+            data: { email, password }
+        });  //#5. redux
+    }, [email, password]);
 
     //view
     return (
@@ -34,7 +43,7 @@ const LoginForm = () => { //#3. redux
                     },
                 ]}
             >
-                <Input name="id" value={id} onChange={onchageId} required />
+                <Input name="email" value={email} onChange={onchageEmail} required />
             </Form.Item>
             <Form.Item
                 label="Password"

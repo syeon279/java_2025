@@ -1,36 +1,14 @@
 // [reducers] - post.js
 import shortid from 'shortid';
+import produce from 'immer';
+import { faker } from '@faker-js/faker';
+faker.seed(123);
+import axios from 'axios';
 
 export const initialState = {
-    mainPosts: [{
-        id: 1,
-        User: { id: 2, nickname: 'YSH' },
-        content: '첫번째 게시글 #node #react',
-        Images: [
-            { id: shortid.generate(), src: 'https://www.fitpetmall.com/wp-content/uploads/2022/11/shutterstock_196467692-1024x819.jpg' },
-            { id: shortid.generate(), src: 'https://www.gklibrarykor.com/wp-content/uploads/2024/08/1_%EA%B0%95%EC%95%84%EC%A7%80%EC%9D%98-%EC%8B%A0%EC%B2%B4%EC%A0%81-%ED%8A%B9%EC%A7%95.jpg' },
-            { id: shortid.generate(), src: 'https://banulpattern.com/cdn/shop/products/IMG_7557.jpg?v=1636425784&width=1946' },
-        ],
-        Comments: [{
-            id: shortid.generate(),
-            User: {
-                id: shortid.generate(),
-                nickname: 'Dan'
-            },
-            content: 'ㅋㅋㅋ'
-        }, {
-            User: {
-                id: shortid.generate(),
-                nickname: 'sen'
-            },
-            content: 'Hi'
-        }]
-
-    }],
-    //postAdd: false,
-    //imagePaths: [],
+    mainPosts: [],
     /////////////////////////// 추가 START
-    //postAdd: false,
+    //postAdd:false,
     imagePaths: [],
     hasMorePosts: true,
 
@@ -54,9 +32,9 @@ export const initialState = {
 
 }
 
-export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
-export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
-export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
@@ -75,7 +53,7 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 const dummyPost = (data) => ({
     //id: 2,
     id: shortid.generate(),
-    content: data,
+    content: data.text,
     User: {
         id: 1,
         nickname: 'Dan'
@@ -94,84 +72,113 @@ const dummyComment = (data) => ({
         nickname: 'Dan'
     }
 })
+// 10개씩 무한스크롤 부르는 메서드
+export const generateDummyPost = (number) =>
+    Array(number)
+        .fill()
+        .map(() => ({
+            id: shortid.generate(),
+            User: { id: shortid.generate(), nickname: faker.internet.userName() },
+            content: faker.lorem.paragraph(),
+            Images: [{ src: faker.image.avatar() }],
+            Comments: [
+                {
+                    id: shortid.generate(),
+                    User: { id: shortid.generate(), nickname: faker.internet.userName() },
+                    content: faker.lorem.sentence(),
+                },
+            ],
+        }));
 
-export default (state = initialState, action) => {
+
+
+///
+const reducer = (state = initialState, action) => produce(state, (draft) => {
     switch (action.type) {
+        // ADD
+        case LOAD_POSTS_REQUEST:
+            draft.loadPostsLoading = true;
+            draft.loadPostsDone = false;
+            draft.loadPostsError = null;
+            break;
+
+        case LOAD_POSTS_SUCCESS:
+            draft.loadPostsLoading = false;
+            draft.loadPostsDone = true;
+            draft.mainPosts = action.data.concat(draft.mainPosts);
+            console.log('........mainPosts : ', action.data.concat(draft.mainPosts).length);
+            draft.hasMorePosts = draft.mainPosts.length < 50; // 게시글 50개 부근 보이게 체크
+            break;
+
+        case LOAD_POSTS_FAILURE:
+            draft.loadPostsLoading = false;
+            draft.loadPostsError = action.error;
+
+        // ADD
         case ADD_POST_REQUEST:
-            return {
-                ...state,
-                addPostLoading: true,
-                addPostDone: false,
-            }
+            draft.addPostLoading = true;
+            draft.addPostDone = false;
+            draft.addPostError = null;
+            break;
+
         case ADD_POST_SUCCESS:
-            console.log('ADD_POST_SUCCESS : ' + action.data.content)
-            return {
-                ...state,
-                mainPosts: [dummyPost(action.data.content), ...state.mainPosts],
-                addPostLoading: false,
-                addPostDone: true,
-            }
+            draft.addPostLoading = false;
+            draft.addPostDone = true;
+            draft.mainPosts.unshift(dummyPost(action.data));
+            break;
+
         case ADD_POST_FAILURE:
-            return {
-                ...state,
-                addPostLoading: false,
-                addPostError: action.error,
-            }
+            draft.addPostLoading = false;
+            draft.addPostError = action.error;
+            break;
 
-        //      REMOVE
+        ////        REMOVE
         case REMOVE_POST_REQUEST:
-            return {
-                ...state,
-                removePostLoading: true,
-                removePostDone: false,
-                removePostError: null,
-            }
-        case REMOVE_POST_SUCCESS:
-            console.log('REMOVE_POST_SUCCESS : ', action.data)
-            return {
-                ...state,
-                mainPosts: state.mainPosts.filter(v => v.id !== action.data.postId),
-                removePostLoading: false,
-                removePostDone: true,
-            }
-        case REMOVE_POST_FAILURE:
-            return {
-                ...state,
-                removePostLoading: false,
-                removePostError: action.error,
-            }
+            draft.removePostLoading = true;
+            draft.removePostDone = false;
+            draft.removePostError = null;
+            break;
 
-        //      comment
+        case REMOVE_POST_SUCCESS:
+            draft.mainPosts = draft.mainPosts.filter(v => v.id !== action.data.postId);
+            draft.removePostLoading = false;
+            draft.removePostDone = true;
+            break;
+
+        case REMOVE_POST_FAILURE:
+            draft.removePostLoading = false;
+            draft.removePostError = action.error;
+            break;
+
+        ///         COMMENT
         case ADD_COMMENT_REQUEST:
-            return {
-                ...state,
-                addCommentLoading: true,
-                addCommentDone: false,
-            }
+            draft.addCommentLoading = true;
+            draft.addCommentDone = false;
+            draft.addCommentError = null;
+            break;
+
         case ADD_COMMENT_SUCCESS:
             //1. postIndex 해당글 가져오기
-            const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.postId);
-            const post = { ...state.mainPosts[postIndex] };
-            //2. post.Comment
-            post.Comments = [dummyComment(action.data.content), ...post.Comments];
-            //3. mainPosts 추가
-            const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = post;
-            return {
-                ...state,
-                mainPosts,
-                addCommentLoading: false,
-                addCommentDone: true,
-            }
-        case ADD_COMMENT_FAILURE:
-            return {
-                ...state,
-                addCommentLoading: false,
-                addCommentError: action.error,
-            }
+            const post = draft.mainPosts.find((v) => v.id === action.data.postId);
 
+            //2. post.Comment
+            post.Comments.unshift(dummyComment(action.data.content));
+            draft.addCommentLoading = false;
+            draft.addCommentDone = true;
+            break;
+
+        case ADD_COMMENT_FAILURE:
+            draft.addCommentLoading = false;
+            draft.addCommentError = action.error;
+            break;
+
+        ///
         default: {
-            return { ...state, }
+            break;
         }
     }
-}
+
+
+});
+
+export default reducer;

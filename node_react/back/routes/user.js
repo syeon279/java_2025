@@ -2,22 +2,22 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const {User, Post} = require('../models');
-const { isLoggedin, isNotLoggedin } = require('./middlewares');
+const { User, Post } = require('../models');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 // 1. 회원가입
 // post : localhost:3065/user
 // 설정 : Header Content-Type : application/json
 // 설정2 : Body    -[ Raw ] - [Json]
 // { "email" : "test@gmail.com", "nickname" : "test", "password" : "test"}
-router.post('/', isNotLoggedin, async ( req, res, next )=> {
-  try{
+router.post('/', isNotLoggedIn, async (req, res, next) => {
+  try {
     //res.send('......회원가입');
 
     // 1. 이메일 중복 확인  sql - select : 객체.findOne
-    const user = await User.findOne({where : { email : req.body?.email, } });
+    const user = await User.findOne({ where: { email: req.body?.email, } });
     // 2. 결과 확인 - 존재하면 이미 사용 중인 아이디입니다.
-    if(user) {
+    if (user) {
       return res.status(403).send('이미 사용 중인 아이디입니다.');
     }
     // 3. 비밀번호 암호화
@@ -39,11 +39,11 @@ router.post('/', isNotLoggedin, async ( req, res, next )=> {
 
 // 2. 로그인 
 // localhost:3065/users/login
-router.post('/login', isNotLoggedin, async (req, res, next) => {
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
   //res.send('......로그인');
   passport.authenticate('local', (err, user, info) => {
     // 1. err 오류 처리
-    if(err){
+    if (err) {
       console.errror(err);
       return next(err);
     }
@@ -52,29 +52,29 @@ router.post('/login', isNotLoggedin, async (req, res, next) => {
       return res.status(401).send(info.reaseon);
     }
     // 3. 사용자 세션에 등록 
-    return req.logIn( user, async (loginErr)=> {
-        // 3-1. 로그인시 에러 발생
-        if(loginErr){
-          console.errror(loginErr);
-          return next(loginErr);
-        }
-        // 3-2. 사용자 정보 조회 (sql-join)
-        const findUser = await User.findOne({
-          where : {id : user.id},     // 아이디를 이용해서 정보 조회
-          attributes: { exclude :['password'] }, // password 제외하고 조회
-          include: [{ 
-            model: Post, 
-            attributes : ['id']    
-          }, {
-            model: User, as :'Followings', // 사용자가 팔로우한 id
-            attributes : ['id'] 
-          }, {
-            model: User,  as :'Followers', // 사용자를 팔로우한 id
-            attributes : ['id'] 
-          }],
-        });
-        return res.status(200).json(findUser);
-    } );
+    return req.logIn(user, async (loginErr) => {
+      // 3-1. 로그인시 에러 발생
+      if (loginErr) {
+        console.errror(loginErr);
+        return next(loginErr);
+      }
+      // 3-2. 사용자 정보 조회 (sql-join)
+      const findUser = await User.findOne({
+        where: { id: user.id },     // 아이디를 이용해서 정보 조회
+        attributes: { exclude: ['password'] }, // password 제외하고 조회
+        include: [{
+          model: Post,
+          attributes: ['id']
+        }, {
+          model: User, as: 'Followings', // 사용자가 팔로우한 id
+          attributes: ['id']
+        }, {
+          model: User, as: 'Followers', // 사용자를 팔로우한 id
+          attributes: ['id']
+        }],
+      });
+      return res.status(200).json(findUser);
+    });
   })(req, res, next);     // passport.authenticate()의 반환값을 즉시실행
 });
 
@@ -86,26 +86,26 @@ router.post('/login', isNotLoggedin, async (req, res, next) => {
 3-1. router.get 이용해서 - 사용자 정보 페이지 출력
 3-2. 1) 로그인 사용자 확인, 로그인한 유저 정보 반환
 */
-router.get('/', async ( req, res, next ) => {
+router.get('/', async (req, res, next) => {
   //res.send('사용자 정보 조회');
-  try{
+  try {
     // 1) 로그인 사용자 확인
     // 2) 로그인한 유저 정보반환
-    if(req.user){
+    if (req.user) {
       const fullUser = await User.findOne({
         // 조건 : id로 검색
-        where : {id: req.user.id},
-        attributes : {exclude : ['password']},
-        include : [
+        where: { id: req.user.id },
+        attributes: { exclude: ['password'] },
+        include: [
           {
-            model: Post, 
-            attributes : ['id'],
+            model: Post,
+            attributes: ['id'],
           }, {
-            model: User, as : 'Followings',
-            attributes : ['id'],
+            model: User, as: 'Followings',
+            attributes: ['id'],
           }, {
-            model: User, as : 'Followers',
-            attributes : ['id'],
+            model: User, as: 'Followers',
+            attributes: ['id'],
           }
         ]
         // 비밀번호 빼고 결과 가져오기
@@ -115,45 +115,47 @@ router.get('/', async ( req, res, next ) => {
     } else {
       res.status(200).json(null); // 로그인 안되면 null 반환
     }
-  } catch(error){
+  } catch (error) {
     console.error(error);
     next(error);
   }
 });
 
-// 4. 로그아웃
-// Post : localhost:3065/users/logout   로그아웃 기능입니다 출력
-router.post('/logout', isLoggedin,  (req, res, next)=>{  
-  //res.send('로그아웃 기능입니다.');
-  req.logout(function(err){
-    if(err){
-      return next(err);
-    }
-    res.redirect('/'); // 로그아웃 후 리다이렉션
-  });
-  req.session.destroy();  // 현재 세션 삭제
-  res.send(' 로그아웃 ok '); // 로그아웃이 되면 문자열 반환
-});
+//4. 로그아웃
+// POST : localhost:3065/user/logout    로그아웃기능입니다 출력
+router.post('/logout', isLoggedIn, (req, res, next) => {  // 사용자가 로그인상태면  로그아웃이 실행되도록
 
+  req.logout(function (err) {
+    if (err) { return next(err); }
+
+    req.session.destroy((err) => {   ///  
+      if (err) {
+        return next(err);
+      }
+      res.send('ok'); // 로그아웃 성공 응답
+    });
+  });
+
+});
 // 5. 닉네임 변경
 // Post : localhost:3065/users/nickname
 // 1. 로그인
 // 2. Header 쿠키설정
 // 3. Body - [raw] - json { "nickname" : "4444"}
-router.post('/nickname', isLoggedin, async (req, res, next)=>{
+router.post('/nickname', isLoggedIn, async (req, res, next) => {
   //res.send('닉네임 변경');
-  try{
+  try {
     await User.update({
-      nickname : req.body.nickname,
+      nickname: req.body.nickname,
     }, {
-      where : {id : req.user.id},
+      where: { id: req.user.id },
     });
     //res.status(200).json({});
     res.status(200).send('닉네임 변경 ok');
   } catch (err) {
     console.error(err);
     next(err);
-  }  
+  }
 });
 
 /////////////////////////////
@@ -164,20 +166,20 @@ router.post('/nickname', isLoggedin, async (req, res, next)=>{
 // 2. 넘겨받은 아이디로 유저인지 select 구문 확인 / User.findOne
 // 3. 유저에 추가 user.addFollowers
 // 4. 상ㅇ태 표시
-router.patch('/:userId/follow', isLoggedin, async (req, res, next) => {
-  try{
+router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
+  try {
     const user = await User.findOne({
-      where : {id:req.params.userId}
+      where: { id: req.params.userId }
     });
-    if(!user){
+    if (!user) {
       res.status(403).send('유저를 확인해주세요.');
     } else {
       await user.addFollowers(req.user.id);
       res.status(200).json({
-        UserId:parseInt(req.params.userId, 10), // 10진수
+        UserId: parseInt(req.params.userId, 10), // 10진수
       });
     }
-  } catch(err){
+  } catch (err) {
     console.error(err);
     next(err);
   }
@@ -188,12 +190,12 @@ router.patch('/:userId/follow', isLoggedin, async (req, res, next) => {
 // 1. 위의 경로로 router 작성
 // 2. 넘겨받은 아이디로 유저 찾기
 // 3. 해당 유저의 팔로잉 찾기 user.getFollowings()
-router.get('/followings', isLoggedin , async (req, res, next)=>{
-  try{
+router.get('/followings', isLoggedIn, async (req, res, next) => {
+  try {
     const user = await User.findOne({
-      where: {id : req.user.id}
+      where: { id: req.user.id }
     });
-    if(!user){
+    if (!user) {
       res.status(403).send('유저를 확인해주세요.');  // 403 금지된. 없는 유저
     } else {
       const followings = await user.getFollowings();
@@ -201,7 +203,7 @@ router.get('/followings', isLoggedin , async (req, res, next)=>{
         followings
       });
     }
-  } catch(err){
+  } catch (err) {
     console.error(err);
     next(err);
   }
@@ -213,20 +215,20 @@ router.get('/followings', isLoggedin , async (req, res, next)=>{
 // 2. 넘겨받은 아이디로 유저 찾기
 // 3. 유저에 추가 user.addFollowers
 // 4. 해당 유저의 팔로잉 찾기 user.getFollowings()
-router.get('/followers', isLoggedin , async (req, res, next)=>{
-  try{
+router.get('/followers', isLoggedIn, async (req, res, next) => {
+  try {
     const user = await User.findOne({
-      where: {id : req.user.id}
+      where: { id: req.user.id }
     });
-    if(!user){
+    if (!user) {
       res.status(403).send('유저를 확인해주세요.');
     } else {
       const followers = await user.getFollowers();
       res.status(200).json({
-       followers
-      }); 
+        followers
+      });
     }
-  } catch(err){
+  } catch (err) {
     console.error(err);
     next(err);
   }
@@ -238,21 +240,21 @@ router.get('/followers', isLoggedin , async (req, res, next)=>{
 // 2. 언팔로우할 친구 찾기
 // 3. 팔로우 삭제 removeFollowers
 // 4. 상태 표시
-router.delete('/:userId/follow', isLoggedin, async (req, res, next) => {
-  try{ 
+router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
+  try {
     const user = await User.findOne({
-      where : {id:req.params.userId}
+      where: { id: req.params.userId }
     });
-    if(!user){
+    if (!user) {
       res.status(403).send('유저를 확인해주세요.');
     } else {
       await user.removeFollowers(req.user.id);
       res.status(200).json({
-        UserId:parseInt(req.params.userId, 10), // 
+        UserId: parseInt(req.params.userId, 10), // 
       });
     }
-  } catch(err){
-    console.error(err); 
+  } catch (err) {
+    console.error(err);
     next(err);
   }
 });
@@ -263,21 +265,21 @@ router.delete('/:userId/follow', isLoggedin, async (req, res, next) => {
 // 2. 차단할 친구 찾기
 // 3. 팔로우 삭제 - removeFollowers
 // 4. 상태 표시
-router.delete('/follow/:userId', isLoggedin, async (req, res, next) => {
-  try{ 
+router.delete('/follow/:userId', isLoggedIn, async (req, res, next) => {
+  try {
     const user = await User.findOne({
-      where : {id:req.params.userId}
+      where: { id: req.params.userId }
     });
-    if(!user){
+    if (!user) {
       res.status(403).send('유저를 확인해주세요.');
-    } else { 
+    } else {
       await user.removeFollowings(req.user.id);
       res.status(200).json({
-        UserId:parseInt(req.params.userId, 10), // 
-      }); 
+        UserId: parseInt(req.params.userId, 10), // 
+      });
     }
-  } catch(err){
-    console.error(err); 
+  } catch (err) {
+    console.error(err);
     next(err);
   }
 });

@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import AppLayout from '../components/AppLayout';
-//import 'antd/dist/antd.css';
 import Head from 'next/head';
 import { Form, Button, Input, Checkbox } from 'antd';
 import userInput from '../hooks/userInput';
 import styled from 'styled-components';
+import Router from 'next/router';
 
 const ErrorMessage = styled.div`color:blue;`;
 
@@ -14,16 +14,34 @@ import { SIGN_UP_REQUEST } from '../reducers/user';
 // 2. dispatch, useSelctor
 import { useDispatch, useSelector } from 'react-redux';
 
-
+//---------------------------------
 const Signup = () => {
     // 3. useSelector 이용해서 - signUpLoading 가져오기
-    const { signUpLoading } = useSelector((state) => state.user);
+    const { signUpLoading, signUpDone, signupError, user } = useSelector((state) => state.user);
 
     // 4. dispatch 선언
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (user && user.id) {
+            Router.replace('/');
+        }
+    }, [user && user.id]);
+
+    useEffect(() => {
+        if (signUpDone) {
+            Router.replace('/');
+        }
+    }, [signUpDone]);
+
+    useEffect(() => {
+        if (signupError) {
+            Router.replace('/');
+        }
+    }, [signupError]);
+
     //          code
-    const [id, onChangeId] = userInput('');
+    const [email, onChangeEmail] = userInput('');
     const [nickname, onChangeNickname] = userInput('');
     const [password, onChangePass] = userInput('');
 
@@ -52,13 +70,13 @@ const Signup = () => {
         // 6. dispatch
         return dispatch({
             type: SIGN_UP_REQUEST,
-            data: { id, password, nickname },
+            data: { email, password, nickname },
         });
-        //dispatch(signupAction({ id, password }))
-    }, [id, password, password_re, check]);
+    }, [email, password, password_re, check]);
     console.log('........SIGN_UP_REQUEST : ' + SIGN_UP_REQUEST);
 
     //          view
+
     return (
         <>
             <Head>
@@ -68,9 +86,9 @@ const Signup = () => {
             <AppLayout>
                 <Form layout='vertical' style={{ padding: '3%' }} onFinish={onSubmitForm}>
                     <Form.Item>
-                        <label htmlFor='id'>아이디</label>
-                        <Input placeholder='youremail@email.com' id='id' name='id'
-                            value={id} onChange={onChangeId} required />
+                        <label htmlFor='email'>아이디</label>
+                        <Input placeholder='youremail@email.com' id='email' name='email'
+                            value={email} onChange={onChangeEmail} required />
                     </Form.Item>
                     <Form.Item>
                         <label htmlFor='nickname'>닉네임</label>

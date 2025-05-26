@@ -1,5 +1,6 @@
 import { func } from 'prop-types';
-import { all, put, delay, fork, takeLatest } from 'redux-saga/effects'  //#1
+import { all, put, delay, fork, takeLatest, call, actionChannel } from 'redux-saga/effects'  //#1
+import axios from 'axios';
 import {
     LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
@@ -13,16 +14,15 @@ import {
 
 ///// step3) 
 function loginApi(data) {   //★   function* (X)
-    return axios.POST('/user/login', data);
+    return axios.post('/users/login', data);
 }
 function* login(action) {
-    //const result = yield call( loginApi, action.data ); 처리함수, 처리파라미터
     try {
-
-        yield delay(1000);
+        const result = yield call(loginApi, action.data);
+        //yield delay(500);
         yield put({
             type: LOG_IN_SUCCESS,
-            data: action.data   // result.data
+            data: result.data   // result.data
         })
 
         console.log('........ login success');
@@ -31,45 +31,43 @@ function* login(action) {
             type: LOG_IN_FAILURE,
             data: error.response.data
         })
-
         console.log('........ login error');
     }
 }
 
 
 
-//--
+//logout
 function logoutApi() {   //★   function* (X)
-    return axios.POST('/user/logout');
+    return axios.post('/users/logout');
 }
 function* logout() {
-    //const result = yield call( logoutApi); 처리함수, 처리파라미터
     try {
-        yield delay(1000);
+        const result = yield call(logoutApi);
         yield put({
             type: LOG_OUT_SUCCESS,
         })
     } catch (error) {
         yield put({
             type: LOG_OUT_FAILURE,
-            data: error.response.data
+            error: error.response?.data || error.message || 'Unknown error',
         })
     }
 }
 
 
 
-// siguup
-function signUpApi() {   //★   function* (X)
-    return axios.POST('/user/');
+// siguUp
+function signUpApi(data) {   //★   function* (X)
+    console.log('signUpApi : ' + data)
+    return axios.post('/users/', data);
 }
 function* signUp(action) {
-    //const result = yield call( signUpApi); 처리함수, 처리파라미터
     try {
-        yield delay(1000);
+        const result = yield call(signUpApi, action.data);
         yield put({
             type: SIGN_UP_SUCCESS,
-            data: action.data   // result.data
+            data: result.data
         })
     } catch (error) {
         yield put({
@@ -81,16 +79,15 @@ function* signUp(action) {
 
 // change nickname
 function changeNicknameApi() {   //★   function* (X)
-    return axios.POST('/user/');
+    return axios.post('/users/nickname');
 }
 
 function* changeNickname(action) {
-    //const result = yield call( changeNicknameApi); 처리함수, 처리파라미터
     try {
-        yield delay(1000);
+        const result = yield call(changeNicknameApi);
         yield put({
             type: CHANGE_NICKNAME_SUCCESS,
-            data: action.data   // result.data
+            data: result.data
         })
     } catch (error) {
         yield put({
@@ -120,7 +117,6 @@ function* watchChangeNickname() {
 
 ///// step1) all()
 export default function* userSaga() {
-    console.log('🔥 userSaga 시작됨');
     yield all([
         fork(watchLogin),
         fork(watchLogout),

@@ -30,7 +30,7 @@ const UserProfile = () => {  //#3. redux
         <Card
             actions={[
                 <div key="sns">게시글 <br /> {user.Posts ? user.Posts.length : 0}</div>,
-                <div key="following">팔로잉 <br /> {user.Follwings ? user.Follwings.length : 0} </div>,
+                <div key="following">팔로잉 <br /> {user.Followings ? user.Followings.length : 0} </div>,
                 <div key="follower">팔로워 <br /> {user.Followers ? user.Followers.length : 0} </div>,
             ]}
         >

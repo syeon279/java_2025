@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Post.associate = (db) => {
-    db.Post.hasMany(db.Images);     // post.addImages, post.getImages , 
+    db.Post.hasMany(db.Image);     // post.addImages, post.getImages , 
     db.Post.hasMany(db.Comment);   // post.addComments, post.getComments
     db.Post.belongsTo(db.User);  // post.addUsers, post.getUsers  , post.setUsers 
     db.Post.belongsTo(db.Post, { as: 'Retweet' });  //post.addRetweet   
