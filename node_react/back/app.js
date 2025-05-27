@@ -68,7 +68,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api', basicRouter);  //## 추가2
 app.use('/test', testRouter);
-app.use('/users', user);
+app.use('/user', user);
 app.use('/post', post);
 app.use('/posts', posts);
 

@@ -113,17 +113,10 @@ show tables;
 select * from users;
 select * from posts;
 select * from hashtags;
-desc images;
-select * from users;
+select * from images;
+select * from `like`;
+desc comments;
+desc users;
 
-
-
-use yoonlee3;
-select * from user;
-
-show databases;
-use yoonlee3;
-show tables; 
-
-update users set email = 'third@gmail.com' where id=4;
-select * from users;
+delete from posts;
+delete from users;

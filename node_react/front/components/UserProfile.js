@@ -1,48 +1,45 @@
 import React, { useCallback } from 'react';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card, Button } from 'antd';
 import styled from 'styled-components';
-
-//import { logoutAction } from '../reducers/user'; //#1. redux
-import { useDispatch, useSelector } from 'react-redux';  //#2. redux
+import { useDispatch, useSelector } from 'react-redux';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const ButtonWrapper = styled.div`
-    margin-top:10%;
+  margin-top: 10%;
 `;
 
-//const UserProfile = ({ setIsLogin }) => {
-const UserProfile = () => {  //#3. redux
+const UserProfile = () => {
+    const dispatch = useDispatch();
+    const { logOutLoading, user } = useSelector((state) => state.user); // Redux에서 유저 정보 직접 가져옴
 
-    const { logOutLoading, user } = useSelector((state) => state.user); // ##redux 2
-    console.log('.....user.nickname : ' + user.nickname);
-    //              code
-    const dispatch = useDispatch();  //#4. redux
-    // 로그아웃버튼을 누르면 로그아웃되게 만들기
     const onLogOut = useCallback(() => {
-        //dispatch(logoutAction);  //#5. redux
-        dispatch({
-            type: LOG_OUT_REQUEST
-        })
-    }, []);
-    //               view
+        dispatch({ type: LOG_OUT_REQUEST });
+    }, [dispatch]);
+
+    // 닉네임, 게시글 수, 팔로잉/팔로워 전부 Redux에서 바로 읽음
+    const nickname = user?.nickname || '';
+    const postCount = user?.Posts?.length || 0;
+    const followingCount = user?.Followings?.length || 0;
+    const followerCount = user?.Followers?.length || 0;
+
     return (
         <Card
             actions={[
-                <div key="sns">게시글 <br /> {user.Posts ? user.Posts.length : 0}</div>,
-                <div key="following">팔로잉 <br /> {user.Followings ? user.Followings.length : 0} </div>,
-                <div key="follower">팔로워 <br /> {user.Followers ? user.Followers.length : 0} </div>,
+                <div key="sns">게시글 <br /> {postCount}</div>,
+                <div key="following">팔로잉 <br /> {followingCount}</div>,
+                <div key="follower">팔로워 <br /> {followerCount}</div>,
             ]}
         >
             <Card.Meta
-                avatar={<Avatar>{user.nickname?.[0] || '?'}</Avatar>}
-                title={user.nickname}
+                avatar={<Avatar>{nickname[0] || '?'}</Avatar>}
+                title={nickname}
             />
             <ButtonWrapper>
-                <Button onClick={onLogOut} loading={logOutLoading}>로그아웃</Button>
+                <Button onClick={onLogOut} loading={logOutLoading}>
+                    로그아웃
+                </Button>
             </ButtonWrapper>
         </Card>
-
     );
 };
 

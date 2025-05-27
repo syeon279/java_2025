@@ -38,7 +38,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
 
 
 // 2. 로그인 
-// localhost:3065/users/login
+// localhost:3065/user/login
 router.post('/login', isNotLoggedIn, async (req, res, next) => {
   //res.send('......로그인');
   passport.authenticate('local', (err, user, info) => {
@@ -49,7 +49,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
     }
     // 2. 인증정보 있다면 - 세션 401 상태코드 ( 인증필요 )
     if (info) {
-      return res.status(401).send(info.reaseon);
+      return res.status(401).send(info.reason);
     }
     // 3. 사용자 세션에 등록 
     return req.logIn(user, async (loginErr) => {
@@ -79,7 +79,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 });
 
 // 3. 로그인한 경우 사용자의 정보 가져오기
-// GET : localhost:3065/users
+// GET : localhost:3065/user
 // 설정 : Header Cookie: connect.sid=Cookie 값으로 설정된 값
 // 로그인 후에 cookie에 id값 남아있음
 /*
@@ -94,7 +94,7 @@ router.get('/', async (req, res, next) => {
     if (req.user) {
       const fullUser = await User.findOne({
         // 조건 : id로 검색
-        where: { id: req.user.id },
+        where: { id: req.user.email },
         attributes: { exclude: ['password'] },
         include: [
           {
@@ -138,11 +138,11 @@ router.post('/logout', isLoggedIn, (req, res, next) => {  // 사용자가 로그
 
 });
 // 5. 닉네임 변경
-// Post : localhost:3065/users/nickname
+// Post : localhost:3065/user/nickname
 // 1. 로그인
 // 2. Header 쿠키설정
 // 3. Body - [raw] - json { "nickname" : "4444"}
-router.post('/nickname', isLoggedIn, async (req, res, next) => {
+router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   //res.send('닉네임 변경');
   try {
     await User.update({
@@ -160,8 +160,8 @@ router.post('/nickname', isLoggedIn, async (req, res, next) => {
 
 /////////////////////////////
 // 6. 팔로우
-// PATCH : localhost:3065/users/:userId/follow
-//          localhost:3065/users/1/follow
+// PATCH : localhost:3065/user/:userId/follow
+//          localhost:3065/user/1/follow
 // 1. 위의 경로로 router 작성
 // 2. 넘겨받은 아이디로 유저인지 select 구문 확인 / User.findOne
 // 3. 유저에 추가 user.addFollowers
@@ -186,7 +186,7 @@ router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
 });
 
 // 7. 팔로잉 찾기 (내가 찾아보는 친구들)
-// GET : localhost:3065/users/followings 
+// GET : localhost:3065/user/followings 
 // 1. 위의 경로로 router 작성
 // 2. 넘겨받은 아이디로 유저 찾기
 // 3. 해당 유저의 팔로잉 찾기 user.getFollowings()
@@ -210,7 +210,7 @@ router.get('/followings', isLoggedIn, async (req, res, next) => {
 });
 
 // 8. 팔로우 찾기
-// Post : localhost:3065/users/followers
+// Post : localhost:3065/user/followers
 // 1. 위의 경로로 router 작성
 // 2. 넘겨받은 아이디로 유저 찾기
 // 3. 유저에 추가 user.addFollowers
@@ -235,7 +235,7 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
 });
 
 // 9. 언팔로우 
-// DELETE : localhost:3065/users/:userId/follow
+// DELETE : localhost:3065/user/:userId/follow
 // 1. 위의 경로로 router 작성
 // 2. 언팔로우할 친구 찾기
 // 3. 팔로우 삭제 removeFollowers
@@ -260,7 +260,7 @@ router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
 });
 
 // 10. 나를 팔로워한 사람 차단
-// Post : localhost:3065/users/:userId/follow
+// Post : localhost:3065/user/:userId/follow
 // 1. 위의 경로로 router 작성
 // 2. 차단할 친구 찾기
 // 3. 팔로우 삭제 - removeFollowers

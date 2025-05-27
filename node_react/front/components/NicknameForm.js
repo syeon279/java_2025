@@ -17,24 +17,30 @@ const NicknameForm = () => {
         console.log('..............onSubmitForm : ' + nickname);
         dispatch({
             type: CHANGE_NICKNAME_REQUEST,
-            data: { nickname }
+            data: { nickname: nickname }
         });
     });
 
     return (
-        <Form
-            onFinish={onSubmit}
-            name='nickname'
-        >
+        <Form name="nickname">
             <Input.Search
                 addonBefore="닉네임"
                 onChange={onChangNickname}
-                onSearch={onSubmit}
+                onSearch={(value) => {
+                    console.log('닉네임 수정:', value);
+                    dispatch({
+                        type: CHANGE_NICKNAME_REQUEST,
+                        data: value, // 문자열 그대로 전달
+                    });
+                }}
                 value={nickname}
-                name='nickname'
+                name="nickname"
                 enterButton="수정"
-                loading={changeNicknameLoading} />
-        </Form>);
+                loading={changeNicknameLoading}
+            />
+        </Form>
+
+    );
 };
 
 export default NicknameForm;
