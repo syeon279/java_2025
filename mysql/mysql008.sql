@@ -111,12 +111,13 @@ show databases;
 use node_react;
 show tables;
 select * from users;
-select * from posts;
+select * from posts order by id desc;
 select * from hashtags;
 select * from images;
 select * from `like`;
 desc comments;
 desc users;
-
+select * from comments;
 delete from posts;
 delete from users;
+delete from `like` where postId=56;

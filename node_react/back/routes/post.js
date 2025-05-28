@@ -172,7 +172,7 @@ router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
         await post.addLikers(req.user.id);
         res.status(200).json({
             UserId: req.user.id,
-            Post: post.id
+            PostId: post.id
         })
     } catch (err) {
         console.error(err);
@@ -196,7 +196,7 @@ router.delete('/:postId/like', isLoggedIn, async (req, res, next) => {
         await post.removeLikers(req.user.id);
         res.status(200).json({
             UserId: req.user.id,
-            Post: post.id
+            PostId: post.id
         })
     } catch (err) {
         console.error(err);
@@ -231,9 +231,7 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
             }]
         })
         await post.addComments(fullComment);
-        res.status(200).json({
-            post, fullComment
-        })
+        res.status(200).json(fullComment)
     } catch (err) {
         console.error(err);
         next(err);

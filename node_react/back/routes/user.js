@@ -150,8 +150,7 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
     }, {
       where: { id: req.user.id },
     });
-    //res.status(200).json({});
-    res.status(200).send('닉네임 변경 ok');
+    res.status(200).json({ nickname: req.body.nickname });
   } catch (err) {
     console.error(err);
     next(err);
@@ -168,6 +167,7 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
 // 4. 상ㅇ태 표시
 router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
   try {
+    console.log('🔴 서버 userId:', req.params.userId);
     const user = await User.findOne({
       where: { id: req.params.userId }
     });
@@ -199,9 +199,9 @@ router.get('/followings', isLoggedIn, async (req, res, next) => {
       res.status(403).send('유저를 확인해주세요.');  // 403 금지된. 없는 유저
     } else {
       const followings = await user.getFollowings();
-      res.status(200).json({
+      res.status(200).json(
         followings
-      });
+      );
     }
   } catch (err) {
     console.error(err);
@@ -224,9 +224,9 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
       res.status(403).send('유저를 확인해주세요.');
     } else {
       const followers = await user.getFollowers();
-      res.status(200).json({
+      res.status(200).json(
         followers
-      });
+      );
     }
   } catch (err) {
     console.error(err);
@@ -242,6 +242,7 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
 // 4. 상태 표시
 router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
   try {
+    console.log('🔴 서버 userId:', req.params.userId);
     const user = await User.findOne({
       where: { id: req.params.userId }
     });

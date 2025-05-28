@@ -17,9 +17,9 @@ const NicknameForm = () => {
         console.log('..............onSubmitForm : ' + nickname);
         dispatch({
             type: CHANGE_NICKNAME_REQUEST,
-            data: { nickname: nickname }
+            data: nickname
         });
-    });
+    }, [nickname]);
 
     return (
         <Form name="nickname">

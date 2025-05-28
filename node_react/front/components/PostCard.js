@@ -5,43 +5,64 @@ import CommentForm from './CommentForm';
 import PostImages from './PostImages';
 import { useSelector, useDispatch, } from 'react-redux';
 
-import { REMOVE_POST_REQUEST } from '../reducers/post';
+import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
+import FollowButton from './FollowButton';
 
 const PostCard = ({ post }) => {
+    // styled
+    const styleCommentFrom = useMemo(() => ({ margin: '3%' }), []);
+
     const id = useSelector((state) => state.user.user?.id);
     const { removePostLoading, removePostDone } = useSelector(state => state.post);
     const dispatch = useDispatch();
 
+    // 게시글삭제
+    useEffect(() => {
+        if (removePostDone) { console.log('게시글을 삭제했습니다.'); }
+    }, []);
+
     const onRemoveClick = useCallback(() => {
+        console.log('PostCard:onRemoveClick : ', post.id)
         dispatch({
             type: REMOVE_POST_REQUEST,
-            data: {
-                postId: post.id
-            }
+            data: { postId: post.id }
         })
     });
 
     //               code
     // 1. 좋아요 - false
-    const [like, setLike] = useState(false);
+    //const [like, setLike] = useState(false);
     const onClickLike = useCallback((e) => {
-        setLike((prev) => !prev);
+        if (!id) {
+            return alert('로그인 후 가능합니다.');
+        };
+        return dispatch({
+            type: LIKE_POST_REQUEST,
+            data: {
+                postId: post.id,
+                userId: id
+            }
+        })
+    }, [id]);
+
+    const onClickUnLike = useCallback((e) => {
+        if (!id) {
+            return alert('로그인 후 가능합니다.');
+        };
+        dispatch({
+            type: UNLIKE_POST_REQUEST,
+            data: {
+                postId: post.id,
+                userId: id
+            }
+        })
     }, []);
+
+    const liked = post.Likers?.find((v) => v.id === id);
 
     // 2. 댓글
     const [commentOpen, setCommentOpen] = useState(false);
-    const showCommnet = useCallback((e) => {
-        setCommentOpen((prev) => (!prev));
-    })
-
-    useEffect(() => {
-        console.log('removePostDone : ' + removePostDone);
-        if (removePostDone) { console.log('게시글을 삭제했습니다.'); }
-    }, [removePostDone]);
-    // styled
-    const styleCommentFrom = useMemo(() => ({
-        margin: '3%'
-    }), []);
+    const showCommnet = useCallback((e) => { setCommentOpen((prev) => (!prev)); })
 
 
     ////////////////////////////////////// view
@@ -53,8 +74,8 @@ const PostCard = ({ post }) => {
                     <PostImages images={post.Images} />
                 }
                 actions={[
-                    like ?
-                        <HeartTwoTone twoToneColor="#f00" key="heart" onClick={onClickLike} />
+                    liked ?
+                        <HeartTwoTone twoToneColor="#f00" key="heart" onClick={onClickUnLike} />
                         :
                         <HeartOutlined key="heart" onClick={onClickLike} />,
 
@@ -75,6 +96,7 @@ const PostCard = ({ post }) => {
                         <EllipsisOutlined />
                     </Popover>,
                 ]}
+                extra={id && <FollowButton post={post} />}
             >
                 <Card.Meta avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
                     title={post.User.nickname}

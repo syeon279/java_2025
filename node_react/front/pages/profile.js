@@ -1,28 +1,72 @@
-import React from 'react';
-import AppLayout from '../components/AppLayout';
-//import 'antd/dist/antd.css'
+import React, { useState, useCallback, useEffect } from 'react';
+import AppLayout from '../components/AppLayout'
 import Head from 'next/head';
-import NicknameForm from '../components/NicknameForm';
+import NickNameForm from '../components/NickNameForm';
 import FollowList from '../components/FollowList';
-
+import { useSelector } from 'react-redux';
+import Router from 'next/router';
+import axios from 'axios';
+//--
 const Profile = () => {
-    ////////////////// code
-    const data = [{ nickname: 'Title1' }, { nickname: 'Title2' }, { nickname: 'Title3' }, { nickname: 'Title4' }];
+    const { user } = useSelector(state => state.user);  // 중앙저장소 - user
+    const [followersLimit, setFollowersLimit] = useState(3);  //3,6,9,12,,,,
+    const [followingsLimit, setFollowingsLimit] = useState(3);  //3,6,9,,,,
+    const [followersData, setFollowersData] = useState([]);   // 
+    const [followingsData, setFollowingsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    ////////////////// view
+    //1. 유저가 있는지 확인하고   /
+    useEffect(() => { if (!(user && user.id)) { Router.push('/'); } }, [user && user.id]);
+    //2. 유저호출
+    useEffect(() => {
+        //////////  axios
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+
+                const followersResponse = await axios.get(
+                    `http://localhost:3065/user/followers?limit=${followersLimit}`, { withCredentials: true }
+                );
+                const followingsResponse = await axios.get(
+                    `http://localhost:3065/user/followings?limit=${followingsLimit}`, { withCredentials: true }
+                );
+
+                setFollowersData(Array.isArray(followersResponse.data) ? followersResponse.data : []);
+                setFollowingsData(Array.isArray(followingsResponse.data) ? followingsResponse.data : []);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [followersLimit, followingsLimit]);
+
+    //3. 3명씩 followingsData 추가 -  3,6,9,,,
+    const loadMoreFollowings = useCallback(() => { setFollowingsLimit(prev => prev + 3); }, []);
+    //4. 3명씩 followersData 추가  -  3,6,9,,,
+    const loadMoreFollowers = useCallback(() => { setFollowersLimit(prev => prev + 3); }, []);
+
+    // const data = [{ nickname: 'Title 1', }, { nickname: 'Title 2', }, { nickname: 'Title 3', }, { nickname: 'Title 4', },];
+
+    if (!user) { return ".... 내정보 로딩중   "; }
+    if (error) { console.error(error); return <div>팔로잉/팔로워 로딩중 에러발생</div>; }
+
     return (
         <>
             <Head>
-                <meta charSet="utf-8"></meta>
-                <title>Profile | TheJoa </title>
+                <meta charSet="utf-8" />
+                <title> Profile | TheJoa </title>
             </Head>
             <AppLayout>
-                <NicknameForm />
-                <FollowList header='팔로잉' data={data} />
-                <FollowList header='팔로워' data={data} />
+                <NickNameForm />
+                <FollowList header="팔로잉" data={followingsData} onClickMore={loadMoreFollowings}
+                    loading={!followersData && !error} />
+                <FollowList header="팔로우" data={followersData} onClickMore={loadMoreFollowers}
+                    loading={!followersData && !error} />
             </AppLayout>
         </>
     );
-};
-
+}
 export default Profile;

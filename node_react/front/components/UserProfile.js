@@ -9,12 +9,12 @@ const ButtonWrapper = styled.div`
 `;
 
 const UserProfile = () => {
-    const dispatch = useDispatch();
     const { logOutLoading, user } = useSelector((state) => state.user); // Redux에서 유저 정보 직접 가져옴
 
+    const dispatch = useDispatch();
     const onLogOut = useCallback(() => {
         dispatch({ type: LOG_OUT_REQUEST });
-    }, [dispatch]);
+    }, []);
 
     // 닉네임, 게시글 수, 팔로잉/팔로워 전부 Redux에서 바로 읽음
     const nickname = user?.nickname || '';
@@ -32,7 +32,7 @@ const UserProfile = () => {
         >
             <Card.Meta
                 avatar={<Avatar>{nickname[0] || '?'}</Avatar>}
-                title={nickname}
+                title={user.nickname}
             />
             <ButtonWrapper>
                 <Button onClick={onLogOut} loading={logOutLoading}>

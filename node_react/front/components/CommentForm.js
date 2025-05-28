@@ -8,14 +8,17 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const CommentForm = ({ post }) => { //어떤 게시글에 대한 댓글
     /////////////////// code
-    const id = useSelector((state) => state.user.user?.id);
-    const { addCommentLoading, addCommentDone } = useSelector((state) => state.post);
+    const id = useSelector((state) => state.user.user?.id); // 사용자 체크
+    const { addCommentLoading, addCommentDone } = useSelector((state) => state.post); // 중앙저장소
     const [comment, onChangeComment, setComment] = userInput('');
 
     const dispatch = useDispatch();
-    const onSubmitForm = useCallback((e) => {
+    const onSubmitForm = useCallback(() => {
         console.log("...........CommentForm :  " + post.id, comment);
-        return dispatch({
+        if (!id) {
+            return alert('로그인이 필요합니다');
+        }
+        dispatch({
             type: ADD_COMMENT_REQUEST,
             data: {
                 userId: id,
@@ -23,7 +26,7 @@ const CommentForm = ({ post }) => { //어떤 게시글에 대한 댓글
                 content: comment
             }
         });
-    }, [comment]);
+    }, [comment, id]);
 
     useEffect(() => {
         if (addCommentDone) {
