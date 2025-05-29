@@ -108,6 +108,7 @@ function* changeNickname(action) {
   }
 }
 
+
 function loadUserAPI(data) {
   return axios.get(`/user/${data}`);
 }
@@ -209,16 +210,11 @@ function* signUp(action) {
 }
 
 function followAPI(data) {
-  console.log('🟢 followAPI 호출:', data);
-  return axios.patch(`/user/${data.UserId}/follow`, {
-    data: data, // 이렇게 넘겨야 서버에서 req.body로 인식 가능
-    withCredentials: true, // 로그인 인증 쿠키 필요시
-  });
+  return axios.patch(`/user/${data}/follow`);
 }
 
 function* follow(action) {
   try {
-    console.log('🔵 Saga 받은 follow data:', action.data);
     const result = yield call(followAPI, action.data);
     yield put({
       type: FOLLOW_SUCCESS,
@@ -234,16 +230,11 @@ function* follow(action) {
 }
 
 function unfollowAPI(data) {
-  console.log('🟢 unfollowAPI 호출:', data);
-  return axios.delete(`/user/${data.UserId}/follow`, {
-    data: data, // 이렇게 넘겨야 서버에서 req.body로 인식 가능
-    withCredentials: true, // 로그인 인증 쿠키 필요시
-  });
+  return axios.delete(`/user/${data}/follow`);
 }
 
 function* unfollow(action) {
   try {
-    console.log('🔵 Saga 받은 unfollow data:', action.data);
     const result = yield call(unfollowAPI, action.data);
     yield put({
       type: UNFOLLOW_SUCCESS,

@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const { User, Post } = require('../models');
+const { User, Post, Image, Comment } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { Op } = require('sequelize');
 
 // 1. 회원가입
 // post : localhost:3065/user
@@ -233,7 +234,7 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
     next(err);
   }
 });
-
+/*
 // 9. 언팔로우 
 // DELETE : localhost:3065/user/:userId/follow
 // 1. 위의 경로로 router 작성
@@ -243,17 +244,12 @@ router.get('/followers', isLoggedIn, async (req, res, next) => {
 router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
   try {
     console.log('🔴 서버 userId:', req.params.userId);
-    const user = await User.findOne({
-      where: { id: req.params.userId }
-    });
-    if (!user) {
-      res.status(403).send('유저를 확인해주세요.');
-    } else {
-      await user.removeFollowers(req.user.id);
-      res.status(200).json({
-        UserId: parseInt(req.params.userId, 10), // 
-      });
-    }
+    const user = await User.findOne({ where: { id: req.params.userId } });
+    if (!user) { res.status(403).send('유저를 확인해주세요.'); }
+
+    await user.removeFollowers(req.user.id);
+    res.status(200).json({ UserId: parseInt(req.params.userId, 10), });
+
   } catch (err) {
     console.error(err);
     next(err);
@@ -279,10 +275,142 @@ router.delete('/follow/:userId', isLoggedIn, async (req, res, next) => {
         UserId: parseInt(req.params.userId, 10), // 
       });
     }
+
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
+*/
+//9. 언팔로우 
+// DELETE : localhost:3065/users/:userId/follow
+//          localhost:3065/users/2/follow      ( 친구번호 )
+//1. 위의 경로로 router 작성
+//2. 언팔로우할 친구찾기
+//3. 팔로우삭제 - removeFollowers
+//4. 상태표시
+router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
+  try {
+    console.log('...................', req.params.userId);
+    const user = await User.findOne({ where: { id: req.params.userId } });
+    if (!user) { res.status(403).send('유저를 확인해주세요'); }  //403 금지된.없는유저
+
+    console.log('...................', req.user.id);
+    await user.removeFollowers(req.user.id);
+
+    res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+
+
+//10. 나를 팔로워한사람 차단
+// DELETE :  localhost:3065/users/follower/:userId
+//1. 위의 경로로 router 작성
+//2. 차단할 친구찾기
+//3. 팔로우삭제 - removeFollowers
+//4. 상태표시
+router.delete('/follower/:userId', isLoggedIn, async (req, res, next) => {  //## 
+  try {
+    const user = await User.findOne({ where: { id: req.params.userId } });
+    if (!user) { res.status(403).send('유저를 확인해주세요'); }  //403 금지된.없는유저
+
+    console.log('...................', req.user.id);
+    await user.removeFollowings(req.user.id);  //##
+    res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 11. 각유저별 해당정보
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const fullUser = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: { exclude: ['password'] },
+      include: [
+        {
+          model: Post,
+          attributes: ['id'],
+        }, {
+          model: User, as: 'Followings',
+          attributes: ['id'],
+        }, {
+          model: User, as: 'Followers',
+          attributes: ['id'],
+        }
+      ]
+      // 비밀번호 빼고 결과 가져오기
+      // Post, Followers, Followings 
+    });
+
+    if (fullUser) {
+      const data = fullUser.toJSON();
+      data.posts = data.Posts ? data.Posts.length : 0;
+      data.followers = data.Followers ? data.Followers.length : 0;
+      data.followings = data.Followings ? data.Followings.length : 0;
+      res.status(200).json(data);
+      console.log('router.get: fullUser : ', data);
+    } else { res.status(404).json('유저를 확인해주세요'); }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 12. 해당 유저의 포스트 가져오기
+//GET /user
+router.get('/:userId/posts', async (req, res, next) => {
+  try {
+    const where = { UserId: req.params.userId };
+    if (parseInt(req.query.lastId, 10)) {
+      where.id = {
+        [Op.lt]: parseInt(req.query.lastId, 10)
+      }
+    };
+    const posts = await Post.findAll({
+      where,
+      limit: 10,
+      order: [['createdAt', 'DESC'],],
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname']
+        }, {
+          model: Image
+        }, {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname']
+            }
+          ]
+        }, {
+          model: User, as: 'Likers',
+          attributes: ['id']
+        }, {
+          model: Post, as: 'Retweet',
+          include: [{
+            model: User,
+            attributes: ['id', 'nickname']
+          }, {
+            model: Image
+          }]      // 원본 글 작성자와 이미지 포함
+        }
+      ]
+    });
+    res.status(200).json(posts);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 ///////////////////////////////
 module.exports = router;

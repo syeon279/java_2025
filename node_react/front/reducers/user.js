@@ -15,22 +15,20 @@ export const initialState = {
   changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
-
+  
   followLoading: false, // 팔로우 시도중
   followDone: false,
   followError: null,
   unfollowLoading: false, // 언팔로우 시도중
   unfollowDone: false,
   unfollowError: null,
-
+ 
   loadFollowingsLoading: false,
   loadFollowingsDone: false,
   loadFollowingsError: null,
-
   loadFollowersLoading: false,
   loadFollowersDone: false,
   loadFollowersError: null,
-
   removeFollowerLoading: false,
   removeFollowerDone: false,
   removeFollowerError: null,
@@ -127,203 +125,169 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.logInError = null;
       draft.logInDone = false;
       break;
-
     case LOG_IN_SUCCESS:
       draft.logInLoading = false;
       draft.user = action.data;   ////dummyUser(action.data);
       draft.logInDone = true;
       break;
-
     case LOG_IN_FAILURE:
       draft.logInLoading = false;
       draft.logInError = action.error;
       break;
-
     case LOG_OUT_REQUEST:
       draft.logOutLoading = true;
       draft.logOutError = null;
       draft.logOutDone = false;
       break;
-
     case LOG_OUT_SUCCESS:
       draft.logOutLoading = false;
       draft.logOutDone = true;
       draft.user = null;
       break;
-
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
       draft.logOutError = action.error;
       break;
-
     case SIGN_UP_REQUEST:
       draft.signUpLoading = true;
       draft.signUpError = null;
       draft.signUpDone = false;
       break;
-
     case SIGN_UP_SUCCESS:
       draft.signUpLoading = false;
       draft.signUpDone = true;
       break;
-
     case SIGN_UP_FAILURE:
       draft.signUpLoading = false;
       draft.signUpError = action.error;
       break;
-
     case CHANGE_NICKNAME_REQUEST:
       draft.changeNicknameLoading = true;
       draft.changeNicknameError = null;
       draft.changeNicknameDone = false;
       break;
-
     case CHANGE_NICKNAME_SUCCESS:
       draft.user.nickname = action.data.nickname;
       draft.changeNicknameLoading = false;
       draft.changeNicknameDone = true;
       break;
-
     case CHANGE_NICKNAME_FAILURE:
       draft.changeNicknameLoading = false;
       draft.changeNicknameError = action.error;
       break;
 
-    //////////////////////////////
-    case FOLLOW_REQUEST:
+     //////////////////////////////
+     case FOLLOW_REQUEST:
       draft.followLoading = true;
       draft.followError = null;
       draft.followDone = false;
       break;
-
     case FOLLOW_SUCCESS:
-      console.log('🚨 FOLLOW_SUCCESS : ', action.data.UserId);
       draft.followLoading = false;
       draft.user.Followings.push({ id: action.data.UserId });
       draft.followDone = true;
       break;
-
     case FOLLOW_FAILURE:
-      console.log('🚨 FOLLOW_SUCCESS : ', action.data.UserId);
       draft.followLoading = false;
       draft.followError = action.error;
       break;
-
+    
     case UNFOLLOW_REQUEST:
       draft.unfollowLoading = true;
       draft.unfollowError = null;
       draft.unfollowDone = false;
       break;
-
     case UNFOLLOW_SUCCESS:
-      console.log('🚨 UNFOLLOW_SUCCESS : ', action.data.UserId);
       draft.unfollowLoading = false;
       draft.user.Followings = draft.user.Followings.filter((v) => v.id !== action.data.UserId);
       draft.unfollowDone = true;
       break;
-
     case UNFOLLOW_FAILURE:
-      console.log('🚨 UNFOLLOW_FAILURE : ', action.data.UserId);
       draft.unfollowLoading = false;
       draft.unfollowError = action.error;
       break;
-
-    //////////////////////////////
+    
+     //////////////////////////////
     case REMOVE_FOLLOWER_REQUEST:
       draft.removeFollowerLoading = true;
       draft.removeFollowerError = null;
       draft.removeFollowerDone = false;
       break;
-
     case REMOVE_FOLLOWER_SUCCESS:
       draft.removeFollowerLoading = false;
       draft.user.Followers = draft.user.Followers.filter((v) => v.id !== action.data.UserId);
       draft.removeFollowerDone = true;
       break;
-
     case REMOVE_FOLLOWER_FAILURE:
       draft.removeFollowerLoading = false;
       draft.removeFollowerError = action.error;
       break;
-
     case LOAD_FOLLOWINGS_REQUEST:
       draft.loadFollowingsLoading = true;
       draft.loadFollowingsError = null;
       draft.loadFollowingsDone = false;
       break;
-
     case LOAD_FOLLOWINGS_SUCCESS:
       draft.loadFollowingsLoading = false;
       draft.user.Followings = action.data;
       draft.loadFollowingsDone = true;
       break;
-
     case LOAD_FOLLOWINGS_FAILURE:
       draft.loadFollowingsLoading = false;
       draft.loadFollowingsError = action.error;
       break;
-
     case LOAD_FOLLOWERS_REQUEST:
       draft.loadFollowersLoading = true;
       draft.loadFollowersError = null;
       draft.loadFollowersDone = false;
       break;
-
     case LOAD_FOLLOWERS_SUCCESS:
       draft.loadFollowersLoading = false;
       draft.user.Followers = action.data;
       draft.loadFollowersDone = true;
       break;
-
     case LOAD_FOLLOWERS_FAILURE:
       draft.loadFollowersLoading = false;
       draft.loadFollowersError = action.error;
       break;
-
-    //////////////////////////////
+    
+     //////////////////////////////
     case LOAD_MY_INFO_REQUEST:
       draft.loadMyInfoLoading = true;
       draft.loadMyInfoError = null;
       draft.loadMyInfoDone = false;
       break;
-
     case LOAD_MY_INFO_SUCCESS:
       draft.loadMyInfoLoading = false;
       draft.user = action.data;
       draft.loadMyInfoDone = true;
       break;
-
     case LOAD_MY_INFO_FAILURE:
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoError = action.error;
       break;
-
     case LOAD_USER_REQUEST:
       draft.loadUserLoading = true;
       draft.loadUserError = null;
       draft.loadUserDone = false;
       break;
-
     case LOAD_USER_SUCCESS:
       draft.loadUserLoading = false;
       draft.userInfo = action.data;
       draft.loadUserDone = true;
       break;
-
     case LOAD_USER_FAILURE:
       draft.loadUserLoading = false;
       draft.loadUserError = action.error;
       break;
-
-    //////////////////////////////
+ 
+     //////////////////////////////
     case ADD_POST_TO_ME:
       draft.user.Posts.unshift({ id: action.data });
       break;
-
     case REMOVE_POST_OF_ME:
       draft.user.Posts = draft.user.Posts.filter((v) => v.id !== action.data);
       break;
-
     default:
       break;
   }

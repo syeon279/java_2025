@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Slick from 'react-slick';
-import { Header, CloseBtn, Overlay, SlickWrapper, ImgWrapper, Indicator, Global } from './style'
-import { GoldFilled } from '@ant-design/icons';
+import { Overlay, Header, CloseBtn, SlickWrapper, ImgWrapper, Indicator, Global } from './style';
 
 
 const ImagesZoom = ({ images, onClose }) => {
@@ -18,7 +17,7 @@ const ImagesZoom = ({ images, onClose }) => {
                 <div>
                     <Slick
                         initialSlide={0}
-                        beforeChange={(silde, newSlide) => setCurrentSlide(newSlide)}
+                        beforeChange={(slide, newSlide) => setCurrentSlide(newSlide)}
                         infinite
                         arrows={false}
                         slidesToShow={1}
@@ -33,19 +32,19 @@ const ImagesZoom = ({ images, onClose }) => {
                     <Indicator>
                         <div>
                             {currentSlide + 1}
-                            {''}
+                            {' '}
                             /
                             {images.length}
                         </div>
                     </Indicator>
                 </div>
             </SlickWrapper>
-        </Overlay>
-    );
+        </Overlay>);
 };
 
-ImagesZoom.PropTypes = {
+ImagesZoom.propTypes = {
     images: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onClose: PropTypes.func.isRequired
-}
+    onClose: PropTypes.func.isRequired,
+};
+
 export default ImagesZoom;

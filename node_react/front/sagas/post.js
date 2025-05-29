@@ -3,19 +3,42 @@ import { all, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
 
 ////////////////////////////////////////////////////// ACTION TYPE IMPORT 1
 import {
-  LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
   LOAD_USER_POSTS_FAILURE, LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS,  //##
   LOAD_HASHTAG_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, //##
-  ADD_POST_FAILURE, ADD_POST_REQUEST, ADD_POST_SUCCESS,
-  UPDATE_POST_FAILURE, UPDATE_POST_REQUEST, UPDATE_POST_SUCCESS,
-  REMOVE_POST_FAILURE, REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS,
-  ADD_COMMENT_FAILURE, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS,
-  UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS,
-  LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS,
-  UNLIKE_POST_FAILURE, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS,
-  LOAD_POST_FAILURE, LOAD_POST_REQUEST, LOAD_POST_SUCCESS,
-  RETWEET_FAILURE, RETWEET_REQUEST, RETWEET_SUCCESS,
+  ADD_POST_FAILURE,
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,                      
+  UPDATE_POST_FAILURE,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
+  REMOVE_POST_FAILURE,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_SUCCESS,
+  ADD_COMMENT_FAILURE,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
 
+  LIKE_POST_FAILURE,
+  LIKE_POST_REQUEST,
+  LIKE_POST_SUCCESS, 
+  UNLIKE_POST_FAILURE,
+  UNLIKE_POST_REQUEST,
+  UNLIKE_POST_SUCCESS, 
+
+  
+  LOAD_POST_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+
+  RETWEET_FAILURE,
+  RETWEET_REQUEST,
+  RETWEET_SUCCESS,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
@@ -96,7 +119,7 @@ function removePostAPI(data) {
 
 function* removePost(action) {
   try {
-    const result = yield call(removePostAPI, action.data.postId);
+    const result = yield call(removePostAPI, action.data);
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: result.data,
@@ -115,7 +138,6 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  console.log('addCommentAPI : ', data);
   return axios.post(`/post/${data.postId}/comment`, data); // POST /post/1/comment
 }
 
@@ -158,16 +180,12 @@ function* uploadImages(action) {
 // fork(watchLikePost),
 // fork(watchUnlikePost),
 
-function likePostAPI(data) {
-  return axios.patch(`/post/${data}/like`);
-}
-
+function likePostAPI(data) { return axios.patch(`/post/${data}/like`);  }
 function* likePost(action) {
   try {
-    const result = yield call(likePostAPI, action.data.postId);
+    const result = yield call(likePostAPI, action.data);
     yield put({
-      type: LIKE_POST_SUCCESS,
-      data: result.data,
+      type: LIKE_POST_SUCCESS,   data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -177,17 +195,12 @@ function* likePost(action) {
     });
   }
 }
-
-function unlikePostAPI(data) {
-  return axios.delete(`/post/${data}/like`);
-}
-
+function unlikePostAPI(data) {  return axios.delete(`/post/${data}/like`);  }
 function* unlikePost(action) {
   try {
-    const result = yield call(unlikePostAPI, action.data.postId);
+    const result = yield call(unlikePostAPI, action.data);
     yield put({
-      type: UNLIKE_POST_SUCCESS,
-      data: result.data,
+      type: UNLIKE_POST_SUCCESS,   data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -197,6 +210,17 @@ function* unlikePost(action) {
     });
   }
 }
+
+
+
+
+// fork(watchLoadPost),
+// fork(watchLoadUserPosts),
+// fork(watchLoadHashtagPosts),
+// fork(watchRetweet),
+
+
+
 
 function loadHashtagPostsAPI(data, lastId) {
   return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
@@ -279,6 +303,10 @@ function* retweet(action) {
   }
 }
 
+
+
+
+
 ////////////////////////////////////////////////////// GENERATE FUNCTION - yield 3
 
 function* watchLoadPosts() {
@@ -286,7 +314,9 @@ function* watchLoadPosts() {
 }
 
 function* watchAddPost() {
+  //yield take('ADD_POST', addpost);  // ver-1. take는 일회용 - 로그인1번, 게시글도1번만
   yield takeLatest(ADD_POST_REQUEST, addPost); // ver-2. 3번요청  →  응답 1번
+  //  yield throttle('ADD_POST', addpost , 10000); ver-3. 몇초뒤에 실행, 시간설정가능-10초뒤에
 }
 
 function* watchUpdatePost() {

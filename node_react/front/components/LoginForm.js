@@ -1,74 +1,57 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import React, { useState, useCallback, useEffect } from 'react'
+import { Input, Button, Form, Row, Col } from 'antd';
 import Link from 'next/Link';
 import userInput from '../hooks/userInput';
 
-import { LOG_IN_REQUEST } from '../reducers/user';  //#1. redux
-import { useDispatch, useSelector } from 'react-redux';  //#2/ redux - useDispatch 
+import { useDispatch, useSelector } from 'react-redux';  //#2. redux - useDispatch
+import { LOG_IN_REQUEST } from '../reducers/user';  //######1. redux
 
+//--
+//const LoginForm = ({setIsLogin}) => {
+const LoginForm = () => { //#3  redux
+  const { logInLoading, logInError } = useSelector(state => state.user);
+  ///////////////////////////////////////////// code
+  const [email, onChangeEmail] = userInput('');
+  const [password, onChangePassword] = userInput('');
 
-//const LoginForm = ({ setIsLogin }) => {
-const LoginForm = () => { //#3. redux
-    const { logInLoading, logInError } = useSelector((state) => state.user);
-    console.log('...........LoginForm/logInLoading? : ' + logInLoading);
-    const [email, onchageEmail] = userInput('');
-    const [password, onChagePassword] = userInput('');
+  const dispatch = useDispatch();  //#4.   redux
 
-    const dispatch = useDispatch();  //#4. redux 
+  useEffect(() => { if (logInError) {  alert(logInError);  } }, [logInError]);
 
-    useEffect((logInError) => {
-        if (logInError) {
-            alert(logInError);
-        }
-    }, [logInError]);
+  const onSubmitForm = useCallback(() => {
+    console.log(email, password);
+    //setIsLoggedIn(true);
+    dispatch({
+      type: LOG_IN_REQUEST,
+      data: { email, password }
+    });
+  }, [email, password]);
 
-    const onSubmitForm = useCallback(() => {
-        dispatch({
-            type: LOG_IN_REQUEST,
-            data: { email, password }
-        });  //#5. redux
-    }, [email, password]);
+  ///////////////////////////////////////////// view
+  return (
+    <>
+      <Form layout="vertical" style={{ padding: '3%' }} onFinish={onSubmitForm}  >
+        <Form.Item label="아이디" name="email"  >
+          <Input placeholder="user@gmail.com 형식으로 입력"
+            value={email} onChange={onChangeEmail} required />
+        </Form.Item>
+        <Form.Item label="비밀번호" name="password" >
+          <Input.Password placeholder="비밀번호 입력"
+            value={password} onChange={onChangePassword} required />
+        </Form.Item>
+        <Form.Item style={{ textAlign: 'center' }}>
+          {/*<Button type="primary" style={{ marginRight: '2%' }} onClick={onCount} >로그인 {count}</Button> */}
 
-    //view
-    return (
-        <Form layout="vertical" style={{ padding: '5%' }} onFinish={onSubmitForm}>
-            <Form.Item
-                label="아이디"
-                name="username"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your Username!',
-                    },
-                ]}
-            >
-                <Input name="email" value={email} onChange={onchageEmail} required />
-            </Form.Item>
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your Password!',
-                    },
-                ]}
-            >
-                <Input.Password name="password" value={password} onChange={onChagePassword} />
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary"
-                    htmlType="submit"
-                    className="login-form-button"
-                    loading={logInLoading}
-                    style={{ margin: '3%', marginRight: '8%' }}>
-                    Log in
-                </Button>
-                Or <a href="/signup" style={{ margin: '5%' }} > 회원 가입 </a>
-            </Form.Item>
-        </Form>
-    );
+          <Button type="primary"
+            style={{ marginRight: '2%' }}
+            htmlType='submit'
+            loading={logInLoading}
+          >로그인</Button>
+
+          <Link href="/signup" legacyBehavior ><Button>회원가입</Button></Link>
+        </Form.Item>
+      </Form>
+    </>
+  );
 };
-
 export default LoginForm;

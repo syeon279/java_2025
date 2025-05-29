@@ -19,7 +19,7 @@ const FollowButton = ({ post }) => {
             console.log('🟡 로그인 유저 ID:', user?.id);
             dispatch({
                 type: UNFOLLOW_REQUEST,
-                data: { UserId: post.User.id },
+                data: post.User.id,
             })
         } else { // 팔로잉 - 내친구x
             console.log('🟡 클릭한 포스트:', post);
@@ -27,7 +27,7 @@ const FollowButton = ({ post }) => {
             console.log('🟡 로그인 유저 ID:', user?.id);
             dispatch({
                 type: FOLLOW_REQUEST,
-                data: { UserId: post.User.id },
+                data: post.User.id,
             })
         }
     }, [isFollowing]);

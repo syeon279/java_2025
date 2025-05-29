@@ -1,66 +1,57 @@
-import React, { useState, useMemo } from 'react';   // react 불러오기
-import PropTypes from 'prop-types';     // props 타입검사하는 역할 
+import React, { useState , useMemo}  from 'react';   // react 불러오기   #
+import PropTypes from 'prop-types'; // props 타입검사하는 역할
 import Link from 'next/Link';
-import { Menu } from 'antd';
-import { Input, Space, Row, Col } from 'antd';
+import { Menu, Input, Row, Col  } from 'antd';
 import UserProfile from './UserProfile';
 import LoginForm from './LoginForm';
 import styled from 'styled-components';
 
-const { Search } = Input;
+import { useSelector } from 'react-redux';  //## reducer1
+
 const InputSearch = styled(Input.Search)`
-vertical-align: 'middle';
+  vertical-align:middle;
 `;
 
-import { useSelector } from 'react-redux';
+const AppLayout = ({ children }) => { 
 
+  // useMemo
+  const stylebg = useMemo(() => ({ backgroundColor: '#efefef' }), []);
 
-const AppLayout = ({ children }) => {
-    /////////////////////////////////// code
-    const items = [
-        { label: <Link href="/" >LOGO</Link>, key: '/' }, // remember to pass the key prop
-        { label: <Link href="/profile" >프로필</Link>, key: '/profile' }, // which is required
-        { label: <Link href="/signup" >회원 가입</Link>, key: "/signup" },
-        {
-            label: <InputSearch
-                placeholder="input search text"
+  const { user } = useSelector(state => state.user); 
+
+  ///////////////////////////////////////////// code
+  const items = [
+     { label: <Link href="/">LOGO</Link>, key: '/' } 
+    ,{ label: <Link href="/profile">프로필</Link>, key: '/profile' } 
+    ,{ label: <Link href="/signup">회원가입</Link>, key: '/signup' } 
+    ,{ label: <InputSearch 
+                placeholder="input search text" 
                 enterButton
-            />, key: '/search'
-        },
-    ];
+              />, key: '/search'
+    }
+  ];
+  ///////////////////////////////////////////// view
+  return ( 
+    <div> 
+      <Menu  mode="horizontal"   items={items} />
+      <Row gutter={8}>
+        <Col xs={24} md={6} >
+          {/*<h3 onClick={() => { console.log('....'); }} >{logo}</h3> */}
+          {/* <h3 onClick={changeLogo} >{logo}</h3>*/}
+          {user ? <UserProfile /> : <LoginForm />}
+          
+        </Col>
+        <Col xs={24}  md={12}  style={stylebg} > {children}  </Col>   
+        <Col xs={24}  md={6} > <div>
+          <a href="https://thejoa.com"
+             target="_blank"
+             rel="noreferrer  noopener">TheJoa</a> copyrights. all reserved. </div> </Col>
+      </Row>
+      </div>        
+  );
+}; 
 
-    /// 1. 변수 vs useState
-    // 단수대입 시 state 값의 변경점을 reactDom은 알지 못함. 
-    let [logo, setLogo] = useState('..YoonSohyeon..'); // 2번째 - 함수를 통해서 재렌더링
-    const changeLogo = () => { console.log('.....Tada!'); setLogo('★ Welcome! ☆'); };
-
-    // 2. login 상태 
-    //const [isLogin, setIsLogin] = useState(false);
-    const { user } = useSelector((state) => state.user); // ##redux 2
-
-    // Styled
-    const stylebg = useMemo(() => ({ backgroundColor: '#F8FAFC', padding: '3%' }), []);
-    const styleLogo = useMemo(() => ({ padding: '3%', textAlign: 'center' }), []);
-
-    /////////////////////////////////// view
-    return (<div>
-        <Menu mode="horizontal" items={items} />
-        <Row gutter={8}>
-            <Col xs={24} md={4}>
-                <h3 onClick={changeLogo} style={{ padding: '15px', textAlign: 'center' }}>{logo}</h3>
-                {user ?
-                    <UserProfile /> :
-                    <LoginForm />
-                }
-            </Col>
-            <Col xs={24} md={16} style={stylebg}> {children} </Col>
-            <Col xs={24} md={4}> <div style={{ textAlign: 'center', padding: '5%' }}><a href="https://thejoa.com" target="_black" rel="noreferrer noopener"> TheJoa </a>
-                copyrights. all reserved. </div> </Col>
-        </Row>
-    </div >);
-};
 AppLayout.propTypes = {
-    children: PropTypes.node.isRequired // 태그들 필수 검사
+  children: PropTypes.node.isRequired,
 };
-
-export default AppLayout; 
+export default AppLayout;
