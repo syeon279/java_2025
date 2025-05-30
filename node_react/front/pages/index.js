@@ -26,14 +26,11 @@ const Home = () => {
   useEffect(() => {
     function onScroll() {
       //           내가 내린길이     + 화면에 보이는 높이                        = 브라우저길이
-      console.log(window.screenY, document.documentElement.clientHeight, document.documentElement.scrollHeight)
+      // console.log(window.screenY, document.documentElement.clientHeight, document.documentElement.scrollHeight)
       //        내가 내린길이     + 화면에 보이는 높이    >  브라우저길이-200px 아래정도로 오면은
       if (window.screenY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 200) {
         if (hasMorePosts && !loadPostsLoading) {
-          dispatch({
-            type: LOAD_POSTS_REQUEST,
-            data: mainPosts[mainPosts.length - 1]?.id,
-          })
+          dispatch({ type: LOAD_POSTS_REQUEST, data: mainPosts[mainPosts.length - 1]?.id, })
         }
       }
     }

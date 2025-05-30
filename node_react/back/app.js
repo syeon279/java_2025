@@ -16,13 +16,11 @@ const testRouter = require('./routes/test');
 const user = require('./routes/user'); //##
 const post = require('./routes/post');
 const posts = require('./routes/posts');
+const hashtag = require('./routes/hashtag');
 
 // 2. 환경설정
 dotenv.config(); // 환경설정 .env 로드 
 const app = express();
-
-console.log('✅ COOKIE_SECRET:', process.env.COOKIE_SECRET);
-
 
 // 3. db 연동
 /////// models
@@ -30,7 +28,7 @@ const db = require('./models');
 db.sequelize
   .sync()
   .then(() => {
-    console.log('db..................>>')
+    console.log('>> 🐾 DB Start >>')
   })
   .catch(console.error);
 passportConfig();
@@ -55,13 +53,6 @@ app.use(passport.initialize()); // 인증처리 라이브러리 초기화
 app.use(passport.session()); // 사용자 인증상태를 세션에 저장
 
 
-/////
-app.use((req, res, next) => {
-  console.log('📦 세션 상태:', req.session);  // 이게 undefined면 100% 세션 안 붙음
-  next();
-});
-//////
-
 // 5. 라우팅
 app.get('/', (req, res) => {
   res.send('Hello express');
@@ -71,6 +62,7 @@ app.use('/test', testRouter);
 app.use('/user', user);
 app.use('/post', post);
 app.use('/posts', posts);
+app.use('/hashtag', hashtag);
 
 // 6. 서버 설정 및 실행
 app.listen(3065, () => { console.log('server....'); });
