@@ -13,10 +13,11 @@ const morgan = require('morgan'); // 요청상태 모니터링
 
 const basicRouter = require('./routes/basic');
 const testRouter = require('./routes/test');
-const user = require('./routes/user'); //##
-const post = require('./routes/post');
-const posts = require('./routes/posts');
-const hashtag = require('./routes/hashtag');
+const userRouter = require('./routes/user'); //##
+const postRouter = require('./routes/post');
+const postsRouter = require('./routes/posts');
+const hashtagRouter = require('./routes/hashtag');
+const apiRouter = require('./routes/api');
 
 // 2. 환경설정
 dotenv.config(); // 환경설정 .env 로드 
@@ -59,10 +60,11 @@ app.get('/', (req, res) => {
 });
 app.use('/api', basicRouter);  //## 추가2
 app.use('/test', testRouter);
-app.use('/user', user);
-app.use('/post', post);
-app.use('/posts', posts);
-app.use('/hashtag', hashtag);
+app.use('/user', userRouter);
+app.use('/post', postRouter);
+app.use('/posts', postsRouter);
+app.use('/hashtag', hashtagRouter);
+app.use('/api', apiRouter);
 
 // 6. 서버 설정 및 실행
 app.listen(3065, () => { console.log('server....'); });

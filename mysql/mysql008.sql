@@ -117,7 +117,45 @@ select * from images;
 select * from `like`;
 desc comments;
 desc users;
-select * from comments;
+select * from comments order by id desc;
 delete from posts;
 delete from users;
 delete from `like` where postId=56;
+
+select * from follow;
+drop database node_react;
+
+create database ssdam;
+drop database ssdam;
+use ssdam;
+show tables;
+desc complains;
+
+select * from complains;
+select * from `groups`;
+select * from posts;
+select * from users;
+select * from notifications order by id desc;
+select * from complains order by id desc;
+
+ALTER TABLE Notifications DROP PRIMARY KEY;
+ALTER TABLE Notifications ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+
+INSERT INTO Users (id, username, email, nickname, password, phonenumber, createdAt, updatedAt)
+VALUES
+(1, 'catmaster', 'user1@example.com', '고양이짱', 'hashed_pw1', 1012345678, NOW(), NOW()),
+(2, 'dogking', 'user2@example.com', '멍멍이왕', 'hashed_pw2', 1023456789, NOW(), NOW()),
+(3, 'molegod', 'user3@example.com', '두더지신', 'hashed_pw3', 1034567890, NOW(), NOW()),
+(4, 'hamcutie', 'user4@example.com', '햄스터귀요미', 'hashed_pw4', 1045678901, NOW(), NOW());
+
+INSERT INTO `groups` (id, title, content, createdAt, updatedAt)
+VALUES
+(1, '삼겹살과 함께', '고기 먹고 목표 세우는 모임입니다.', NOW(), NOW()),
+(2, '고양이 집사들', '고양이를 사랑하는 사람들의 목표 커뮤니티', NOW(), NOW()),
+(3, '미라클 모닝단', '매일 아침 기상 도전 모임', NOW(), NOW());
+
+
+desc notifications;
+
+delete from notifications;
+

@@ -1,5 +1,5 @@
-//import produce from '../util/produce';
-import produce from 'immer';
+import produce from '../util/produce';
+//import produce from 'immer';
 
 ////////////////////////////////////////////////////// 초기값
 export const initialState = {
@@ -15,14 +15,14 @@ export const initialState = {
   changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
-  
+
   followLoading: false, // 팔로우 시도중
   followDone: false,
   followError: null,
   unfollowLoading: false, // 언팔로우 시도중
   unfollowDone: false,
   unfollowError: null,
- 
+
   loadFollowingsLoading: false,
   loadFollowingsDone: false,
   loadFollowingsError: null,
@@ -176,8 +176,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.changeNicknameError = action.error;
       break;
 
-     //////////////////////////////
-     case FOLLOW_REQUEST:
+    //////////////////////////////
+    case FOLLOW_REQUEST:
       draft.followLoading = true;
       draft.followError = null;
       draft.followDone = false;
@@ -191,7 +191,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.followLoading = false;
       draft.followError = action.error;
       break;
-    
+
+    /////////////////////////////
     case UNFOLLOW_REQUEST:
       draft.unfollowLoading = true;
       draft.unfollowError = null;
@@ -206,8 +207,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.unfollowLoading = false;
       draft.unfollowError = action.error;
       break;
-    
-     //////////////////////////////
+
+    //////////////////////////////
     case REMOVE_FOLLOWER_REQUEST:
       draft.removeFollowerLoading = true;
       draft.removeFollowerError = null;
@@ -222,6 +223,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.removeFollowerLoading = false;
       draft.removeFollowerError = action.error;
       break;
+
+    //////////////////
     case LOAD_FOLLOWINGS_REQUEST:
       draft.loadFollowingsLoading = true;
       draft.loadFollowingsError = null;
@@ -236,6 +239,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadFollowingsLoading = false;
       draft.loadFollowingsError = action.error;
       break;
+
+    //////////////////
     case LOAD_FOLLOWERS_REQUEST:
       draft.loadFollowersLoading = true;
       draft.loadFollowersError = null;
@@ -250,8 +255,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadFollowersLoading = false;
       draft.loadFollowersError = action.error;
       break;
-    
-     //////////////////////////////
+
+    //////////////////////////////
     case LOAD_MY_INFO_REQUEST:
       draft.loadMyInfoLoading = true;
       draft.loadMyInfoError = null;
@@ -266,6 +271,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoError = action.error;
       break;
+
+    ///////////////
     case LOAD_USER_REQUEST:
       draft.loadUserLoading = true;
       draft.loadUserError = null;
@@ -280,14 +287,16 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadUserLoading = false;
       draft.loadUserError = action.error;
       break;
- 
-     //////////////////////////////
+
+    //////////////////////////////
     case ADD_POST_TO_ME:
       draft.user.Posts.unshift({ id: action.data });
       break;
     case REMOVE_POST_OF_ME:
       draft.user.Posts = draft.user.Posts.filter((v) => v.id !== action.data);
       break;
+
+    ///////////////////////////////
     default:
       break;
   }

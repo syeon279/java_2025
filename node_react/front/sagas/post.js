@@ -10,7 +10,7 @@ import {
   LOAD_HASHTAG_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, //##
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
-  ADD_POST_SUCCESS,                      
+  ADD_POST_SUCCESS,
   UPDATE_POST_FAILURE,
   UPDATE_POST_REQUEST,
   UPDATE_POST_SUCCESS,
@@ -26,12 +26,12 @@ import {
 
   LIKE_POST_FAILURE,
   LIKE_POST_REQUEST,
-  LIKE_POST_SUCCESS, 
+  LIKE_POST_SUCCESS,
   UNLIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST,
-  UNLIKE_POST_SUCCESS, 
+  UNLIKE_POST_SUCCESS,
 
-  
+
   LOAD_POST_FAILURE,
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
@@ -94,11 +94,13 @@ function* addPost(action) {
 }
 
 function updatePostAPI(data) {
+  console.log('🐬 updatePostAPI : ', data);
   return axios.patch(`/post/${data.PostId}`, data);
 }
 
 function* updatePost(action) {
   try {
+    console.log('🐬 updatePost : ', action.data);
     const result = yield call(updatePostAPI, action.data);
     yield put({
       type: UPDATE_POST_SUCCESS,
@@ -180,12 +182,12 @@ function* uploadImages(action) {
 // fork(watchLikePost),
 // fork(watchUnlikePost),
 
-function likePostAPI(data) { return axios.patch(`/post/${data}/like`);  }
+function likePostAPI(data) { return axios.patch(`/post/${data}/like`); }
 function* likePost(action) {
   try {
     const result = yield call(likePostAPI, action.data);
     yield put({
-      type: LIKE_POST_SUCCESS,   data: result.data,
+      type: LIKE_POST_SUCCESS, data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -195,12 +197,12 @@ function* likePost(action) {
     });
   }
 }
-function unlikePostAPI(data) {  return axios.delete(`/post/${data}/like`);  }
+function unlikePostAPI(data) { return axios.delete(`/post/${data}/like`); }
 function* unlikePost(action) {
   try {
     const result = yield call(unlikePostAPI, action.data);
     yield put({
-      type: UNLIKE_POST_SUCCESS,   data: result.data,
+      type: UNLIKE_POST_SUCCESS, data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -284,11 +286,13 @@ function* loadPosts(action) {
 }
 
 function retweetAPI(data) {
+  console.log('🐙 retweetAPI : ', data)
   return axios.post(`/post/${data}/retweet`);
 }
 
 function* retweet(action) {
   try {
+    console.log('😵 retweet : ', action.data)
     const result = yield call(retweetAPI, action.data);
     yield put({
       type: RETWEET_SUCCESS,
@@ -320,6 +324,7 @@ function* watchAddPost() {
 }
 
 function* watchUpdatePost() {
+  console.log('🐾 watchUpdatePost');
   yield takeLatest(UPDATE_POST_REQUEST, updatePost);
 }
 
@@ -371,6 +376,7 @@ function* watchRetweet() {
 ////////////////////////////////////////////////////// STEP1) SERVER API
 export default function* postSaga() {
   yield all([  //  all - 동시에 배열로 받은 fork들을 동시에 실행 
+    console.log('🐬 postSaga'),
     fork(watchLoadPosts),
     fork(watchAddPost),
     fork(watchUpdatePost),
