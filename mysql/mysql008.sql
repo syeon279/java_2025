@@ -134,28 +134,38 @@ desc complains;
 select * from complains;
 select * from `groups`;
 select * from posts;
+select * from comments;
 select * from users;
 select * from notifications order by id desc;
 select * from complains order by id desc;
 
-ALTER TABLE Notifications DROP PRIMARY KEY;
-ALTER TABLE Notifications ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
-
-INSERT INTO Users (id, username, email, nickname, password, phonenumber, createdAt, updatedAt)
-VALUES
-(1, 'catmaster', 'user1@example.com', '고양이짱', 'hashed_pw1', 1012345678, NOW(), NOW()),
-(2, 'dogking', 'user2@example.com', '멍멍이왕', 'hashed_pw2', 1023456789, NOW(), NOW()),
-(3, 'molegod', 'user3@example.com', '두더지신', 'hashed_pw3', 1034567890, NOW(), NOW()),
-(4, 'hamcutie', 'user4@example.com', '햄스터귀요미', 'hashed_pw4', 1045678901, NOW(), NOW());
-
-INSERT INTO `groups` (id, title, content, createdAt, updatedAt)
-VALUES
-(1, '삼겹살과 함께', '고기 먹고 목표 세우는 모임입니다.', NOW(), NOW()),
-(2, '고양이 집사들', '고양이를 사랑하는 사람들의 목표 커뮤니티', NOW(), NOW()),
-(3, '미라클 모닝단', '매일 아침 기상 도전 모임', NOW(), NOW());
-
+SELECT id, nickname, isAdmin FROM Users WHERE id = 1; -- or 관리자 id
+SELECT * FROM Posts WHERE UserId = 1; -- 관리자 id
 
 desc notifications;
 
+INSERT INTO categories (id, content, createdAt, updatedAt) VALUES
+(1, '강아지', now(), now()),
+(2, '고양이', now(), now()),
+(3, '햄스터', now(), now()),
+(4, '파충류', now(), now());
+
+select * from friends;
+
 delete from notifications;
+select * from animals;
+desc groupmember;
+
+select * from comments;
+desc complains;
+desc users;
+UPDATE Users
+SET isAdmin = true
+WHERE email = '1'; 
+
+select * from openscopes;
+desc openscopes;
+select * from prizes;
+select * from myprizes;
+desc myprizes;
 

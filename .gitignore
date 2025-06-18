@@ -12,3 +12,7 @@ node_react/front/.next/cache/
 node_react - 복사본/
 node_react/front/.next/
 node_react/back/node_modules/
+Test/back/node_modules/
+Test/front/.next/
+Test/front/node_modules/
+Test/back/uploads/
