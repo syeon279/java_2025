@@ -1,0 +1,114 @@
+■ mapper 사용법
+
+
+Q1. select * from emp  where  ${searchType} = #{keyword} 
+mysql> select * from EMP WHERE ename='SMITH';
+mysql> select * from EMP WHERE job='clerk';
+
+
+
+Q2. select * from  emp  where   ename=#{ename}  <if test="job!=null">  and  job=#{job} </if>
+mysql> select * from emp   where   ename='SMITH'  
+mysql> select * from emp   where   ename='SMITH'  and  job='clerk'
+
+
+
+Q3.  select * from emp   where  empno=#{empno} 
+   <choose>
+      <when test="ename!=null">  and ename=#{ename}  </when>
+      <when test="job!=null">    and  job=#{job}     </when>
+      <otherwise>                and mgr=#{mgr}      </otherwise>
+   </choose>
+mysql> select * from emp   where  empno=7369 and mgr=7902
+mysql> select * from emp   where  empno=7369 and ename='SMITH'  and  mgr=7902
+mysql> select * from emp   where  empno=7369 and ename='SMITH'  and  job='clerk'  
+mysql> select * from emp   where  empno=7369 and ename='SMITH'  and  job='clerk'  and mgr=7902
+
+
+Q4.  select * from emp   
+    <where>  
+      <if test="ename!=null">  and ename=#{ename}  </if>
+      <if test="job!=null">    and  job=#{job}     </if>
+    </where>
+mysql> select * from emp
+mysql> select * from emp   where  ename='SMITH'   
+mysql> select * from emp   where  job='clerk' 
+mysql> select * from emp   where  ename='SMITH'  and  job='clerk' 
+
+
+
+Q5.  update emp  
+   <set>  
+      <if test="ename!=null">    ename=#{ename} ,  </if>
+      <if test="job!=null">       job=#{job}    ,  </if>
+   </set>
+    where empno=#{empno}
+
+mysql> update emp  set  ename='SMITH-NEW'                    where empno=7369
+mysql> update emp  set  job='DEVELOPER'                    where empno=7369
+mysql> update emp  set  enmae='SMITH' , job='CLERK'        where empno=7369
+
+
+Q6.  select * from emp  
+    <where>  
+       empno  in 
+       <foreach  item="no"     collection="list" 
+               separator="," open="(" close=")" >  #{no}  </foreach>
+    </where>   
+mysql> select * from emp where  empno  in ( 7369, 7499, 7521 )
+
+
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+Q7. 
+
+mysql> desc users;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| userid  | varchar(50)  | NO   | PRI | NULL    |       |
+| userpw  | varchar(100) | NO   |     | NULL    |       |
+| enabled | char(1)      | YES  |     | 1       |       |
++---------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql>mysql> desc authorities;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| userid | varchar(50) | NO   |     | NULL    |       |
+| auth   | varchar(50) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+create table users (userid  varchar(50) not null  , userpw  varchar(100) not null, enabled  char(1) , primary key(userid) );  
+create table authorities (userid  varchar(50) not null  , auth   varchar(50) not null );  
+
+insert into users (userid, userpw ) values ('first', '1111');
+insert into users (userid, userpw ) values ('second', '2222');
+
+insert into authorities (userid, auth) values ('first', 'ADMIN');
+insert into authorities (userid, auth) values ('first', 'MEMBER');
+insert into authorities (userid, auth) values ('second', 'MEMBER');
+
+select 	m.userid, userpw, auth
+from 	users m, authorities a
+where 	m.userid = a.userid and m.userid='first';
+
+select 	m.userid, userpw, auth
+from 	users m natural join authorities a 
+where  	m.userid='first';
+
+
+select 	m.userid, userpw, auth
+from	users m left join authorities a using(userid)
+where  	m.userid='first';
+
+select 	m.userid, userpw, auth
+from 	users m left join authorities a on m.userid = a.userid
+where  	m.userid='first';
+
+
+
+
+
