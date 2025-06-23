@@ -1,5 +1,6 @@
 package com.company.project001.member;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.company.project001.domain.Member;
 
@@ -20,6 +23,13 @@ public class MemberController {
 	////////////////////////////////////////////////////////
 	@GetMapping("/")
 	public String home() { return "test"; }
+	
+	@RequestMapping("*")
+	@ResponseBody
+	public String catchAll(HttpServletRequest request) {
+	    System.out.println("🚨 요청 들어옴: " + request.getMethod() + " " + request.getRequestURI());
+	    return "Request: " + request.getMethod() + " " + request.getRequestURI();
+	}
 	
 	@GetMapping("/member/member")
 	public String member(Authentication authentication, Model model) { 
@@ -48,6 +58,7 @@ public class MemberController {
 	
 	@PostMapping("/member/join")
 	public String join_post(@Valid MemberJoinForm memberJoinForm, BindingResult result) {
+		System.out.println("🔥 회원가입 컨트롤러 도착: " );
 		if(result.hasErrors()) {return "member/join";}
 		if(! memberJoinForm.getPassword().equals(memberJoinForm.getPassword2())) {
 			result.rejectValue("password2", "passwordInCorrect", "패스워드를 확인해주세요.");
@@ -60,6 +71,7 @@ public class MemberController {
 		member.setUsername(memberJoinForm.getUsername());
 		member.setPassword(memberJoinForm.getPassword());
 		member.setEmail(memberJoinForm.getEmail());
+		System.out.println("🔥 회원가입 컨트롤러 도착: " + member);
 		memberService.insert(member);
 		} catch(DataIntegrityViolationException e) {
 			e.printStackTrace();

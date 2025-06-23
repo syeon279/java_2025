@@ -8,7 +8,7 @@
 			<caption>사용자 정보</caption>
 			<tbody>
 			<tr>
-				<td colspan="2"><img src="${dto.image}" alt="프로필 이미지" class="rounded-circle" style="width:100%" /></td>
+				<td colspan="2"><img src="${dto.image}" alt="프로필 이미지" class="rounded-circle" style="width:30%" /></td>
 			</tr>
 			<tr> <th scope="row">닉네임</th> <td>${dto.nickname}</td> </tr>
 			<tr> <th scope="row">아이디</th> <td>${dto.username}</td> </tr>

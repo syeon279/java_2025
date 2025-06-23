@@ -32,13 +32,6 @@ public class MemberUserDetails implements UserDetails, OAuth2User {
 	@Override
 	public String getPassword() { return member.getPassword(); }
 	
-	@Override
-	public Map<String, Object> getAttributes() { return null; }
-	
-	// nickname
-	@Override
-	public String getName() { return member.getNickname(); }
-	
 	// username
 	@Override
 	public String getUsername() { return member.getUsername(); }
@@ -58,5 +51,21 @@ public class MemberUserDetails implements UserDetails, OAuth2User {
 	// 계정 활성화(사용 가능)
 	@Override
 	public boolean isEnabled() { return true; }
+	
+	/////////////////////////////////////////////////////////////////
+	
+	private Map<String, Object> getAttributes;
+	
+	// alt + shift + s usingfild
+	public MemberUserDetails(Member member, Map<String, Object> getAttributes) {
+		super();
+		this.member = member;
+		this.getAttributes = getAttributes;
+	}
+
+	@Override public Map<String, Object> getAttributes() { return null; } 
+	@Override public String getName() { return member.getUsername(); }
+	public String getNickname() { return member.getNickname(); }
+	public String getEmail() { return member.getEmail(); }
 	
 }
