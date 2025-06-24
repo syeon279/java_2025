@@ -1,0 +1,4 @@
+npm init
+npm i axios
+npm i next
+npm i react react-dom 
