@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.company.project001.board.BoardMapper">
+	<!--  -->
+	<!--  -->
+	<resultMap type="Board" id="boardResultMap">
+		<id property="id" column="id"></id>
+		<result property="btitle" column="btitle" />
+		<result property="bcontent" column="bcontent" />
+		<result property="bfile" column="bfile" />
+		<result property="bip" column="bip" />
+		<result property="bpass" column="bpass" />
+		<result property="bhit" column="bhit" />
+		<result property="createDate" column="createDate" />
+		<association property="member" javaType="Member">
+			<id property="id" column="memeber_id"></id>
+			<result property="username" column="username" />
+		</association>
+	</resultMap>
+	<!--  -->
+	<!--  -->
+	
+	<select resultMap="boardResultMap" id="findAllPaged">
+		select
+		b.id, b.btitle, b.bcontent, b.bfile, b.bip, b.bpass, b.bhit,
+		b.bcreateDate,
+		m.id as member_id, m.username as member_username
+		from board b left join
+		member m on b.member_id = m.id
+		order by b.id desc
+		limit #{limit} offset
+		#{offset}
+	</select>
+
+	<select resultMap="boardResultMap" id="findAllByOrderedByDesc">
+		select b.id,
+		b.btitle, b.bcontent, b.bfile, b.bip, b.bpass, b.bhit, b.bcreateDate,
+		from board b
+		order by b.createDate desc
+	</select>
+	
+	<select resultMap="boardResultMap" id="findById">
+		select b.id,
+		b.btitle, b.bcontent, b.bfile, b.bip, b.bpass, b.bhit, b.bcreateDate,
+		from board b
+		where b.id = #{id}
+	</select>
+
+	
+	<select id="insert" resultMap="boardResultMap">
+		insert into board ( btitle, bcontent, bip, bfile, bpass, bhit, member_id )
+		values ( #{btitle}, #{bcontent}, #{bip}, #{bfile}, #{bpass}, #{bhit}, #{member.id}  )
+	</select>
+	
+	<update id="updateByIdAndBpass" parameterType="Board">
+		update board  
+		set 
+		 btitle = #{btitle}, bcontent=#{bcontent}, bfile=#{bfile}
+		 where id=#{id} and bpass=#{bpass} 
+	</update>
+	
+	<delete id="deleteByIdAndBpass"  parameterType="Board">
+		delete from board where id=#{id} and bpass=#{bpass}
+	</delete>
+	
+	
+	
+</mapper>
