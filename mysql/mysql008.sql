@@ -168,4 +168,68 @@ desc openscopes;
 select * from prizes;
 select * from myprizes;
 desc myprizes;
+select * from notificationSettings;
+select * from categories;
+desc `groups`;
+select * from `groups`;
+desc groupcategory;
+select * from groupcategory;
+select * from postcategory;
+SELECT * FROM categories;
+select * from posts order by id desc;
+select * from animals;
+select * from friends;
+select * from groupmembers;
+select * from grouprequests;
+select * from follow;
+select * from notificationSettings;
+select * from posts;
+ALTER TABLE Calendars ADD COLUMN totaldays INT;
+ALTER TABLE Calendars ADD COLUMN currentdays INT;
+select * from blacklists;
+select * from block;
+desc blacklists;
 
+drop database ssdam;
+create database ssdam;
+use ssdam;
+
+desc complains;
+
+select * from issuedrandomboxes;
+
+
+show databases;
+create database node_react_test;
+use node_react_test;
+show tables;
+drop database node_react_test;
+
+desc users;
+select * from users;
+select * from posts;
+
+create database review;
+use mbasic;
+show tables;
+select * from emp;
+select * from emp where job='clerk';
+
+
+create table users (userid  varchar(50) not null  , userpw  varchar(100) not null, enabled  char(1) , primary key(userid) );  
+create table authorities (userid  varchar(50) not null  , auth   varchar(50) not null );  
+
+insert into users (userid, userpw ) values ('first', '1111');
+insert into users (userid, userpw ) values ('second', '2222');
+
+insert into authorities (userid, auth) values ('first', 'ADMIN');
+insert into authorities (userid, auth) values ('first', 'MEMBER');
+insert into authorities (userid, auth) values ('second', 'MEMBER');
+
+create database thejoa;
+use thejoa;
+show tables;
+select * from board order by id desc;
+select * from member; 
+select * from member_board;
+desc member;
