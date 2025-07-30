@@ -18,3 +18,15 @@ Test/front/node_modules/
 Test/back/uploads/
 Springboot2/PROJECT003_REACT/.next/
 Springboot2/PROJECT003_REACT/node_modules/
+Flutter/project1/ios/
+Flutter/project1/android/
+Flutter/project1/linux/
+Flutter/project1/macos/
+Flutter/project1/windows/
+Flutter/todo_front/android/
+Flutter/todo_front/ios/
+Flutter/todo_front/windows/
+Flutter/todo_front/web/
+Flutter/todo_front/macos/
+Flutter/project1/web/
+Flutter/todo_front/linux/
